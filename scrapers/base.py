@@ -66,6 +66,16 @@ class Scraper:
         time.sleep(self.request_interval)  # サイトに負荷をかけない
         return resp
 
+    def get_soup(self, url: str, **kwargs):
+        """バイト列から BeautifulSoup を生成する。
+
+        HTTP ヘッダに charset が無いサイト(requests が ISO-8859-1 と誤判定)でも
+        HTML の meta charset / BOM から bs4 が正しくデコードできるようにする。
+        """
+        from bs4 import BeautifulSoup
+        resp = self.get(url, **kwargs)
+        return BeautifulSoup(resp.content, "lxml")
+
     def fetch_listings(self) -> List[Listing]:
         """新着相当のリスティング一覧を取得して返す。サブクラスで実装。"""
         raise NotImplementedError
