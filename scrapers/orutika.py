@@ -21,19 +21,13 @@ class OrutikaScraper(Scraper):
 
     LIST_URL = "https://orutika.com/product/?status=new"
 
-    def fetch_listings(self, enrich: bool = True, max_pages: int = 5) -> List[Listing]:
-        listings: List[Listing] = []
-        url: Optional[str] = self.LIST_URL
-        seen_pages = 0
-        while url and seen_pages < max_pages:
-            html = self.get(url).text
-            soup = BeautifulSoup(html, "lxml")
-            page_items = self._parse_list_page(soup)
-            if not page_items:
-                break
-            listings.extend(page_items)
-            seen_pages += 1
-            url = self._next_page_url(soup)
+    def fetch_listings(self, enrich: bool = True) -> List[Listing]:
+        # 新着ページ (?status=new) は単一ページ完結。
+        # /product/page/2/?status=new は 0 件を返すためページ送りはしない。
+        # 確実な新着判定は本一覧の前回スナップショットとの差分で行う。
+        html = self.get(self.LIST_URL).text
+        soup = BeautifulSoup(html, "lxml")
+        listings = self._parse_list_page(soup)
         if enrich:
             for item in listings:
                 try:
@@ -86,16 +80,6 @@ class OrutikaScraper(Scraper):
                 is_new_badge=bool(tr.find(string=re.compile("NEW"))),
             ))
         return items
-
-    def _next_page_url(self, soup: BeautifulSoup) -> Optional[str]:
-        a = soup.select_one('a[href*="/product/page/"]')
-        if not a:
-            return None
-        href = a["href"]
-        # 新着フィルタを維持
-        if "status=new" not in href:
-            href = href + ("&" if "?" in href else "?") + "status=new"
-        return href
 
     # -- 詳細ページの解析 -------------------------------------------------
     def _enrich_detail(self, item: Listing) -> None:

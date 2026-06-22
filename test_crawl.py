@@ -14,13 +14,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-enrich", action="store_true", help="詳細ページを取得しない")
     ap.add_argument("--limit", type=int, default=0, help="先頭N件のみ詳細取得して表示")
-    ap.add_argument("--max-pages", type=int, default=1, help="一覧の取得ページ数")
     args = ap.parse_args()
 
     scraper = OrutikaScraper(request_interval=1.0)
 
     # まず一覧だけ取得 (enrich しない) してから limit 件だけ詳細取得する
-    listings = scraper.fetch_listings(enrich=False, max_pages=args.max_pages)
+    listings = scraper.fetch_listings(enrich=False)
     print(f"[{scraper.name}] 一覧取得: {len(listings)} 件\n")
 
     if not args.no_enrich:
