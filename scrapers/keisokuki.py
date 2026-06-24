@@ -23,26 +23,38 @@ class KeisokukiScraper(Scraper):
     name = "計測器ランド リセール"
     base_url = "https://www.keisokuki-land.com"
 
+    LIST_GET_URL = "https://www.keisokuki-land.com/SHOP/319016/list.html"
+
     def fetch_listings(self, max_pages: int = 30) -> List[Listing]:
+        import time as _t
         by_uid = {}
-        for page in range(1, max_pages + 1):
-            data = {"PAGE": page, "Type": "01", "Search": "",
-                    "m": "319016", "s": "", "g": "", "y": "", "b": ""}
-            resp = self.session.post(LIST_POST_URL, data=data, timeout=30)
-            resp.raise_for_status()
-            import time as _t
-            _t.sleep(self.request_interval)
-            soup = BeautifulSoup(resp.content, "lxml")
-            page_items = self._parse_list_page(soup)
-            if not page_items:
-                break
-            new_here = 0
-            for it in page_items:
-                if it.uid not in by_uid:
-                    new_here += 1
-                by_uid[it.uid] = it
-            if new_here == 0:  # これ以上新しい商品が出てこない
-                break
+        try:
+            for page in range(1, max_pages + 1):
+                data = {"PAGE": page, "Type": "01", "Search": "",
+                        "m": "319016", "s": "", "g": "", "y": "", "b": ""}
+                resp = self.session.post(LIST_POST_URL, data=data, timeout=30)
+                resp.raise_for_status()
+                _t.sleep(self.request_interval)
+                soup = BeautifulSoup(resp.content, "lxml")
+                page_items = self._parse_list_page(soup)
+                if not page_items:
+                    break
+                new_here = 0
+                for it in page_items:
+                    if it.uid not in by_uid:
+                        new_here += 1
+                    by_uid[it.uid] = it
+                if new_here == 0:  # これ以上新しい商品が出てこない
+                    break
+        except Exception:
+            # POST一覧API(t01)が一時的に503等になる場合があるため、
+            # 通常のGET一覧(1ページ目=新着40件相当)にフォールバックする。
+            if not by_uid:
+                soup = BeautifulSoup(self.get(self.LIST_GET_URL).content, "lxml")
+                for it in self._parse_list_page(soup):
+                    by_uid[it.uid] = it
+            if not by_uid:
+                raise
         return list(by_uid.values())
 
     def _parse_list_page(self, soup: BeautifulSoup) -> List[Listing]:
