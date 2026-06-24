@@ -10,6 +10,10 @@ on:
         description: "送信せずHTML出力のみ"
         type: boolean
         default: false
+      force_all:
+        description: "差分でなく現在の全件を送信(初回テスト用)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write   # スナップショット/アーカイブのコミットに必要
@@ -41,11 +45,10 @@ jobs:
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
         run: |
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
-            python3 main.py --dry-run
-          else
-            python3 main.py
-          fi
+          ARGS=""
+          [ "${{ inputs.dry_run }}" = "true" ] && ARGS="$ARGS --dry-run"
+          [ "${{ inputs.force_all }}" = "true" ] && ARGS="$ARGS --force-all"
+          python3 main.py $ARGS
 
       - name: Commit snapshot and archive
         run: |
