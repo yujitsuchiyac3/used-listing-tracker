@@ -29,34 +29,43 @@ main.py        統合ランナー
 data/          スナップショット(state.json)・メールアーカイブ
 ```
 
-## ローカル実行
+## 実行
 
 ```bash
 pip install -r requirements.txt
 
-python3 main.py --dry-run            # 送信せず data/latest_email.html に出力
-python3 main.py --dry-run --force-all# 差分でなく現在の全件を出力(動作確認用)
-python3 main.py                      # 収集して送信(下記SMTP環境変数が必要)
+python3 main.py              # 収集して HTML を生成(data/latest.html 等)
+python3 main.py --force-all  # 差分でなく現在の全件を出力(動作確認用)
+python3 main.py --send       # 上記に加えてメール送信も行う(任意, SMTP環境変数が必要)
 ```
 
-メールのプレビューは `data/latest_email.html` をブラウザで開くか、
-raw.githack 経由で確認できます。
+既定ではメール送信せず、以下の HTML を生成します:
 
-## 自動実行(GitHub Actions)
+| ファイル | 内容 |
+|---------|------|
+| `data/latest.html` | 最新の新着まとめ |
+| `data/archive/YYYY-MM-DD.html` | 日付別アーカイブ |
+| `data/index.html` | 最新版＋アーカイブへのリンク一覧 |
 
-`.github/workflows/daily.yml` が毎日 JST 8:00 に実行します。
-リポジトリの **Settings → Secrets and variables → Actions** に以下を登録してください。
+## 閲覧(GitHub上のHTMLをプレビュー)
 
-| Secret | 例 | 説明 |
-|--------|-----|------|
-| `SMTP_HOST` | `smtp.gmail.com` | SMTPサーバ |
-| `SMTP_PORT` | `465` | ポート(465=SSL) |
-| `SMTP_USER` | `you@gmail.com` | 認証ユーザ |
-| `SMTP_PASS` | `xxxx xxxx ...` | アプリパスワード等 |
-| `MAIL_FROM` | `you@gmail.com` | 差出人(省略時 SMTP_USER) |
-| `MAIL_TO` | `you@example.com` | 宛先(カンマ区切りで複数可) |
+GitHub はHTMLをソース表示するため、`raw.githack.com` 経由でレンダリング表示します:
 
-Gmail を使う場合は 2 段階認証を有効化し「アプリパスワード」を発行して `SMTP_PASS` に設定します。
+```
+https://raw.githack.com/yujitsuchiyac3/used-listing-tracker/main/data/index.html
+https://raw.githack.com/yujitsuchiyac3/used-listing-tracker/main/data/latest.html
+```
+
+## 自動実行
+
+1日1回クロールして HTML を生成・コミットする運用です(メール送信なし)。
+`--send` を付ければメール送信も可能ですが、その場合は下記のSMTP環境変数が必要です。
+
+| 環境変数 | 例 |
+|--------|-----|
+| `SMTP_HOST` / `SMTP_PORT` | `smtp-relay.brevo.com` / `587` |
+| `SMTP_USER` / `SMTP_PASS` | SMTPログイン / SMTPキー |
+| `MAIL_FROM` / `MAIL_TO` | 差出人 / 宛先 |
 
 ## 新着判定の仕様
 

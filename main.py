@@ -1,13 +1,13 @@
 """統合ランナー。
 
 全サイトを巡回 → 前回スナップショットとの差分(新着)を抽出 →
-新着のみ詳細補完 → メールHTML生成 → 送信(または dry-run でファイル出力) →
-スナップショット更新。
+新着のみ詳細補完 → HTML生成(最新版・日付別アーカイブ・インデックス) →
+スナップショット更新。既定ではメール送信しない(GitHub上でHTMLを生成・公開)。
 
 使い方:
-  python3 main.py            # 収集して送信(SMTP環境変数が必要)
-  python3 main.py --dry-run  # 送信せず data/latest_email.html に出力
-  python3 main.py --force-all# 差分でなく現在の全件をメール化(テスト用)
+  python3 main.py             # 収集してHTML生成(data/latest.html 等)
+  python3 main.py --force-all # 差分でなく現在の全件を出力(テスト用)
+  python3 main.py --send      # HTML生成に加えてメール送信も行う(任意, SMTP環境変数)
 """
 from __future__ import annotations
 
@@ -65,7 +65,7 @@ def _fetch_with_retry(fetch: Callable[[], List[Listing]], attempts: int = 3) -> 
     raise last
 
 
-def run(dry_run: bool = False, force_all: bool = False) -> int:
+def run(send: bool = False, force_all: bool = False) -> int:
     day = datetime.date.today()
     snap = storage.Snapshot()
     prev_state = snap.load()
@@ -111,31 +111,57 @@ def run(dry_run: bool = False, force_all: bool = False) -> int:
     html = notifier.build_html(new_by_site, names, day)
     text = notifier.build_text(new_by_site, names, day)
 
-    # プレビュー/アーカイブ用に常にファイル出力
+    # HTML を出力(最新版・日付別アーカイブ)
     os.makedirs("data/archive", exist_ok=True)
-    with open("data/latest_email.html", "w", encoding="utf-8") as f:
+    with open("data/latest.html", "w", encoding="utf-8") as f:
         f.write(html)
     with open(f"data/archive/{day:%Y-%m-%d}.html", "w", encoding="utf-8") as f:
         f.write(html)
+    write_index()
 
     print(f"\n新着合計: {total}件  件名: {subject}")
     if errors:
         print(f"取得失敗サイト: {', '.join(errors)}")
 
-    if dry_run:
-        print("dry-run: 送信せず data/latest_email.html に出力しました")
-    else:
+    if send:
         from core import mailer
         mailer.send(subject, html, text)
         print("メール送信しました")
+    else:
+        print("HTML を data/latest.html と data/archive/ に出力しました")
 
     snap.save(new_state)
     return 0
 
 
+def write_index() -> None:
+    """data/index.html を生成。最新版と日付別アーカイブへのリンク一覧。"""
+    import glob
+    files = sorted(glob.glob("data/archive/*.html"), reverse=True)
+    rows = []
+    for path in files:
+        date = os.path.splitext(os.path.basename(path))[0]
+        rows.append(
+            f'<li><a href="archive/{date}.html">{date}</a></li>'
+        )
+    body = "\n".join(rows) or "<li>まだ履歴がありません</li>"
+    html = f"""<!doctype html><meta charset="utf-8">
+<title>中古計測器 新着まとめ</title>
+<div style="font-family:Hiragino Sans,Meiryo,sans-serif;max-width:680px;margin:24px auto;color:#1a1a1a;">
+<h1 style="font-size:20px;">中古計測器 新着まとめ</h1>
+<p><a href="latest.html" style="font-size:16px;color:#2b6cb0;">▶ 最新の新着を見る</a></p>
+<h2 style="font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;">日付別アーカイブ</h2>
+<ul style="line-height:1.9;">
+{body}
+</ul>
+</div>"""
+    with open("data/index.html", "w", encoding="utf-8") as f:
+        f.write(html)
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dry-run", action="store_true", help="送信せずHTML出力のみ")
-    ap.add_argument("--force-all", action="store_true", help="差分でなく全件をメール化")
+    ap.add_argument("--send", action="store_true", help="HTML生成に加えてメール送信も行う(SMTP環境変数が必要)")
+    ap.add_argument("--force-all", action="store_true", help="差分でなく現在の全件を出力")
     args = ap.parse_args()
-    sys.exit(run(dry_run=args.dry_run, force_all=args.force_all))
+    sys.exit(run(send=args.send, force_all=args.force_all))
