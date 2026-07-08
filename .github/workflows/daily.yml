@@ -1,0 +1,52 @@
+name: daily-listing-html
+
+# 1日1回(JST 8:03 = UTC 23:03)にクロールしてHTMLを生成・コミットする。
+# メール送信はしないため Secrets は不要。手動実行(force_all)も可。
+on:
+  schedule:
+    - cron: "3 23 * * *"
+  workflow_dispatch:
+    inputs:
+      force_all:
+        description: "差分でなく現在の全件を出力"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-listing-html
+  cancel-in-progress: false
+
+jobs:
+  crawl-and-generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Crawl and generate HTML
+        run: |
+          ARGS=""
+          [ "${{ inputs.force_all }}" = "true" ] && ARGS="--force-all"
+          python3 main.py $ARGS
+
+      - name: Commit generated HTML and snapshot
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/latest.html data/index.html data/summary.json data/state.json data/archive || true
+          if git diff --cached --quiet; then
+            echo "変更なし"
+          else
+            git commit -m "chore: daily HTML update ($(date -u +%Y-%m-%d))"
+            git push
+          fi

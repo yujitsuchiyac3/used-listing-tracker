@@ -119,6 +119,17 @@ def run(send: bool = False, force_all: bool = False) -> int:
         f.write(html)
     write_index()
 
+    # 報告用サマリ(定期ジョブがこれを読んでチャット報告する)
+    import json as _json
+    summary = {
+        "date": f"{day:%Y-%m-%d}",
+        "total": total,
+        "per_site": {names.get(s, s): len(v) for s, v in new_by_site.items()},
+        "errors": list(errors.keys()),
+    }
+    with open("data/summary.json", "w", encoding="utf-8") as f:
+        _json.dump(summary, f, ensure_ascii=False, indent=2)
+
     print(f"\n新着合計: {total}件  件名: {subject}")
     if errors:
         print(f"取得失敗サイト: {', '.join(errors)}")
