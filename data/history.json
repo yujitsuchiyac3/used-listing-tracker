@@ -1,0 +1,20 @@
+{
+  "2026-07-09": {
+    "per_site": {
+      "Hitech & Facility": 1,
+      "中古研究機器.com": 12
+    },
+    "total": 13,
+    "weekday": "木"
+  },
+  "2026-07-11": {
+    "per_site": {},
+    "total": 0,
+    "weekday": "土"
+  },
+  "2026-07-12": {
+    "per_site": {},
+    "total": 0,
+    "weekday": "日"
+  }
+}

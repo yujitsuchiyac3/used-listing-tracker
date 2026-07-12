@@ -121,14 +121,21 @@ def run(send: bool = False, force_all: bool = False) -> int:
 
     # 報告用サマリ(定期ジョブがこれを読んでチャット報告する)
     import json as _json
+    WEEK_JA = ["月", "火", "水", "木", "金", "土", "日"]
+    weekday = WEEK_JA[day.weekday()]
     summary = {
         "date": f"{day:%Y-%m-%d}",
+        "weekday": weekday,
         "total": total,
         "per_site": {names.get(s, s): len(v) for s, v in new_by_site.items()},
         "errors": list(errors.keys()),
     }
     with open("data/summary.json", "w", encoding="utf-8") as f:
         _json.dump(summary, f, ensure_ascii=False, indent=2)
+
+    # 履歴に記録(日付キーで上書き=同日再実行しても重複しない)
+    record_history(summary)
+    write_trends()
 
     print(f"\n新着合計: {total}件  件名: {subject}")
     if errors:
@@ -143,6 +150,89 @@ def run(send: bool = False, force_all: bool = False) -> int:
 
     snap.save(new_state)
     return 0
+
+
+HISTORY_PATH = "data/history.json"
+WEEK_ORDER = ["月", "火", "水", "木", "金", "土", "日"]
+
+
+def record_history(summary: dict) -> None:
+    """日次サマリを data/history.json に日付キーで蓄積(同日再実行は上書き)。"""
+    import json
+    hist = {}
+    if os.path.exists(HISTORY_PATH):
+        try:
+            with open(HISTORY_PATH, encoding="utf-8") as f:
+                hist = json.load(f)
+        except Exception:
+            hist = {}
+    hist[summary["date"]] = {
+        "weekday": summary.get("weekday", ""),
+        "total": summary["total"],
+        "per_site": summary["per_site"],
+    }
+    with open(HISTORY_PATH, "w", encoding="utf-8") as f:
+        json.dump(hist, f, ensure_ascii=False, indent=2, sort_keys=True)
+
+
+def write_trends() -> None:
+    """履歴から曜日別の新着傾向を集計し data/trends.html を生成。"""
+    import json
+    if not os.path.exists(HISTORY_PATH):
+        return
+    with open(HISTORY_PATH, encoding="utf-8") as f:
+        hist = json.load(f)
+
+    # 曜日別: 観測日数・新着があった日数・新着合計
+    agg = {w: {"days": 0, "hit_days": 0, "total": 0} for w in WEEK_ORDER}
+    for rec in hist.values():
+        w = rec.get("weekday")
+        if w not in agg:
+            continue
+        agg[w]["days"] += 1
+        agg[w]["total"] += rec.get("total", 0)
+        if rec.get("total", 0) > 0:
+            agg[w]["hit_days"] += 1
+
+    rows = []
+    for w in WEEK_ORDER:
+        a = agg[w]
+        rate = f"{a['hit_days']}/{a['days']}" if a["days"] else "-"
+        avg = f"{a['total']/a['days']:.1f}" if a["days"] else "-"
+        rows.append(
+            f"<tr><td>{w}</td><td style='text-align:center;'>{a['days']}</td>"
+            f"<td style='text-align:center;'>{rate}</td>"
+            f"<td style='text-align:right;'>{a['total']}</td>"
+            f"<td style='text-align:right;'>{avg}</td></tr>"
+        )
+
+    # 直近の日別履歴(新しい順)
+    day_rows = []
+    for date in sorted(hist.keys(), reverse=True)[:30]:
+        rec = hist[date]
+        day_rows.append(
+            f"<tr><td>{date}({rec.get('weekday','')})</td>"
+            f"<td style='text-align:right;'>{rec.get('total',0)}</td></tr>"
+        )
+
+    html = f"""<!doctype html><meta charset="utf-8">
+<title>更新傾向(曜日別)</title>
+<div style="font-family:Hiragino Sans,Meiryo,sans-serif;max-width:640px;margin:24px auto;color:#1a1a1a;">
+<h1 style="font-size:20px;">更新傾向(曜日別)</h1>
+<p style="color:#666;font-size:13px;">観測 {len(hist)} 日ぶんの集計。データが増えるほど精度が上がります。</p>
+<table style="border-collapse:collapse;width:100%;font-size:14px;" border="1" cellpadding="6">
+<tr style="background:#f0f4f8;"><th>曜日</th><th>観測日数</th><th>新着あり</th><th>新着合計</th><th>1日平均</th></tr>
+{''.join(rows)}
+</table>
+<h2 style="font-size:15px;margin-top:24px;">日別履歴(直近30日)</h2>
+<table style="border-collapse:collapse;width:100%;font-size:14px;" border="1" cellpadding="6">
+<tr style="background:#f0f4f8;"><th>日付</th><th>新着数</th></tr>
+{''.join(day_rows)}
+</table>
+<p style="margin-top:16px;"><a href="index.html">← 一覧へ戻る</a></p>
+</div>"""
+    with open("data/trends.html", "w", encoding="utf-8") as f:
+        f.write(html)
 
 
 def write_index() -> None:
@@ -161,6 +251,7 @@ def write_index() -> None:
 <div style="font-family:Hiragino Sans,Meiryo,sans-serif;max-width:680px;margin:24px auto;color:#1a1a1a;">
 <h1 style="font-size:20px;">中古計測器 新着まとめ</h1>
 <p><a href="latest.html" style="font-size:16px;color:#2b6cb0;">▶ 最新の新着を見る</a></p>
+<p><a href="trends.html" style="font-size:14px;color:#2b6cb0;">📊 更新傾向(曜日別)を見る</a></p>
 <h2 style="font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;">日付別アーカイブ</h2>
 <ul style="line-height:1.9;">
 {body}
