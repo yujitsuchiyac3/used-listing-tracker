@@ -154,6 +154,17 @@ def run(send: bool = False, force_all: bool = False) -> int:
 
 HISTORY_PATH = "data/history.json"
 WEEK_ORDER = ["月", "火", "水", "木", "金", "土", "日"]
+# 表示順(_site_jobs と同じ並び)
+SITE_ORDER = [
+    "オルティカ (OrutiKA)",
+    "アスカインデックス",
+    "Hitech & Facility",
+    "オリックス・レンテック 中古機器販売リスト",
+    "中古市場(チューコイチ)",
+    "計測器ランド リセール",
+    "タナカ・トレーディング",
+    "中古研究機器.com",
+]
 
 
 def record_history(summary: dict) -> None:
@@ -176,58 +187,86 @@ def record_history(summary: dict) -> None:
 
 
 def write_trends() -> None:
-    """履歴から曜日別の新着傾向を集計し data/trends.html を生成。"""
+    """履歴から「サイト別」の更新傾向を集計し data/trends.html を生成。
+
+    重視するのはサイトごとの更新件数(全体合計ではない)。
+    - サイト × 曜日 の新着合計マトリクス
+    - サイト別サマリ(観測日数・新着があった日数・新着合計・1日平均)
+    """
     import json
     if not os.path.exists(HISTORY_PATH):
         return
     with open(HISTORY_PATH, encoding="utf-8") as f:
         hist = json.load(f)
 
-    # 曜日別: 観測日数・新着があった日数・新着合計
-    agg = {w: {"days": 0, "hit_days": 0, "total": 0} for w in WEEK_ORDER}
+    sites = list(SITE_ORDER)
+    for rec in hist.values():
+        for s in rec.get("per_site", {}):
+            if s not in sites:
+                sites.append(s)
+
+    mat = {s: {w: 0 for w in WEEK_ORDER} for s in sites}
+    site_days = {s: 0 for s in sites}
+    site_total = {s: 0 for s in sites}
+    site_hit = {s: 0 for s in sites}
     for rec in hist.values():
         w = rec.get("weekday")
-        if w not in agg:
-            continue
-        agg[w]["days"] += 1
-        agg[w]["total"] += rec.get("total", 0)
-        if rec.get("total", 0) > 0:
-            agg[w]["hit_days"] += 1
+        ps = rec.get("per_site", {})
+        for s in sites:
+            if s not in ps:
+                continue  # その日は未測定(エラー等)
+            n = ps.get(s, 0)
+            site_days[s] += 1
+            site_total[s] += n
+            if n > 0:
+                site_hit[s] += 1
+            if w in WEEK_ORDER:
+                mat[s][w] += n
 
-    rows = []
-    for w in WEEK_ORDER:
-        a = agg[w]
-        rate = f"{a['hit_days']}/{a['days']}" if a["days"] else "-"
-        avg = f"{a['total']/a['days']:.1f}" if a["days"] else "-"
-        rows.append(
-            f"<tr><td>{w}</td><td style='text-align:center;'>{a['days']}</td>"
+    head = "".join(f"<th>{w}</th>" for w in WEEK_ORDER)
+    mat_rows = []
+    for s in sites:
+        cells = ""
+        for w in WEEK_ORDER:
+            v = mat[s][w]
+            style = "background:#e6f2ff;" if v > 0 else "color:#bbb;"
+            cells += f"<td style='text-align:right;{style}'>{v}</td>"
+        mat_rows.append(
+            f"<tr><td style='white-space:nowrap;'>{s}</td>{cells}"
+            f"<td style='text-align:right;font-weight:bold;'>{site_total[s]}</td></tr>"
+        )
+
+    sum_rows = []
+    for s in sites:
+        d = site_days[s]
+        rate = f"{site_hit[s]}/{d}" if d else "-"
+        avg = f"{site_total[s]/d:.1f}" if d else "-"
+        sum_rows.append(
+            f"<tr><td style='white-space:nowrap;'>{s}</td>"
+            f"<td style='text-align:center;'>{d}</td>"
             f"<td style='text-align:center;'>{rate}</td>"
-            f"<td style='text-align:right;'>{a['total']}</td>"
+            f"<td style='text-align:right;'>{site_total[s]}</td>"
             f"<td style='text-align:right;'>{avg}</td></tr>"
         )
 
-    # 直近の日別履歴(新しい順)
-    day_rows = []
-    for date in sorted(hist.keys(), reverse=True)[:30]:
-        rec = hist[date]
-        day_rows.append(
-            f"<tr><td>{date}({rec.get('weekday','')})</td>"
-            f"<td style='text-align:right;'>{rec.get('total',0)}</td></tr>"
-        )
-
     html = f"""<!doctype html><meta charset="utf-8">
-<title>更新傾向(曜日別)</title>
-<div style="font-family:Hiragino Sans,Meiryo,sans-serif;max-width:640px;margin:24px auto;color:#1a1a1a;">
-<h1 style="font-size:20px;">更新傾向(曜日別)</h1>
-<p style="color:#666;font-size:13px;">観測 {len(hist)} 日ぶんの集計。データが増えるほど精度が上がります。</p>
-<table style="border-collapse:collapse;width:100%;font-size:14px;" border="1" cellpadding="6">
-<tr style="background:#f0f4f8;"><th>曜日</th><th>観測日数</th><th>新着あり</th><th>新着合計</th><th>1日平均</th></tr>
-{''.join(rows)}
+<title>サイト別 更新傾向</title>
+<div style="font-family:Hiragino Sans,Meiryo,sans-serif;max-width:820px;margin:24px auto;color:#1a1a1a;">
+<h1 style="font-size:20px;">サイト別 更新傾向</h1>
+<p style="color:#666;font-size:13px;">観測 {len(hist)} 日ぶん。数字は各セルの新着合計です。データが増えるほど精度が上がります。</p>
+
+<h2 style="font-size:15px;">サイト × 曜日(新着合計)</h2>
+<div style="overflow-x:auto;">
+<table style="border-collapse:collapse;font-size:13px;" border="1" cellpadding="6">
+<tr style="background:#f0f4f8;"><th style="text-align:left;">サイト</th>{head}<th>合計</th></tr>
+{''.join(mat_rows)}
 </table>
-<h2 style="font-size:15px;margin-top:24px;">日別履歴(直近30日)</h2>
-<table style="border-collapse:collapse;width:100%;font-size:14px;" border="1" cellpadding="6">
-<tr style="background:#f0f4f8;"><th>日付</th><th>新着数</th></tr>
-{''.join(day_rows)}
+</div>
+
+<h2 style="font-size:15px;margin-top:24px;">サイト別サマリ</h2>
+<table style="border-collapse:collapse;font-size:13px;" border="1" cellpadding="6">
+<tr style="background:#f0f4f8;"><th style="text-align:left;">サイト</th><th>観測日数</th><th>新着あり日</th><th>新着合計</th><th>1日平均</th></tr>
+{''.join(sum_rows)}
 </table>
 <p style="margin-top:16px;"><a href="index.html">← 一覧へ戻る</a></p>
 </div>"""
