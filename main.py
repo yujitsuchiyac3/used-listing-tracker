@@ -177,7 +177,13 @@ def record_history(summary: dict) -> None:
                 hist = json.load(f)
         except Exception:
             hist = {}
-    hist[summary["date"]] = {
+    date = summary["date"]
+    existing = hist.get(date)
+    # 同日2回目以降の実行はスナップショットが進んでいるため新着0になりがち。
+    # 既存に新着ありの記録がある日を「0」で上書きしないよう保護する。
+    if existing and existing.get("total", 0) > 0 and summary["total"] == 0:
+        return
+    hist[date] = {
         "weekday": summary.get("weekday", ""),
         "total": summary["total"],
         "per_site": summary["per_site"],
