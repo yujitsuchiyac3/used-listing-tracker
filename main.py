@@ -73,6 +73,7 @@ def run(send: bool = False, force_all: bool = False) -> int:
 
     names = {}
     new_by_site = {}
+    all_by_site = {}   # 全在庫(catalog用)
     errors = {}
 
     for scraper, fetch, enrich in _site_jobs():
@@ -86,6 +87,7 @@ def run(send: bool = False, force_all: bool = False) -> int:
             traceback.print_exc()
             continue
 
+        all_by_site[site] = listings
         # 今回分でスナップショット更新(初回はベースライン化)
         new_state[site] = storage.build_state_for_site(listings)
 
@@ -111,10 +113,12 @@ def run(send: bool = False, force_all: bool = False) -> int:
     html = notifier.build_html(new_by_site, names, day)
     text = notifier.build_text(new_by_site, names, day)
 
-    # HTML を出力(最新版・日付別アーカイブ)
+    # HTML を出力(最新版・日付別アーカイブ・全在庫)
     os.makedirs("data/archive", exist_ok=True)
     with open("data/latest.html", "w", encoding="utf-8") as f:
         f.write(html)
+    with open("data/catalog.html", "w", encoding="utf-8") as f:
+        f.write(notifier.build_html(all_by_site, names, day, kind="all"))
     with open(f"data/archive/{day:%Y-%m-%d}.html", "w", encoding="utf-8") as f:
         f.write(html)
     write_index()
@@ -229,17 +233,17 @@ def write_trends() -> None:
             if w in WEEK_ORDER:
                 mat[s][w] += n
 
-    head = "".join(f"<th>{w}</th>" for w in WEEK_ORDER)
+    head = "".join(f"<th style='text-align:right;'>{w}</th>" for w in WEEK_ORDER)
     mat_rows = []
     for s in sites:
         cells = ""
         for w in WEEK_ORDER:
             v = mat[s][w]
-            style = "background:#e6f2ff;" if v > 0 else "color:#bbb;"
-            cells += f"<td style='text-align:right;{style}'>{v}</td>"
+            cls = " class='hot'" if v > 0 else " class='muted'"
+            cells += f"<td{cls} style='text-align:right;'>{v}</td>"
         mat_rows.append(
             f"<tr><td style='white-space:nowrap;'>{s}</td>{cells}"
-            f"<td style='text-align:right;font-weight:bold;'>{site_total[s]}</td></tr>"
+            f"<td style='text-align:right;font-weight:700;'>{site_total[s]}</td></tr>"
         )
 
     sum_rows = []
@@ -251,59 +255,84 @@ def write_trends() -> None:
             f"<tr><td style='white-space:nowrap;'>{s}</td>"
             f"<td style='text-align:center;'>{d}</td>"
             f"<td style='text-align:center;'>{rate}</td>"
-            f"<td style='text-align:right;'>{site_total[s]}</td>"
+            f"<td style='text-align:right;font-weight:700;'>{site_total[s]}</td>"
             f"<td style='text-align:right;'>{avg}</td></tr>"
         )
 
-    html = f"""<!doctype html><meta charset="utf-8">
-<title>サイト別 更新傾向</title>
-<div style="font-family:Hiragino Sans,Meiryo,sans-serif;max-width:820px;margin:24px auto;color:#1a1a1a;">
-<h1 style="font-size:20px;">サイト別 更新傾向</h1>
-<p style="color:#666;font-size:13px;">観測 {len(hist)} 日ぶん。数字は各セルの新着合計です。データが増えるほど精度が上がります。</p>
-
-<h2 style="font-size:15px;">サイト × 曜日(新着合計)</h2>
-<div style="overflow-x:auto;">
-<table style="border-collapse:collapse;font-size:13px;" border="1" cellpadding="6">
-<tr style="background:#f0f4f8;"><th style="text-align:left;">サイト</th>{head}<th>合計</th></tr>
-{''.join(mat_rows)}
-</table>
-</div>
-
-<h2 style="font-size:15px;margin-top:24px;">サイト別サマリ</h2>
-<table style="border-collapse:collapse;font-size:13px;" border="1" cellpadding="6">
-<tr style="background:#f0f4f8;"><th style="text-align:left;">サイト</th><th>観測日数</th><th>新着あり日</th><th>新着合計</th><th>1日平均</th></tr>
-{''.join(sum_rows)}
-</table>
-<p style="margin-top:16px;"><a href="index.html">← 一覧へ戻る</a></p>
-</div>"""
+    from core import notifier
+    out = notifier.page_head("サイト別 更新傾向 — 中古計測器トラッカー", active="trends")
+    out += (
+        '<div class="hero"><h1>サイト別 更新傾向</h1>'
+        f'<div class="meta">観測 {len(hist)} 日ぶん。数字は各セルの新着合計です。'
+        'データが増えるほど精度が上がります。</div></div>'
+        '<div class="sec"><h2>サイト × 曜日</h2><span class="rule"></span></div>'
+        '<div class="scroll"><table class="tb">'
+        f'<tr><th>サイト</th>{head}<th style="text-align:right;">合計</th></tr>'
+        f'{"".join(mat_rows)}</table></div>'
+        '<div class="sec"><h2>サイト別サマリ</h2><span class="rule"></span></div>'
+        '<table class="tb"><tr><th>サイト</th><th>観測日数</th><th>新着あり日</th>'
+        '<th style="text-align:right;">新着合計</th><th style="text-align:right;">1日平均</th></tr>'
+        f'{"".join(sum_rows)}</table>'
+    )
+    out += notifier.page_foot()
     with open("data/trends.html", "w", encoding="utf-8") as f:
-        f.write(html)
+        f.write(out)
 
 
 def write_index() -> None:
-    """data/index.html を生成。最新版と日付別アーカイブへのリンク一覧。"""
+    """data/index.html を生成。日付別アーカイブの索引(新着数つき)。"""
     import glob
+    import json
+    from core import notifier
+
+    hist = {}
+    if os.path.exists(HISTORY_PATH):
+        try:
+            hist = json.load(open(HISTORY_PATH, encoding="utf-8"))
+        except Exception:
+            hist = {}
+    latest_total = 0
+    if os.path.exists("data/summary.json"):
+        try:
+            latest_total = json.load(open("data/summary.json", encoding="utf-8")).get("total", 0)
+        except Exception:
+            pass
+
     files = sorted(glob.glob("data/archive/*.html"), reverse=True)
     rows = []
     for path in files:
-        date = os.path.splitext(os.path.basename(path))[0]
+        d = os.path.splitext(os.path.basename(path))[0]
+        rec = hist.get(d, {})
+        wd = rec.get("weekday", "")
+        n = rec.get("total")
+        badge = (f'<span class="cnt">{n}</span>' if n
+                 else '<span class="muted" style="font-size:12px;">0</span>')
         rows.append(
-            f'<li><a href="archive/{date}.html">{date}</a></li>'
+            f'<tr><td><a href="archive/{d}.html">{d}</a>'
+            f'<span class="muted" style="margin-left:6px;font-size:12px;">({wd})</span></td>'
+            f'<td style="text-align:right;">{badge}</td></tr>'
         )
-    body = "\n".join(rows) or "<li>まだ履歴がありません</li>"
-    html = f"""<!doctype html><meta charset="utf-8">
-<title>中古計測器 新着まとめ</title>
-<div style="font-family:Hiragino Sans,Meiryo,sans-serif;max-width:680px;margin:24px auto;color:#1a1a1a;">
-<h1 style="font-size:20px;">中古計測器 新着まとめ</h1>
-<p><a href="latest.html" style="font-size:16px;color:#2b6cb0;">▶ 最新の新着を見る</a></p>
-<p><a href="trends.html" style="font-size:14px;color:#2b6cb0;">📊 更新傾向(曜日別)を見る</a></p>
-<h2 style="font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;">日付別アーカイブ</h2>
-<ul style="line-height:1.9;">
-{body}
-</ul>
-</div>"""
+    body = "".join(rows) or '<tr><td class="muted">まだ履歴がありません</td><td></td></tr>'
+
+    out = notifier.page_head("履歴 — 中古計測器トラッカー", active="index")
+    out += (
+        '<div class="hero"><h1>中古計測器 新着トラッカー</h1>'
+        '<div class="meta">複数の中古計測器サイトの新着を毎日まとめています。</div></div>'
+        '<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin:16px 0 8px;">'
+        f'<a class="card" href="latest.html" style="text-decoration:none;">'
+        f'<span class="thumb pdf">🆕</span><div class="body"><div class="maker">最新の新着</div>'
+        f'<div class="model">latest</div><div class="price">{latest_total}件</div></div></a>'
+        '<a class="card" href="trends.html" style="text-decoration:none;">'
+        '<span class="thumb pdf">📊</span><div class="body"><div class="maker">サイト別</div>'
+        '<div class="model">更新傾向</div><div class="nm">曜日パターンを見る</div></div></a>'
+        '</div>'
+        '<div class="sec"><h2>日付別アーカイブ</h2><span class="rule"></span></div>'
+        '<table class="tb"><tr><th>日付</th><th style="text-align:right;">新着</th></tr>'
+        f'{body}</table>'
+    )
+    out += notifier.page_foot()
     with open("data/index.html", "w", encoding="utf-8") as f:
-        f.write(html)
+        f.write(out)
 
 
 if __name__ == "__main__":
