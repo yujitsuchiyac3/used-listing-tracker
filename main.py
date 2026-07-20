@@ -27,6 +27,7 @@ from scrapers.chukoichi import ChukoichiScraper
 from scrapers.keisokuki import KeisokukiScraper
 from scrapers.tanaka3915 import Tanaka3915Scraper
 from scrapers.usedlab import UsedLabScraper
+from scrapers.startechnology import StarTechnologyScraper
 
 from core import notifier, storage
 
@@ -41,6 +42,7 @@ def _site_jobs():
     chukoichi = ChukoichiScraper()
     keisokuki = KeisokukiScraper()
     tanaka = Tanaka3915Scraper()
+    startech = StarTechnologyScraper()
     return [
         (orutika, lambda: orutika.fetch_listings(enrich=False), orutika._enrich_detail),
         (askindex, askindex.fetch_listings, None),
@@ -50,6 +52,7 @@ def _site_jobs():
         (keisokuki, keisokuki.fetch_listings, None),
         (tanaka, tanaka.fetch_listings, None),
         (usedlab, lambda: usedlab.fetch_listings(enrich=False), usedlab._enrich_detail),
+        (startech, startech.fetch_listings, None),
     ]
 
 
@@ -168,6 +171,7 @@ SITE_ORDER = [
     "計測器ランド リセール",
     "タナカ・トレーディング",
     "中古研究機器.com",
+    "スターテクノロジー",
 ]
 
 
