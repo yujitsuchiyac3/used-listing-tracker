@@ -25,7 +25,7 @@ from .base import Listing, Scraper
 try:
     from pypdf import PdfReader
     _HAS_PYPDF = True
-except Exception:  # pypdf が無い/壊れていても検知自体は動かす
+except BaseException:  # pypdf/依存が無い・壊れていても(pyo3 panic 含む)検知自体は動かす
     _HAS_PYPDF = False
 
 NEWS_INDEX = "https://www.orixrentec.jp/new_info/index.html"
