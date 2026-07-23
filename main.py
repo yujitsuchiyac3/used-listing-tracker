@@ -28,6 +28,9 @@ from scrapers.keisokuki import KeisokukiScraper
 from scrapers.tanaka3915 import Tanaka3915Scraper
 from scrapers.usedlab import UsedLabScraper
 from scrapers.startechnology import StarTechnologyScraper
+from scrapers.sokuno import SokunoScraper
+from scrapers.ehi import EhiScraper
+from scrapers.zai import ZaiScraper
 
 from core import notifier, storage
 
@@ -43,6 +46,9 @@ def _site_jobs():
     keisokuki = KeisokukiScraper()
     tanaka = Tanaka3915Scraper()
     startech = StarTechnologyScraper()
+    sokuno = SokunoScraper()
+    ehi = EhiScraper()
+    zai = ZaiScraper()
     return [
         (orutika, lambda: orutika.fetch_listings(enrich=False), orutika._enrich_detail),
         (askindex, askindex.fetch_listings, None),
@@ -53,6 +59,9 @@ def _site_jobs():
         (tanaka, tanaka.fetch_listings, None),
         (usedlab, lambda: usedlab.fetch_listings(enrich=False), usedlab._enrich_detail),
         (startech, startech.fetch_listings, None),
+        (sokuno, sokuno.fetch_listings, None),
+        (ehi, ehi.fetch_listings, None),
+        (zai, zai.fetch_listings, None),
     ]
 
 
@@ -172,6 +181,9 @@ SITE_ORDER = [
     "タナカ・トレーディング",
     "中古研究機器.com",
     "スターテクノロジー",
+    "速納.com(TechEyes)",
+    "EHI(中古科学機器)",
+    "ZAI(理化学リユース)",
 ]
 
 
