@@ -78,6 +78,11 @@ a:hover{text-decoration:underline}
 .chip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
   padding:1px 7px;font-size:11px;margin-top:5px}
 .pdf .thumb{background:var(--accent-weak);color:var(--accent);font-size:28px}
+.sitechip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
+  padding:0 6px;font-size:10px;margin-right:4px;vertical-align:middle}
+.newbadge{display:inline-block;background:var(--price);color:#fff;border-radius:6px;
+  padding:0 6px;font-size:10px;font-weight:700;margin-right:4px;vertical-align:middle}
+.card.isnew{border-color:var(--price);box-shadow:0 0 0 1px var(--price) inset}
 table.tb{border-collapse:collapse;width:100%;background:var(--card);
   border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
 table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
@@ -104,6 +109,7 @@ def page_head(title: str, subtitle: str = "", active: str = "") -> str:
 <span class="nav">
 {nav("index.html","履歴","index")}
 {nav("latest.html","最新","latest")}
+{nav("watch.html","フォロー","watch")}
 {nav("catalog.html","全在庫","catalog")}
 {nav("trends.html","傾向","trends")}
 </span></div></div>
@@ -209,6 +215,75 @@ def build_html(new_by_site, site_names, day: date, *, kind: str = "new") -> str:
             out.append('<div class="grid">')
             out.extend(_card(it) for it in items)
             out.append("</div>")
+
+    out.append(page_foot())
+    return "\n".join(out)
+
+
+# ---- フォロー中(監視対象)ページ -------------------------------------------
+
+def _watch_card(it: Listing, site_names, is_new: bool) -> str:
+    e = html.escape
+    is_pdf = it.site == "orix"
+    if it.image_url:
+        thumb = (f'<a class="thumb" href="{e(it.url)}">'
+                 f'<img src="{e(it.image_url)}" alt="" loading="lazy"></a>')
+    elif is_pdf:
+        thumb = f'<a class="thumb" href="{e(it.url)}">📄</a>'
+    else:
+        thumb = '<span class="thumb ph">No Image</span>'
+
+    cls = "card" + (" pdf" if is_pdf else "") + (" isnew" if is_new else "")
+    parts = [f'<div class="{cls}">', thumb, '<div class="body">']
+    site_label = site_names.get(it.site, it.site)
+    badge = '<span class="newbadge">NEW</span>' if is_new else ''
+    parts.append(f'<div class="maker"><span class="sitechip">{e(site_label)}</span>{badge}'
+                 f'{(" " + e(it.maker)) if it.maker else ""}</div>')
+    parts.append(f'<div class="model"><a href="{e(it.url)}">{e(it.model or it.name)}</a></div>')
+    if it.name and it.name != it.model:
+        parts.append(f'<div class="nm">{e(it.name)}</div>')
+    y = _yen(it)
+    if y:
+        parts.append(f'<div class="price">{e(y)}</div>')
+    if it.condition:
+        parts.append(f'<div class="chip">{e(it.condition[:60])}</div>')
+    parts.append("</div></div>")
+    return "".join(parts)
+
+
+def build_watch(groups, site_names, day: date) -> str:
+    """groups: [{"label": str, "items": [Listing], "new_keys": set(...)}] """
+    e = html.escape
+    total = sum(len(g["items"]) for g in groups)
+    new_total = sum(sum(1 for it in g["items"] if it.key() in g["new_keys"]) for g in groups)
+    out = [page_head("フォロー中 — 中古計測器トラッカー", active="watch")]
+    out.append('<div class="hero">')
+    out.append(f'<h1>★ フォロー中 <span class="pill">{total}件</span></h1>')
+    subtitle = f"{day:%Y年%m月%d日} 時点 ・ 12サイト横断"
+    if new_total:
+        subtitle += f" ・ <span style=\"color:var(--price);font-weight:700;\">本日 新着{new_total}件</span>"
+    out.append(f'<div class="meta">{subtitle}</div>')
+    out.append("</div>")
+
+    if not groups:
+        out.append('<div class="empty">フォロー登録がありません。</div>')
+    for g in groups:
+        items = g["items"]
+        new_keys = g["new_keys"]
+        # 新着を先頭に
+        items = sorted(items, key=lambda it: (it.key() not in new_keys))
+        n_new = sum(1 for it in items if it.key() in new_keys)
+        cnt = f'{len(items)}' + (f' / NEW {n_new}' if n_new else '')
+        out.append('<div class="sec">'
+                   f'<h2>★ {e(g["label"])}</h2>'
+                   f'<span class="cnt">{cnt}</span><span class="rule"></span></div>')
+        if not items:
+            out.append('<div class="empty">まだ一致する在庫はありません。'
+                       '見つかり次第ここに表示されます。</div>')
+            continue
+        out.append('<div class="grid">')
+        out.extend(_watch_card(it, site_names, it.key() in new_keys) for it in items)
+        out.append("</div>")
 
     out.append(page_foot())
     return "\n".join(out)

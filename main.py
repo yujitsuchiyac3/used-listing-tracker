@@ -133,6 +133,12 @@ def run(send: bool = False, force_all: bool = False) -> int:
         f.write(notifier.build_html(all_by_site, names, day, kind="all"))
     with open(f"data/archive/{day:%Y-%m-%d}.html", "w", encoding="utf-8") as f:
         f.write(html)
+
+    # フォロー中(監視対象)ページ
+    watch_groups = build_watch_groups(all_by_site, new_by_site)
+    with open("data/watch.html", "w", encoding="utf-8") as f:
+        f.write(notifier.build_watch(watch_groups, names, day))
+
     write_index()
 
     # 報告用サマリ(定期ジョブがこれを読んでチャット報告する)
@@ -295,6 +301,51 @@ def write_trends() -> None:
         f.write(out)
 
 
+WATCHLIST_PATH = "watchlist.json"
+
+
+def load_watchlist():
+    """フォロー設定(watchlist.json)を読む。無ければ空。"""
+    import json
+    if not os.path.exists(WATCHLIST_PATH):
+        return []
+    try:
+        return json.load(open(WATCHLIST_PATH, encoding="utf-8"))
+    except Exception:
+        return []
+
+
+def build_watch_groups(all_by_site, new_by_site):
+    """フォローのキーワードに一致する在庫を全サイト横断で集める。
+
+    戻り値: [{"label", "items":[Listing], "new_keys":set(key)}]
+    """
+    watches = load_watchlist()
+    # 本日新着の key 集合
+    new_keys = set()
+    for site, items in new_by_site.items():
+        for it in items:
+            new_keys.add(it.key())
+
+    groups = []
+    for w in watches:
+        label = w.get("label", "")
+        kws = [k.lower() for k in w.get("keywords", []) if k]
+        excludes = [k.lower() for k in w.get("exclude", []) if k]
+        matched = []
+        seen = set()
+        for site, items in all_by_site.items():
+            for it in items:
+                hay = " ".join([it.maker, it.model, it.name, it.spec]).lower()
+                if any(k in hay for k in kws) and not any(x in hay for x in excludes):
+                    if it.key() not in seen:
+                        seen.add(it.key())
+                        matched.append(it)
+        groups.append({"label": label, "items": matched,
+                       "new_keys": {k for k in new_keys}})
+    return groups
+
+
 def write_index() -> None:
     """data/index.html を生成。日付別アーカイブの索引(新着数つき)。"""
     import glob
@@ -338,6 +389,9 @@ def write_index() -> None:
         f'<a class="card" href="latest.html" style="text-decoration:none;">'
         f'<span class="thumb pdf">🆕</span><div class="body"><div class="maker">最新の新着</div>'
         f'<div class="model">latest</div><div class="price">{latest_total}件</div></div></a>'
+        '<a class="card" href="watch.html" style="text-decoration:none;">'
+        '<span class="thumb pdf">★</span><div class="body"><div class="maker">フォロー中</div>'
+        '<div class="model">watch</div><div class="nm">監視キーワードの在庫</div></div></a>'
         '<a class="card" href="trends.html" style="text-decoration:none;">'
         '<span class="thumb pdf">📊</span><div class="body"><div class="maker">サイト別</div>'
         '<div class="model">更新傾向</div><div class="nm">曜日パターンを見る</div></div></a>'
