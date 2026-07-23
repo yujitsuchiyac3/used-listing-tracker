@@ -122,33 +122,36 @@ def run(send: bool = False, force_all: bool = False) -> int:
 
     total = sum(len(v) for v in new_by_site.values())
     subject = notifier.build_subject(new_by_site, day)
-    html = notifier.build_html(new_by_site, names, day)
+    html = notifier.build_html(new_by_site, names, day)   # メール・アーカイブ用(素の新着)
     text = notifier.build_text(new_by_site, names, day)
 
-    # HTML を出力(最新版・日付別アーカイブ・全在庫)
+    # HTML を出力(日付別アーカイブは素の新着、latest は下に過去の新着一覧を付ける)
     os.makedirs("data/archive", exist_ok=True)
-    with open("data/latest.html", "w", encoding="utf-8") as f:
-        f.write(html)
-    with open("data/catalog.html", "w", encoding="utf-8") as f:
-        f.write(notifier.build_html(all_by_site, names, day, kind="all"))
     with open(f"data/archive/{day:%Y-%m-%d}.html", "w", encoding="utf-8") as f:
         f.write(html)
+    with open("data/latest.html", "w", encoding="utf-8") as f:
+        f.write(notifier.build_html(new_by_site, names, day,
+                                    extra_html=_archive_section_html()))
+    with open("data/catalog.html", "w", encoding="utf-8") as f:
+        f.write(notifier.build_html(all_by_site, names, day, kind="all"))
 
     # フォロー中(監視対象)ページ
     watch_groups = build_watch_groups(all_by_site, new_by_site)
     with open("data/watch.html", "w", encoding="utf-8") as f:
         f.write(notifier.build_watch(watch_groups, names, day))
 
-    write_index()
-
     # 報告用サマリ(定期ジョブがこれを読んでチャット報告する)
     import json as _json
     WEEK_JA = ["月", "火", "水", "木", "金", "土", "日"]
     weekday = WEEK_JA[day.weekday()]
+    inventory_total = sum(len(v) for v in all_by_site.values())
+    watch_total = sum(len(g["items"]) for g in watch_groups)
     summary = {
         "date": f"{day:%Y-%m-%d}",
         "weekday": weekday,
         "total": total,
+        "inventory_total": inventory_total,
+        "watch_total": watch_total,
         "per_site": {names.get(s, s): len(v) for s, v in new_by_site.items()},
         "errors": list(errors.keys()),
     }
@@ -158,6 +161,11 @@ def run(send: bool = False, force_all: bool = False) -> int:
     # 履歴に記録(日付キーで上書き=同日再実行しても重複しない)
     record_history(summary)
     write_trends()
+
+    # ホーム(ダッシュボード)は履歴確定後に生成
+    write_home(new_by_site=new_by_site, watch_groups=watch_groups, names=names,
+               inventory_total=inventory_total, n_sites=len(all_by_site),
+               last_updated=f"{day:%Y-%m-%d}")
 
     print(f"\n新着合計: {total}件  件名: {subject}")
     if errors:
@@ -346,26 +354,19 @@ def build_watch_groups(all_by_site, new_by_site):
     return groups
 
 
-def write_index() -> None:
-    """data/index.html を生成。日付別アーカイブの索引(新着数つき)。"""
+def _archive_rows_html(limit=None) -> str:
+    """アーカイブ(日付→新着数)の <tr> 行を新しい順で返す。"""
     import glob
     import json
-    from core import notifier
-
     hist = {}
     if os.path.exists(HISTORY_PATH):
         try:
             hist = json.load(open(HISTORY_PATH, encoding="utf-8"))
         except Exception:
             hist = {}
-    latest_total = 0
-    if os.path.exists("data/summary.json"):
-        try:
-            latest_total = json.load(open("data/summary.json", encoding="utf-8")).get("total", 0)
-        except Exception:
-            pass
-
     files = sorted(glob.glob("data/archive/*.html"), reverse=True)
+    if limit:
+        files = files[:limit]
     rows = []
     for path in files:
         d = os.path.splitext(os.path.basename(path))[0]
@@ -379,30 +380,68 @@ def write_index() -> None:
             f'<span class="muted" style="margin-left:6px;font-size:12px;">({wd})</span></td>'
             f'<td style="text-align:right;">{badge}</td></tr>'
         )
-    body = "".join(rows) or '<tr><td class="muted">まだ履歴がありません</td><td></td></tr>'
+    return "".join(rows) or '<tr><td class="muted">まだ履歴がありません</td><td></td></tr>'
 
-    out = notifier.page_head("履歴 — 中古計測器トラッカー", active="index")
-    out += (
-        '<div class="hero"><h1>中古計測器 新着トラッカー</h1>'
-        '<div class="meta">複数の中古計測器サイトの新着を毎日まとめています。</div></div>'
-        '<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin:16px 0 8px;">'
-        f'<a class="card" href="latest.html" style="text-decoration:none;">'
-        f'<span class="thumb pdf">🆕</span><div class="body"><div class="maker">最新の新着</div>'
-        f'<div class="model">latest</div><div class="price">{latest_total}件</div></div></a>'
-        '<a class="card" href="watch.html" style="text-decoration:none;">'
-        '<span class="thumb pdf">★</span><div class="body"><div class="maker">フォロー中</div>'
-        '<div class="model">watch</div><div class="nm">監視キーワードの在庫</div></div></a>'
-        '<a class="card" href="trends.html" style="text-decoration:none;">'
-        '<span class="thumb pdf">📊</span><div class="body"><div class="maker">サイト別</div>'
-        '<div class="model">更新傾向</div><div class="nm">曜日パターンを見る</div></div></a>'
-        '</div>'
-        '<div class="sec"><h2>日付別アーカイブ</h2><span class="rule"></span></div>'
+
+def _archive_section_html() -> str:
+    """「新着」ページ下部に差し込む『過去の新着(日付一覧)』セクション。"""
+    return (
+        '<div class="sec"><h2>過去の新着</h2><span class="rule"></span></div>'
         '<table class="tb"><tr><th>日付</th><th style="text-align:right;">新着</th></tr>'
-        f'{body}</table>'
+        f'{_archive_rows_html()}</table>'
     )
-    out += notifier.page_foot()
+
+
+def _inventory_total() -> int:
+    import json
+    path = "data/state.json"
+    try:
+        st = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {}
+        return sum(len(v) for v in st.values() if isinstance(v, (list, dict)))
+    except Exception:
+        return 0
+
+
+def write_home(new_by_site=None, watch_groups=None, names=None,
+               inventory_total=None, n_sites=None, last_updated="") -> None:
+    """data/index.html をダッシュボードとして生成。
+    run() からは全データ付きで、単体再生成時は数値のみで呼べる。"""
+    import json
+    from core import notifier
+    import datetime
+    day = datetime.date.today()
+    new_total = None
+    if os.path.exists("data/summary.json"):
+        try:
+            s = json.load(open("data/summary.json", encoding="utf-8"))
+            last_updated = last_updated or s.get("date", "")
+            if n_sites is None:
+                n_sites = len(s.get("per_site", {}))
+            if new_by_site is None:
+                new_total = s.get("total")
+            if inventory_total is None:
+                inventory_total = s.get("inventory_total")
+        except Exception:
+            pass
+    if inventory_total is None:
+        inventory_total = _inventory_total()
+    if watch_groups is None:
+        # 在庫データ無しの単体生成: ラベルだけ(該当0)でフォロー枠を出す
+        watch_groups = [{"label": w.get("label", ""), "items": [], "new_keys": set()}
+                        for w in load_watchlist()]
+    out = notifier.build_home(
+        day, new_by_site=new_by_site, watch_groups=watch_groups,
+        site_names=names, inventory_total=inventory_total or 0,
+        n_sites=n_sites or 0, archive_rows_html=_archive_rows_html(limit=10),
+        last_updated=last_updated, new_total=new_total,
+    )
     with open("data/index.html", "w", encoding="utf-8") as f:
         f.write(out)
+
+
+# 後方互換: 旧名 write_index は write_home に委譲
+def write_index() -> None:
+    write_home()
 
 
 if __name__ == "__main__":

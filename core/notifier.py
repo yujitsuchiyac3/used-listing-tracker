@@ -44,7 +44,20 @@ a:hover{text-decoration:underline}
 .top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
   margin:0 -16px 20px;padding:14px 16px;z-index:5}
 .top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:16px;letter-spacing:.02em}
+.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
+.brand:hover{text-decoration:none}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
+.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
+.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
+.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
+.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
+.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
+.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
 .brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
 .nav{margin-left:auto;display:flex;gap:6px}
 .nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
@@ -105,10 +118,10 @@ def page_head(title: str, subtitle: str = "", active: str = "") -> str:
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title>{page_css()}</head><body>
 <div class="top"><div class="top-in">
-<span class="brand">🔎 中古計測器トラッカー</span>
+<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
 <span class="nav">
-{nav("index.html","履歴","index")}
-{nav("latest.html","最新","latest")}
+{nav("index.html","ホーム","home")}
+{nav("latest.html","新着","latest")}
 {nav("watch.html","フォロー","watch")}
 {nav("catalog.html","全在庫","catalog")}
 {nav("trends.html","傾向","trends")}
@@ -181,8 +194,10 @@ def _card(it: Listing) -> str:
     return "".join(parts)
 
 
-def build_html(new_by_site, site_names, day: date, *, kind: str = "new") -> str:
-    """kind='new' で新着まとめ、kind='all' で全在庫ページを生成。"""
+def build_html(new_by_site, site_names, day: date, *, kind: str = "new",
+               extra_html: str = "") -> str:
+    """kind='new' で新着まとめ、kind='all' で全在庫ページを生成。
+    extra_html はセクションの後(フッタ前)に差し込む追加HTML。"""
     total = sum(len(v) for v in new_by_site.values())
     n_sites = sum(1 for v in new_by_site.values() if v)
     e = html.escape
@@ -215,6 +230,9 @@ def build_html(new_by_site, site_names, day: date, *, kind: str = "new") -> str:
             out.append('<div class="grid">')
             out.extend(_card(it) for it in items)
             out.append("</div>")
+
+    if extra_html:
+        out.append(extra_html)
 
     out.append(page_foot())
     return "\n".join(out)
@@ -284,6 +302,96 @@ def build_watch(groups, site_names, day: date) -> str:
         out.append('<div class="grid">')
         out.extend(_watch_card(it, site_names, it.key() in new_keys) for it in items)
         out.append("</div>")
+
+    out.append(page_foot())
+    return "\n".join(out)
+
+
+# ---- ホーム(ダッシュボード) ------------------------------------------------
+
+def build_home(day: date, *, new_by_site=None, watch_groups=None,
+               site_names=None, inventory_total=0, n_sites=0,
+               archive_rows_html="", last_updated="", new_total=None) -> str:
+    """トップのダッシュボード。主要数値・各ページ導線・プレビューを1枚に。
+    new_total を渡すと在庫データ無しでも件数表示だけは正確にできる。"""
+    site_names = site_names or {}
+    new_by_site = new_by_site or {}
+    watch_groups = watch_groups or []
+    if new_total is None:
+        new_total = sum(len(v) for v in new_by_site.values())
+    watch_total = sum(len(g["items"]) for g in watch_groups)
+    watch_new = sum(sum(1 for it in g["items"] if it.key() in g.get("new_keys", set()))
+                    for g in watch_groups)
+
+    out = [page_head("中古計測器トラッカー — ホーム", active="home")]
+    out.append('<div class="hero"><h1>中古計測器トラッカー</h1>'
+               '<div class="meta">複数の中古計測器・研究機器サイトの新着を毎日まとめています。'
+               f'{("　最終更新 " + last_updated) if last_updated else ""}</div></div>')
+
+    # KPI
+    out.append('<div class="kpis">')
+    out.append(f'<div class="kpi warm"><div class="num">{new_total}</div>'
+               '<div class="lbl">今日の新着</div></div>')
+    out.append(f'<div class="kpi accent"><div class="num">{watch_total}</div>'
+               '<div class="lbl">フォロー該当</div></div>')
+    out.append(f'<div class="kpi"><div class="num">{inventory_total:,}</div>'
+               '<div class="lbl">全在庫</div></div>')
+    out.append(f'<div class="kpi"><div class="num">{n_sites}</div>'
+               '<div class="lbl">巡回サイト</div></div>')
+    out.append('</div>')
+
+    # 各ページ導線
+    out.append('<div class="tiles">')
+    tiles = [
+        ("latest.html", "🆕", "新着", f"今日 {new_total}件・過去の記録も"),
+        ("watch.html", "★", "フォロー", f"監視キーワードの在庫 {watch_total}件"),
+        ("catalog.html", "📦", "全在庫", f"現在の在庫 {inventory_total:,}件"),
+        ("trends.html", "📊", "傾向", "サイト別・曜日別の更新傾向"),
+    ]
+    for href, ico, tt, ds in tiles:
+        out.append(f'<a class="tile" href="{href}"><div class="ico">{ico}</div>'
+                   f'<div class="tt">{tt}</div><div class="ds">{ds}</div></a>')
+    out.append('</div>')
+
+    # 今日の新着プレビュー
+    flat_new = [it for items in new_by_site.values() for it in items]
+    if flat_new:
+        out.append('<div class="sec"><h2>今日の新着</h2>'
+                   f'<span class="cnt">{new_total}</span><span class="rule"></span></div>')
+        out.append('<div class="grid">')
+        out.extend(_card(it) for it in flat_new[:6])
+        out.append('</div>')
+        if new_total > 6:
+            out.append('<a class="more" href="latest.html">すべての新着を見る →</a>')
+
+    # フォロー中プレビュー
+    if watch_groups:
+        badge = (f'<span class="cnt">{watch_total}'
+                 + (f' / NEW {watch_new}' if watch_new else '') + '</span>')
+        out.append(f'<div class="sec"><h2>★ フォロー中</h2>{badge}<span class="rule"></span></div>')
+        new_keys = set()
+        for g in watch_groups:
+            new_keys |= g.get("new_keys", set())
+        picks = [it for g in watch_groups for it in g["items"]]
+        if picks:
+            out.append('<div class="grid">')
+            out.extend(_watch_card(it, site_names, it.key() in new_keys) for it in picks[:6])
+            out.append('</div>')
+            out.append('<a class="more" href="watch.html">フォロー一覧へ →</a>')
+        else:
+            labels = "・".join(g["label"] for g in watch_groups)
+            out.append(f'<div class="empty">監視中: {html.escape(labels)}'
+                       '<br>一致する在庫が出たらここに表示されます。'
+                       ' <a href="watch.html">フォロー設定へ</a></div>')
+
+    # 最近の記録(アーカイブ)
+    if archive_rows_html:
+        out.append('<div class="sec"><h2>最近の記録</h2><span class="rule"></span></div>')
+        out.append('<table class="tb"><tr><th>日付</th>'
+                   '<th style="text-align:right;">新着</th></tr>')
+        out.append(archive_rows_html)
+        out.append('</table>')
+        out.append('<a class="more" href="latest.html">過去の新着をすべて見る →</a>')
 
     out.append(page_foot())
     return "\n".join(out)

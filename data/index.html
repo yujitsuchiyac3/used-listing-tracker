@@ -1,6 +1,6 @@
 <!doctype html><html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>履歴 — 中古計測器トラッカー</title>
+<title>中古計測器トラッカー — ホーム</title>
 <style>
 :root{
   --bg:#f4f6f9; --card:#ffffff; --ink:#1a2230; --sub:#6b7684; --line:#e3e8ef;
@@ -19,7 +19,20 @@ a:hover{text-decoration:underline}
 .top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
   margin:0 -16px 20px;padding:14px 16px;z-index:5}
 .top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:16px;letter-spacing:.02em}
+.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
+.brand:hover{text-decoration:none}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
+.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
+.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
+.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
+.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
+.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
+.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
 .brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
 .nav{margin-left:auto;display:flex;gap:6px}
 .nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
@@ -70,14 +83,35 @@ table.tb tr:last-child td{border-bottom:none}
 </style>
 </head><body>
 <div class="top"><div class="top-in">
-<span class="brand">🔎 中古計測器トラッカー</span>
+<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
 <span class="nav">
-<a class=" on" href="index.html">履歴</a>
-<a class="" href="latest.html">最新</a>
+<a class=" on" href="index.html">ホーム</a>
+<a class="" href="latest.html">新着</a>
 <a class="" href="watch.html">フォロー</a>
 <a class="" href="catalog.html">全在庫</a>
 <a class="" href="trends.html">傾向</a>
 </span></div></div>
 <div class="wrap">
-<div class="hero"><h1>中古計測器 新着トラッカー</h1><div class="meta">複数の中古計測器サイトの新着を毎日まとめています。</div></div><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin:16px 0 8px;"><a class="card" href="latest.html" style="text-decoration:none;"><span class="thumb pdf">🆕</span><div class="body"><div class="maker">最新の新着</div><div class="model">latest</div><div class="price">51件</div></div></a><a class="card" href="watch.html" style="text-decoration:none;"><span class="thumb pdf">★</span><div class="body"><div class="maker">フォロー中</div><div class="model">watch</div><div class="nm">監視キーワードの在庫</div></div></a><a class="card" href="trends.html" style="text-decoration:none;"><span class="thumb pdf">📊</span><div class="body"><div class="maker">サイト別</div><div class="model">更新傾向</div><div class="nm">曜日パターンを見る</div></div></a></div><div class="sec"><h2>日付別アーカイブ</h2><span class="rule"></span></div><table class="tb"><tr><th>日付</th><th style="text-align:right;">新着</th></tr><tr><td><a href="archive/2026-07-23.html">2026-07-23</a><span class="muted" style="margin-left:6px;font-size:12px;">(木)</span></td><td style="text-align:right;"><span class="cnt">51</span></td></tr><tr><td><a href="archive/2026-07-22.html">2026-07-22</a><span class="muted" style="margin-left:6px;font-size:12px;">(水)</span></td><td style="text-align:right;"><span class="cnt">2</span></td></tr><tr><td><a href="archive/2026-07-21.html">2026-07-21</a><span class="muted" style="margin-left:6px;font-size:12px;">(火)</span></td><td style="text-align:right;"><span class="cnt">13</span></td></tr><tr><td><a href="archive/2026-07-20.html">2026-07-20</a><span class="muted" style="margin-left:6px;font-size:12px;">(月)</span></td><td style="text-align:right;"><span class="cnt">5</span></td></tr><tr><td><a href="archive/2026-07-19.html">2026-07-19</a><span class="muted" style="margin-left:6px;font-size:12px;">(日)</span></td><td style="text-align:right;"><span class="muted" style="font-size:12px;">0</span></td></tr><tr><td><a href="archive/2026-07-18.html">2026-07-18</a><span class="muted" style="margin-left:6px;font-size:12px;">(土)</span></td><td style="text-align:right;"><span class="cnt">3</span></td></tr><tr><td><a href="archive/2026-07-17.html">2026-07-17</a><span class="muted" style="margin-left:6px;font-size:12px;">(金)</span></td><td style="text-align:right;"><span class="cnt">10</span></td></tr><tr><td><a href="archive/2026-07-16.html">2026-07-16</a><span class="muted" style="margin-left:6px;font-size:12px;">(木)</span></td><td style="text-align:right;"><span class="cnt">5</span></td></tr><tr><td><a href="archive/2026-07-15.html">2026-07-15</a><span class="muted" style="margin-left:6px;font-size:12px;">(水)</span></td><td style="text-align:right;"><span class="cnt">8</span></td></tr><tr><td><a href="archive/2026-07-14.html">2026-07-14</a><span class="muted" style="margin-left:6px;font-size:12px;">(火)</span></td><td style="text-align:right;"><span class="cnt">32</span></td></tr><tr><td><a href="archive/2026-07-13.html">2026-07-13</a><span class="muted" style="margin-left:6px;font-size:12px;">(月)</span></td><td style="text-align:right;"><span class="muted" style="font-size:12px;">0</span></td></tr><tr><td><a href="archive/2026-07-12.html">2026-07-12</a><span class="muted" style="margin-left:6px;font-size:12px;">(日)</span></td><td style="text-align:right;"><span class="muted" style="font-size:12px;">0</span></td></tr><tr><td><a href="archive/2026-07-11.html">2026-07-11</a><span class="muted" style="margin-left:6px;font-size:12px;">(土)</span></td><td style="text-align:right;"><span class="muted" style="font-size:12px;">0</span></td></tr><tr><td><a href="archive/2026-07-10.html">2026-07-10</a><span class="muted" style="margin-left:6px;font-size:12px;">(金)</span></td><td style="text-align:right;"><span class="muted" style="font-size:12px;">0</span></td></tr><tr><td><a href="archive/2026-07-09.html">2026-07-09</a><span class="muted" style="margin-left:6px;font-size:12px;">(木)</span></td><td style="text-align:right;"><span class="cnt">13</span></td></tr><tr><td><a href="archive/2026-07-08.html">2026-07-08</a><span class="muted" style="margin-left:6px;font-size:12px;">()</span></td><td style="text-align:right;"><span class="muted" style="font-size:12px;">0</span></td></tr><tr><td><a href="archive/2026-06-24.html">2026-06-24</a><span class="muted" style="margin-left:6px;font-size:12px;">()</span></td><td style="text-align:right;"><span class="muted" style="font-size:12px;">0</span></td></tr></table><div class="foot">used-listing-tracker — 自動生成</div>
+
+<div class="hero"><h1>中古計測器トラッカー</h1><div class="meta">複数の中古計測器・研究機器サイトの新着を毎日まとめています。　最終更新 2026-07-23</div></div>
+<div class="kpis">
+<div class="kpi warm"><div class="num">51</div><div class="lbl">今日の新着</div></div>
+<div class="kpi accent"><div class="num">0</div><div class="lbl">フォロー該当</div></div>
+<div class="kpi"><div class="num">1,497</div><div class="lbl">全在庫</div></div>
+<div class="kpi"><div class="num">12</div><div class="lbl">巡回サイト</div></div>
+</div>
+<div class="tiles">
+<a class="tile" href="latest.html"><div class="ico">🆕</div><div class="tt">新着</div><div class="ds">今日 51件・過去の記録も</div></a>
+<a class="tile" href="watch.html"><div class="ico">★</div><div class="tt">フォロー</div><div class="ds">監視キーワードの在庫 0件</div></a>
+<a class="tile" href="catalog.html"><div class="ico">📦</div><div class="tt">全在庫</div><div class="ds">現在の在庫 1,497件</div></a>
+<a class="tile" href="trends.html"><div class="ico">📊</div><div class="tt">傾向</div><div class="ds">サイト別・曜日別の更新傾向</div></a>
+</div>
+<div class="sec"><h2>★ フォロー中</h2><span class="cnt">0</span><span class="rule"></span></div>
+<div class="empty">監視中: レーザー顕微鏡<br>一致する在庫が出たらここに表示されます。 <a href="watch.html">フォロー設定へ</a></div>
+<div class="sec"><h2>最近の記録</h2><span class="rule"></span></div>
+<table class="tb"><tr><th>日付</th><th style="text-align:right;">新着</th></tr>
+<tr><td><a href="archive/2026-07-23.html">2026-07-23</a><span class="muted" style="margin-left:6px;font-size:12px;">(木)</span></td><td style="text-align:right;"><span class="cnt">51</span></td></tr><tr><td><a href="archive/2026-07-22.html">2026-07-22</a><span class="muted" style="margin-left:6px;font-size:12px;">(水)</span></td><td style="text-align:right;"><span class="cnt">2</span></td></tr><tr><td><a href="archive/2026-07-21.html">2026-07-21</a><span class="muted" style="margin-left:6px;font-size:12px;">(火)</span></td><td style="text-align:right;"><span class="cnt">13</span></td></tr><tr><td><a href="archive/2026-07-20.html">2026-07-20</a><span class="muted" style="margin-left:6px;font-size:12px;">(月)</span></td><td style="text-align:right;"><span class="cnt">5</span></td></tr><tr><td><a href="archive/2026-07-19.html">2026-07-19</a><span class="muted" style="margin-left:6px;font-size:12px;">(日)</span></td><td style="text-align:right;"><span class="muted" style="font-size:12px;">0</span></td></tr><tr><td><a href="archive/2026-07-18.html">2026-07-18</a><span class="muted" style="margin-left:6px;font-size:12px;">(土)</span></td><td style="text-align:right;"><span class="cnt">3</span></td></tr><tr><td><a href="archive/2026-07-17.html">2026-07-17</a><span class="muted" style="margin-left:6px;font-size:12px;">(金)</span></td><td style="text-align:right;"><span class="cnt">10</span></td></tr><tr><td><a href="archive/2026-07-16.html">2026-07-16</a><span class="muted" style="margin-left:6px;font-size:12px;">(木)</span></td><td style="text-align:right;"><span class="cnt">5</span></td></tr><tr><td><a href="archive/2026-07-15.html">2026-07-15</a><span class="muted" style="margin-left:6px;font-size:12px;">(水)</span></td><td style="text-align:right;"><span class="cnt">8</span></td></tr><tr><td><a href="archive/2026-07-14.html">2026-07-14</a><span class="muted" style="margin-left:6px;font-size:12px;">(火)</span></td><td style="text-align:right;"><span class="cnt">32</span></td></tr>
+</table>
+<a class="more" href="latest.html">過去の新着をすべて見る →</a>
+<div class="foot">used-listing-tracker — 自動生成</div>
 </div></body></html>
