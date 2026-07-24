@@ -19,7 +19,20 @@ a:hover{text-decoration:underline}
 .top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
   margin:0 -16px 20px;padding:14px 16px;z-index:5}
 .top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:16px;letter-spacing:.02em}
+.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
+.brand:hover{text-decoration:none}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
+.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
+.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
+.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
+.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
+.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
+.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
 .brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
 .nav{margin-left:auto;display:flex;gap:6px}
 .nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
@@ -70,7 +83,7 @@ table.tb tr:last-child td{border-bottom:none}
 </style>
 </head><body>
 <div class="top"><div class="top-in">
-<span class="brand">🔎 中古計測器トラッカー</span>
+<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
 <span class="nav">
 <a class="" href="index.html">ホーム</a>
 <a class="" href="latest.html">新着</a>
@@ -81,8 +94,8 @@ table.tb tr:last-child td{border-bottom:none}
 <div class="wrap">
 
 <div class="hero">
-<h1>全在庫 <span class="pill">1497件</span></h1>
-<div class="meta">2026年07月23日 時点 ・ 12サイト</div>
+<h1>全在庫 <span class="pill">1494件</span></h1>
+<div class="meta">2026年07月24日 時点 ・ 12サイト</div>
 </div>
 <div class="sec"><h2>オルティカ (OrutiKA)</h2><span class="cnt">6</span><span class="rule"></span></div>
 <div class="grid">
@@ -93,7 +106,7 @@ table.tb tr:last-child td{border-bottom:none}
 <div class="card"><a class="thumb" href="https://orutika.com/product/0023639/"><img src="https://orutika.com/wp/wp-content/uploads/product/023639/1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">TEXIO</div><div class="model"><a href="https://orutika.com/product/0023639/">PS20-18</a></div><div class="nm">DC安定化電源</div><div class="price">¥33,000</div></div></div>
 <div class="card"><a class="thumb" href="https://orutika.com/product/0023635/"><img src="https://orutika.com/wp/wp-content/uploads/product/023635/1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">古河電工</div><div class="model"><a href="https://orutika.com/product/0023635/">S123M4</a></div><div class="nm">小型融着接続機</div><div class="price">¥187,000</div></div></div>
 </div>
-<div class="sec"><h2>アスカインデックス</h2><span class="cnt">38</span><span class="rule"></span></div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">34</span><span class="rule"></span></div>
 <div class="grid">
 <div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60973"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60973/IMG_0001.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60973">φ90ｘ20</a></div><div class="nm">滅菌シャーレ</div><div class="price">お問合せください</div></div></div>
 <div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60974"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60974/IMG_0007.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60974">SRP200</a></div><div class="nm">滅菌ロールバッグ</div><div class="price">お問合せください</div></div></div>
@@ -125,19 +138,16 @@ table.tb tr:last-child td{border-bottom:none}
 <div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70249"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70249/IMG_3866.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">清和光学製作所</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70249">SMD-100W-SE</a></div><div class="nm">LED照明</div><div class="price">お問合せください</div></div></div>
 <div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70250"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70250/IMG_3872.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーエンス</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70250">CA-DRW7</a></div><div class="nm">LEDリング照明</div><div class="price">お問合せください</div></div></div>
 <div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60729"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60729/RIMG1184.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ヤマト科学</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60729">CA200</a></div><div class="nm">冷却トラップ（ノンフロン卓上タイプ）</div><div class="price">お問合せください</div></div></div>
+<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60374"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60374/DSCN4946.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ヤマト科学</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60374">DP33</a></div><div class="nm">真空オーブン</div><div class="price">¥198,000</div></div></div>
 <div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60916"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60916/IMG_3782.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">清和光学製作所</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60916">STDP-1250-C8</a></div><div class="nm">LED照明電源</div><div class="price">お問合せください</div></div></div>
 <div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70191"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70191/IMG_3803.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">清和光学製作所</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70191">STDP-1250-C4</a></div><div class="nm">LED照明電源</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60937"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60937/IMG_0001.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ヤマト科学</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60937">OMK36</a></div><div class="nm">遠沈管用振とうラック</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60938"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60938/IMG_0001.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ヤマト科学</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60938">OMK36</a></div><div class="nm">遠沈管用振とうラック</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60941"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60941/IMG_0020.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ヤマト科学</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60941">AW-62/82BR</a></div><div class="nm">ビーカーラック</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60943"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60943/IMG_0029.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ヤマト科学</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60943">OBF10</a></div><div class="nm">レベルコントローラ</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60946"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60946/IMG_0046.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ヤマト科学</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60946">SA用</a></div><div class="nm">遠沈管ホルダー</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60375"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60375/DSCN4955.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">日立</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60375">IM400 PLUS</a></div><div class="nm">イオンミリング装置</div><div class="price">お問合せください</div></div></div>
+<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q60375"><img src="https://askindex.co.jp/stocks/uploads/Q6/Q60375/DSCN4955.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">日立</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q60375">IM400 PLUS</a></div><div class="nm">イオンミリング装置</div><div class="price">¥7,150,000</div></div></div>
 </div>
-<div class="sec"><h2>Hitech &amp; Facility</h2><span class="cnt">27</span><span class="rule"></span></div>
+<div class="sec"><h2>Hitech &amp; Facility</h2><span class="cnt">28</span><span class="rule"></span></div>
 <div class="grid">
 <div class="card"><a class="thumb" href="https://www.hitechfacility.co.jp/item/E0012247/"><img src="https://www.hitechfacility.co.jp/photo/middle/E0012247_6a5ffee1845541.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Vector Semiconductor</div><div class="model"><a href="https://www.hitechfacility.co.jp/item/E0012247/">MXSP-601RF</a></div><div class="nm">3インチ マニュアルプローブステーション</div><div class="price">¥4,180,000</div></div></div>
 <div class="card"><a class="thumb" href="https://www.hitechfacility.co.jp/item/E0012242/"><img src="https://www.hitechfacility.co.jp/photo/middle/E0012242_6a4d87e1be9ca1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Cascade Microtech</div><div class="model"><a href="https://www.hitechfacility.co.jp/item/E0012242/">SUMMIT 12000B-S</a></div><div class="nm">6インチ セミオートプローブステーション</div><div class="price">¥10,450,000</div></div></div>
+<div class="card"><a class="thumb" href="https://www.hitechfacility.co.jp/item/E0012240/"><img src="https://www.hitechfacility.co.jp/photo/middle/E0012240_6a4c3eaf574b71.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Cascade Microtech</div><div class="model"><a href="https://www.hitechfacility.co.jp/item/E0012240/">114-746B</a></div><div class="nm">RF/マイクロ波プローブポジショナー</div><div class="price">¥385,000</div></div></div>
 <div class="card"><a class="thumb" href="https://www.hitechfacility.co.jp/item/E0012239/"><img src="https://www.hitechfacility.co.jp/photo/middle/E0012239_6a4c36d805a791.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Anritsu</div><div class="model"><a href="https://www.hitechfacility.co.jp/item/E0012239/">MG3697C</a></div><div class="nm">67GHz RF/マイクロ波信号発生器</div><div class="price">¥8,580,000</div></div></div>
 <div class="card"><a class="thumb" href="https://www.hitechfacility.co.jp/item/E0012238/"><img src="https://www.hitechfacility.co.jp/photo/middle/E0012238_6a4c326d8288b1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Anritsu</div><div class="model"><a href="https://www.hitechfacility.co.jp/item/E0012238/">MG3694B</a></div><div class="nm">40GHz RF/マイクロ波信号発生器</div><div class="price">¥4,840,000</div></div></div>
 <div class="card"><a class="thumb" href="https://www.hitechfacility.co.jp/item/E0012215/"><img src="https://www.hitechfacility.co.jp/photo/middle/E0012215_69d4a11fe33201.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ADVANTEST</div><div class="model"><a href="https://www.hitechfacility.co.jp/item/E0012215/">U3851</a></div><div class="nm">9kHz-8GHz クロスドメインアナライザ</div><div class="price">¥1,760,000</div></div></div>
