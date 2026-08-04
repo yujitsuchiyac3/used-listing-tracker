@@ -25,9 +25,24 @@ core/
   storage.py   スナップショット差分(新着判定)
   mailer.py    画像のインライン埋め込み＋SMTP送信
 main.py        統合ランナー
+watchlist.json フォロー(監視キーワード)設定
 .github/workflows/daily.yml  1日1回の自動実行
 data/          スナップショット(state.json)・メールアーカイブ
 ```
+
+## フォロー(監視キーワード)
+
+`watchlist.json` にラベルとキーワードを書くと、全サイトの在庫を横断して該当品を
+`data/watch.html`(フォロー中ページ)に集約します。`exclude` に書いた語を含むものは除外。
+判定は メーカー/型番/名称/仕様 を連結した文字列への部分一致(大文字小文字は無視)です。
+
+```json
+{ "label": "段差計(触針式プロファイラ)",
+  "keywords": ["段差計", "dektak", "アルファステップ"],
+  "exclude":  ["attenuator"] }
+```
+
+現在のフォロー: レーザー顕微鏡 / 段差計(触針式プロファイラ)
 
 ## 実行
 
