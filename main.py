@@ -8,6 +8,7 @@
   python3 main.py             # 収集してHTML生成(data/latest.html 等)
   python3 main.py --force-all # 差分でなく現在の全件を出力(テスト用)
   python3 main.py --send      # HTML生成に加えてメール送信も行う(任意, SMTP環境変数)
+  python3 main.py --watch-only # watchlist.json 変更後、フォローページだけ作り直す
 """
 from __future__ import annotations
 
@@ -179,6 +180,62 @@ def run(send: bool = False, force_all: bool = False) -> int:
         print("HTML を data/latest.html と data/archive/ に出力しました")
 
     snap.save(new_state)
+    return 0
+
+
+def run_watch_only() -> int:
+    """watchlist.json を編集した直後に、フォローページだけを今日の在庫で作り直す。
+
+    全サイトを巡回して watch.html / index.html を再生成するが、
+    新着(latest.html・archive)・スナップショット(state.json)・履歴には触れない。
+    差分判定を行わないため、この再生成では「本日新着」バッジは付かない
+    (翌日の通常実行で通常どおり付く)。
+    """
+    day = datetime.date.today()
+    names = {}
+    all_by_site = {}
+    errors = {}
+
+    for scraper, fetch, _enrich in _site_jobs():
+        site = scraper.site
+        names[site] = scraper.name
+        try:
+            listings = _fetch_with_retry(fetch)
+        except Exception as e:
+            errors[site] = f"{type(e).__name__}: {e}"
+            print(f"[ERROR] {site}: {e}", file=sys.stderr)
+            continue
+        all_by_site[site] = listings
+        print(f"{site}: 取得{len(listings)}件")
+
+    watch_groups = build_watch_groups(all_by_site, {})
+    with open("data/watch.html", "w", encoding="utf-8") as f:
+        f.write(notifier.build_watch(watch_groups, names, day))
+
+    inventory_total = sum(len(v) for v in all_by_site.values())
+    watch_total = sum(len(g["items"]) for g in watch_groups)
+
+    # サマリはフォロー件数のみ更新(新着件数は当日の通常実行の値を残す)
+    import json as _json
+    if os.path.exists("data/summary.json"):
+        try:
+            with open("data/summary.json", encoding="utf-8") as f:
+                summary = _json.load(f)
+            summary["watch_total"] = watch_total
+            with open("data/summary.json", "w", encoding="utf-8") as f:
+                _json.dump(summary, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
+
+    write_home(watch_groups=watch_groups, names=names,
+               inventory_total=inventory_total, n_sites=len(all_by_site))
+
+    for g in watch_groups:
+        print(f"フォロー[{g['label']}]: {len(g['items'])}件")
+    print(f"\nフォロー合計: {watch_total}件 (在庫 {inventory_total}件)")
+    if errors:
+        print(f"取得失敗サイト: {', '.join(errors)}")
+    print("data/watch.html と data/index.html を更新しました(新着・履歴は変更なし)")
     return 0
 
 
@@ -448,5 +505,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--send", action="store_true", help="HTML生成に加えてメール送信も行う(SMTP環境変数が必要)")
     ap.add_argument("--force-all", action="store_true", help="差分でなく現在の全件を出力")
+    ap.add_argument("--watch-only", action="store_true",
+                    help="フォローページ(watch.html/index.html)だけを今日の在庫で作り直す")
     args = ap.parse_args()
+    if args.watch_only:
+        sys.exit(run_watch_only())
     sys.exit(run(send=args.send, force_all=args.force_all))

@@ -25,9 +25,34 @@ core/
   storage.py   スナップショット差分(新着判定)
   mailer.py    画像のインライン埋め込み＋SMTP送信
 main.py        統合ランナー
+watchlist.json フォロー(監視キーワード)設定
 .github/workflows/daily.yml  1日1回の自動実行
 data/          スナップショット(state.json)・メールアーカイブ
 ```
+
+## フォロー(監視キーワード)
+
+`watchlist.json` にラベルとキーワードを書くと、全サイトの在庫を横断して該当品を
+`data/watch.html`(フォロー中ページ)に集約します。`exclude` に書いた語を含むものは除外。
+判定は メーカー/型番/名称/仕様 を連結した文字列への部分一致(大文字小文字は無視)です。
+
+```json
+{ "label": "段差計(触針式プロファイラ)",
+  "keywords": ["段差計", "dektak", "アルファステップ"],
+  "exclude":  ["attenuator"] }
+```
+
+現在のフォロー: レーザー顕微鏡 / 段差計(触針式プロファイラ) /
+ベクトルネットワークアナライザ / バイポーラ電源
+
+`watchlist.json` を編集したら、翌日の自動実行を待たずに当日の在庫へ反映できます:
+
+```bash
+python3 main.py --watch-only   # watch.html と index.html だけ作り直す
+```
+
+新着(`latest.html`・`archive/`)・スナップショット・履歴には触れません。差分判定を
+行わないため、この再生成では「本日新着」バッジは付きません(翌日の通常実行で戻ります)。
 
 ## 実行
 
