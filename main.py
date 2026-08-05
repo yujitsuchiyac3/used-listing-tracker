@@ -32,6 +32,8 @@ from scrapers.startechnology import StarTechnologyScraper
 from scrapers.sokuno import SokunoScraper
 from scrapers.ehi import EhiScraper
 from scrapers.zai import ZaiScraper
+from scrapers.caeonline import CaeOnlineScraper
+from scrapers.sokuteikimarket import SokuteikiMarketScraper
 
 from core import notifier, storage
 
@@ -50,6 +52,8 @@ def _site_jobs():
     sokuno = SokunoScraper()
     ehi = EhiScraper()
     zai = ZaiScraper()
+    cae = CaeOnlineScraper()
+    sokuteiki = SokuteikiMarketScraper()
     return [
         (orutika, lambda: orutika.fetch_listings(enrich=False), orutika._enrich_detail),
         (askindex, askindex.fetch_listings, None),
@@ -63,6 +67,8 @@ def _site_jobs():
         (sokuno, sokuno.fetch_listings, None),
         (ehi, ehi.fetch_listings, None),
         (zai, zai.fetch_listings, None),
+        (cae, cae.fetch_listings, None),
+        (sokuteiki, sokuteiki.fetch_listings, None),
     ]
 
 
@@ -255,6 +261,8 @@ SITE_ORDER = [
     "速納.com(TechEyes)",
     "EHI(中古科学機器)",
     "ZAI(理化学リユース)",
+    "CAE Online",
+    "測定器市場",
 ]
 
 
@@ -397,9 +405,17 @@ def build_watch_groups(all_by_site, new_by_site):
         label = w.get("label", "")
         kws = [k.lower() for k in w.get("keywords", []) if k]
         excludes = [k.lower() for k in w.get("exclude", []) if k]
+        # sites: 指定があればそのサイトだけ / exclude_sites: 指定サイトを除く。
+        # (CAE Online のような「機種カタログ」型サイトは1メーカーで数百件出るため)
+        only_sites = set(w.get("sites", []))
+        skip_sites = set(w.get("exclude_sites", []))
         matched = []
         seen = set()
         for site, items in all_by_site.items():
+            if only_sites and site not in only_sites:
+                continue
+            if site in skip_sites:
+                continue
             for it in items:
                 hay = " ".join([it.maker, it.model, it.name, it.spec]).lower()
                 if any(k in hay for k in kws) and not any(x in hay for x in excludes):
