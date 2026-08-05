@@ -56,6 +56,18 @@ python3 main.py --watch-only   # watch.html と index.html だけ作り直す
 新着(`latest.html`・`archive/`)・スナップショット・履歴には触れません。差分判定を
 行わないため、この再生成では「本日新着」バッジは付きません(翌日の通常実行で戻ります)。
 
+### フォローの増分通知
+
+`tools/watch_report.py` が `data/watch.html` を前回コミット時点と突き合わせ、
+新しく載った品だけをテキストで出力します。増分が無ければ無出力・終了コード1
+(=通知不要)。定期通知ジョブから呼ぶ想定です。
+
+```bash
+git pull origin main
+python3 tools/watch_report.py        # 増分のみ(無ければ何も出ない)
+python3 tools/watch_report.py --all  # 現在のフォロー該当を全件
+```
+
 ## 実行
 
 ```bash
