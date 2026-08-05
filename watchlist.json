@@ -63,5 +63,31 @@
     "exclude": [
       "トランジスタ", "transistor", "バイポーラプレート", "バイポーラ電極"
     ]
+  },
+  {
+    "label": "ロックインアンプ",
+    "keywords": [
+      "ロックイン", "ロックインアンプ", "lock-in", "lockin", "lock in amplifier",
+      "位相検波", "位相敏感検波",
+      "sr510", "sr530", "sr810", "sr830", "sr844", "sr850", "sr860", "sr865",
+      "li5640", "li5645", "li5650", "li5655", "li5660", "5610b",
+      "signal recovery", "eg&g", "princeton applied",
+      "zurich instruments", "hf2li", "mfli", "uhfli"
+    ],
+    "exclude": []
+  },
+  {
+    "label": "温度コントローラ・クライオ",
+    "keywords": [
+      "温度コントローラ", "温度コントローラー", "温度制御装置", "temperature controller",
+      "lakeshore", "lake shore", "レイクショア",
+      "クライオ", "cryo", "極低温", "希釈冷凍", "gm冷凍", "パルス管冷凍",
+      "パルスチューブ", "cryocooler", "クライオクーラー",
+      "ヘリウム", "液体窒素", "液体ヘリウム", "デュワー", "dewar", "寒剤"
+    ],
+    "exclude": [
+      "チラー", "循環液温調", "恒温槽", "冷凍機油", "冷凍機オイル",
+      "冷却トラップ", "サーキュレーター"
+    ]
   }
 ]
