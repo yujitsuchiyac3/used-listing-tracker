@@ -89,5 +89,19 @@
       "チラー", "循環液温調", "恒温槽", "冷凍機油", "冷凍機オイル",
       "冷却トラップ", "サーキュレーター"
     ]
+  },
+  {
+    "label": "プローブステーション",
+    "keywords": [
+      "プローブステーション", "プローブ・ステーション", "probe station", "probestation",
+      "プローバ", "プローバー", "prober",
+      "ウェハプローバ", "ウエハプローバ", "ウェーハプローバ",
+      "プローブポジショナ", "micromanipulator",
+      "cascade microtech", "formfactor", "signatone", "suss microtec",
+      "vector semiconductor", "uf200", "uf3000", "eps150", "summit 12000"
+    ],
+    "exclude": [
+      "オシロスコープ用プローブ", "プローブ用電源", "電圧プローブ", "電流プローブ"
+    ]
   }
 ]
