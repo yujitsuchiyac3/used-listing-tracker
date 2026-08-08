@@ -31,8 +31,7 @@
     "exclude": [
       "attenuator", "アッテネータ", "減衰器",
       "粗さ標準片", "標準粗さ"
-    ],
-    "exclude_sites": ["caeonline"]
+    ]
   },
   {
     "label": "ベクトルネットワークアナライザ",
@@ -75,8 +74,7 @@
       "signal recovery", "eg&g", "princeton applied",
       "zurich instruments", "hf2li", "mfli", "uhfli"
     ],
-    "exclude": [],
-    "exclude_sites": ["caeonline"]
+    "exclude": []
   },
   {
     "label": "温度コントローラ・クライオスタット",
@@ -89,8 +87,7 @@
     "exclude": [
       "冷凍機", "cryocooler", "クライオクーラー", "チラー", "循環液温調", "恒温槽",
       "冷却トラップ", "サーキュレーター"
-    ],
-    "exclude_sites": ["caeonline"]
+    ]
   },
   {
     "label": "プローブステーション",
@@ -104,8 +101,7 @@
     ],
     "exclude": [
       "オシロスコープ用プローブ", "プローブ用電源", "電圧プローブ", "電流プローブ"
-    ],
-    "exclude_sites": ["caeonline"]
+    ]
   },
   {
     "label": "低温プローブステーション(最優先)",
@@ -116,16 +112,6 @@
       "冷却チャック", "低温チャック", "温調チャック", "クライオチャック",
       "crx-4k", "crx-vf", "crx-em", "crx-6.5k", "lakeshore crx",
       "janis", "ジャニス", "montana instruments", "mmr technologies", "attocube"
-    ],
-    "exclude": []
-  },
-  {
-    "label": "【参考】CAE Online(海外ブローカー・価格/掲載日なし)",
-    "sites": ["caeonline"],
-    "keywords": [
-      "dektak", "surfcorder", "surfcom", "surftest",
-      "talysurf", "talystep", "taylor hobson", "alpha-step", "alphastep",
-      "cryo", "cryostat", "lakeshore", "princeton applied", "signal recovery"
     ],
     "exclude": []
   }

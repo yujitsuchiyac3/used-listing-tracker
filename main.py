@@ -32,7 +32,6 @@ from scrapers.startechnology import StarTechnologyScraper
 from scrapers.sokuno import SokunoScraper
 from scrapers.ehi import EhiScraper
 from scrapers.zai import ZaiScraper
-from scrapers.caeonline import CaeOnlineScraper
 from scrapers.sokuteikimarket import SokuteikiMarketScraper
 
 from core import notifier, storage
@@ -52,7 +51,6 @@ def _site_jobs():
     sokuno = SokunoScraper()
     ehi = EhiScraper()
     zai = ZaiScraper()
-    cae = CaeOnlineScraper()
     sokuteiki = SokuteikiMarketScraper()
     return [
         (orutika, lambda: orutika.fetch_listings(enrich=False), orutika._enrich_detail),
@@ -67,7 +65,6 @@ def _site_jobs():
         (sokuno, sokuno.fetch_listings, None),
         (ehi, ehi.fetch_listings, None),
         (zai, zai.fetch_listings, None),
-        (cae, cae.fetch_listings, None),
         (sokuteiki, sokuteiki.fetch_listings, None),
     ]
 
@@ -261,7 +258,6 @@ SITE_ORDER = [
     "速納.com(TechEyes)",
     "EHI(中古科学機器)",
     "ZAI(理化学リユース)",
-    "CAE Online",
     "測定器市場",
 ]
 
