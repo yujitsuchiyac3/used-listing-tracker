@@ -42,6 +42,10 @@ class OrixRentecScraper(Scraper):
     name = "オリックス・レンテック 中古機器販売リスト"
     base_url = "https://catalog.orixrentec.jp/measuring_instrument_used/"
 
+    def __init__(self, request_interval: float = 1.0):
+        super().__init__(request_interval=request_interval)
+        self._pdf_text_cache = {}
+
     def fetch_listings(self) -> List[Listing]:
         detail_url = self._resolve_detail_url()
         pdf_links = self._extract_pdf_links(detail_url)
@@ -49,6 +53,11 @@ class OrixRentecScraper(Scraper):
         for url, label in pdf_links:
             try:
                 listings.append(self._build_listing(url, label))
+            except Exception:
+                continue
+            # PDF 本文の表から1機種ずつ取り出す(フォロー判定を効かせるため)
+            try:
+                listings.extend(self._parse_items(url, label))
             except Exception:
                 continue
         return listings
@@ -125,16 +134,132 @@ class OrixRentecScraper(Scraper):
         m2 = re.search(r"（(電気|通信|分析)）", label)
         return m2.group(1) if m2 else "計測器"
 
+    # -- PDF本文 → 機種ごとの Listing ------------------------------------
+    #
+    # 表の1行は「資産名称 メーカー名 型番 型番コード 保証 販売価格 メーカー定価」。
+    # PDFのテキスト抽出では列が途中で改行され、メーカー名や型番が
+    # 「エヌエフ回路設 / 計ブロック HSA42052 …」のように分断されるので、
+    # 行を空白なしで連結しながら、行末が「型番コード＋保証＋価格2つ」に
+    # なった時点で1行ぶんとして確定する。
+    ROW_RE = re.compile(
+        r"(?P<code>\d{8})\s+(?P<warranty>なし|\d+\s*[かカヶケヵ]?月)\s+"
+        r"(?P<price>[\d,]{3,15})\s+(?P<list>[\d,]{3,15})\s*$"
+    )
+    MODEL_TAIL_RE = re.compile(r"([A-Za-z0-9][A-Za-z0-9\-/\.\+]*)\s*$")
+    MAKERS = (
+        "エヌエフ回路設計ブロック", "菊水電子工業", "計測技術研究所",
+        "キーサイト・テクノロジー", "キーサイトテクノロジー", "キーサイト",
+        "テクシオ・テクノロジー", "テクシオ", "アドバンテスト", "アンリツ",
+        "横河計測", "横河電機", "日置電機", "岩崎通信機", "小野測器",
+        "ローデ・シュワルツ", "テクトロニクス", "共立電気計器", "チノー",
+        "日本電計", "東陽テクニカ", "エヌエフ回路設計",
+        "エーディーシー", "日本テクトロニクス", "ソニーテクトロニクス",
+        "日新パルス電子", "松定プレシジョン", "計測技術研究",
+    )
+    # 表以外(見出し・注記・ページフッタ)の行。名称に混ざるので捨てる。
+    SKIP_MARKS = (
+        "オリックス・レンテック（株）", "中古機器販売リスト", "有効期限",
+        "資産名称", "販売価格", "■", "※", "お客さまのニーズ",
+    )
+
+    def _parse_items(self, url: str, label: str) -> List[Listing]:
+        text = self._read_pdf_text(url)
+        if not text:
+            return []
+        category = self._category(url, label)
+        m_ed = re.search(r"(\d{4}年\d{1,2}月号)", text)
+        edition = m_ed.group(1) if m_ed else ""
+
+        items: List[Listing] = []
+        seen = set()
+        buf = ""
+        for raw in text.split("\n"):
+            line = raw.strip()
+            if not line:
+                continue
+            # ページ見出し・注記の行はバッファに混ぜない(名称に紛れ込むため)
+            if any(mark in line for mark in self.SKIP_MARKS):
+                buf = ""
+                continue
+            buf += line
+            m = self.ROW_RE.search(buf)
+            if not m:
+                if len(buf) > 240:       # 表以外の説明文が溜まり続けないように
+                    buf = line
+                continue
+            item = self._build_item(buf[: m.start()], m, url, category, edition)
+            buf = ""
+            if item and item.uid not in seen:
+                seen.add(item.uid)
+                items.append(item)
+        return items
+
+    def _build_item(self, head: str, m, url: str, category: str,
+                    edition: str) -> Optional[Listing]:
+        head = head.strip()
+        mm = self.MODEL_TAIL_RE.search(head)
+        if not mm:
+            return None
+        model = mm.group(1)
+        rest = head[: mm.start(1)].strip()
+
+        maker = ""
+        for cand in self.MAKERS:
+            if cand in rest:
+                maker = cand
+                rest = rest.replace(cand, " ").strip()
+                break
+        name = re.sub(r"\s+", " ", rest)
+
+        price_value = int(m.group("price").replace(",", ""))
+        list_price = m.group("list")
+        spec_parts = [f"{category} 中古機器販売リスト"]
+        if edition:
+            spec_parts.append(edition)
+        spec_parts.append(f"メーカー定価 {list_price}円")
+        spec_parts.append(f"型番コード {m.group('code')}")
+
+        return Listing(
+            site=self.site,
+            uid=f"item:{m.group('code')}",
+            url=url,
+            maker=maker,
+            model=model,
+            name=name,
+            spec=" ・ ".join(spec_parts),
+            price=f"{price_value:,}円(税別)",
+            price_value=price_value,
+            condition=f"保証 {m.group('warranty')}",
+            listed_date=edition,
+            image_url="",
+        )
+
+    def _read_pdf_text(self, url: str) -> str:
+        """PDF 全文テキスト。1回の巡回内でキャッシュする。"""
+        if not _HAS_PYPDF:
+            return ""
+        if url in self._pdf_text_cache:
+            return self._pdf_text_cache[url]
+        text = ""
+        try:
+            import io
+            data = self.get(url).content
+            reader = PdfReader(io.BytesIO(data))
+            text = "\n".join((p.extract_text() or "") for p in reader.pages)
+        except Exception:
+            text = ""
+        self._pdf_text_cache[url] = text
+        return text
+
     def _read_pdf_meta(self, url: str):
         """PDF を開いて (版, 有効期限, 機種数) を返す。失敗時 None。"""
         if not _HAS_PYPDF:
             return None
         try:
-            import io
-            data = self.get(url).content
-            reader = PdfReader(io.BytesIO(data))
-            head = reader.pages[0].extract_text() or ""
-            full = "\n".join((p.extract_text() or "") for p in reader.pages)
+            full = self._read_pdf_text(url)
+            if not full:
+                return None
+            head = full.split("\n\n")[0][:2000] or full[:2000]
             m_ed = re.search(r"(\d{4}年\d{1,2}月号)", head)
             m_exp = re.search(r"有効期限[：:]\s*([\d年月日/]+)", head)
             n = len(re.findall(r"型番コード", full)) or None
