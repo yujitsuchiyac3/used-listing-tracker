@@ -115,6 +115,20 @@
     ]
   },
   {
+    "label": "卓上XRD(X線回折装置)",
+    "keywords": [
+      "x線回折", "Ｘ線回折", "xrd", "diffractometer", "diffraction",
+      "miniflex", "ミニフレックス",
+      "d2 phaser", "d2phaser", "aeris", "empyrean", "x'pert",
+      "smartlab", "ultima iv", "ultima-iv",
+      "rint2", "rint-2", "rint 2", "rint-1", "rint1"
+    ],
+    "exclude": [
+      "回折格子", "grating", "粒度", "レーザー回折", "レーザ回折",
+      "蛍光x線", "蛍光Ｘ線"
+    ]
+  },
+  {
     "label": "低温プローブステーション(最優先)",
     "keywords": [
       "低温プローブ", "低温プローバ", "極低温プローブ", "極低温プローバ",
