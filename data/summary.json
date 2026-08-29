@@ -1,23 +1,24 @@
 {
-  "date": "2026-08-28",
-  "weekday": "金",
-  "total": 9,
-  "inventory_total": 2078,
-  "watch_total": 44,
+  "date": "2026-08-29",
+  "weekday": "土",
+  "total": 1,
+  "inventory_total": 2023,
+  "watch_total": 42,
   "per_site": {
     "オルティカ (OrutiKA)": 0,
-    "アスカインデックス": 3,
+    "アスカインデックス": 0,
     "Hitech & Facility": 0,
     "オリックス・レンテック 中古機器販売リスト": 0,
-    "中古市場(チューコイチ)": 0,
     "計測器ランド リセール": 0,
     "タナカ・トレーディング": 1,
-    "中古研究機器.com": 1,
-    "スターテクノロジー": 2,
-    "速納.com(TechEyes)": 2,
+    "スターテクノロジー": 0,
+    "速納.com(TechEyes)": 0,
     "EHI(中古科学機器)": 0,
     "ZAI(理化学リユース)": 0,
     "測定器市場": 0
   },
-  "errors": []
+  "errors": [
+    "chukoichi",
+    "usedlab"
+  ]
 }
