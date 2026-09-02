@@ -57,7 +57,7 @@ def _site_jobs():
         (askindex, askindex.fetch_listings, None),
         (hitech, hitech.fetch_listings, None),
         (orix, orix.fetch_listings, None),
-        (chukoichi, chukoichi.fetch_listings, None),
+        (chukoichi, lambda: chukoichi.fetch_listings(enrich=False), chukoichi._enrich_detail),
         (keisokuki, keisokuki.fetch_listings, None),
         (tanaka, tanaka.fetch_listings, None),
         (usedlab, lambda: usedlab.fetch_listings(enrich=False), usedlab._enrich_detail),
