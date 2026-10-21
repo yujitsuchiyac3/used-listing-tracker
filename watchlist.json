@@ -141,5 +141,21 @@
       "rf power", "高周波電力",
       "ロボット", "モータードライバー", "ランプ電源"
     ]
+  },
+  {
+    "label": "AFM(原子間力顕微鏡/SPM)",
+    "keywords": [
+      "afm", "原子間力", "atomic force",
+      "走査型プローブ顕微鏡", "走査プローブ顕微鏡", "プローブ顕微鏡", "scanning probe",
+      "spm-9", "spm9", "wet-spm",
+      "spa-300", "spa-400", "spa-500", "spa-550", "spi3800", "spi4000",
+      "nanonavi", "nanocute",
+      "nanoscope", "multimode 8", "dimension icon", "dimension edge",
+      "dimension fastscan", "dimension 3100", "bioscope",
+      "park systems", "パークシステムズ", "park nx", "park xe",
+      "asylum", "mfp-3d", "cypher", "nanowizard", "nt-mdt", "ntegra prima",
+      "nanosurf", "easyscan", "5600ls", "kpfm"
+    ],
+    "exclude": []
   }
 ]
