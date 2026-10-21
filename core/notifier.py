@@ -74,6 +74,14 @@ a:hover{text-decoration:underline}
 .sec .cnt{background:var(--accent-weak);color:var(--accent);border-radius:999px;
   padding:1px 10px;font-size:12px;font-weight:700}
 .sec .rule{flex:1;height:1px;background:var(--line)}
+.sec[id]{scroll-margin-top:72px}
+.jump{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.jump a{background:var(--card);border:1px solid var(--line);border-radius:999px;
+  padding:3px 10px;font-size:12.5px;color:var(--ink)}
+.jump a:hover{border-color:var(--accent);text-decoration:none}
+.jump .n{color:var(--accent);font-weight:700;margin-left:4px}
+.jump .z{color:var(--sub)}
+.jump .nw{color:var(--price);font-weight:700;margin-left:4px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
 .card{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);
   border-radius:12px;padding:10px;transition:box-shadow .15s,transform .15s}
@@ -285,14 +293,25 @@ def build_watch(groups, site_names, day: date) -> str:
 
     if not groups:
         out.append('<div class="empty">フォロー登録がありません。</div>')
-    for g in groups:
+    else:
+        # 各フォローへのジャンプリンク(件数つき)
+        links = []
+        for i, g in enumerate(groups):
+            n = len(g["items"])
+            n_new = sum(1 for it in g["items"] if it.key() in g["new_keys"])
+            nw = f'<span class="nw">NEW {n_new}</span>' if n_new else ''
+            cls = '' if n else ' class="z"'
+            links.append(f'<a href="#w{i}"{cls}>{e(g["label"])}'
+                         f'<span class="n">{n}件</span>{nw}</a>')
+        out.append('<nav class="jump">' + "".join(links) + '</nav>')
+    for i, g in enumerate(groups):
         items = g["items"]
         new_keys = g["new_keys"]
         # 新着を先頭に
         items = sorted(items, key=lambda it: (it.key() not in new_keys))
         n_new = sum(1 for it in items if it.key() in new_keys)
         cnt = f'{len(items)}' + (f' / NEW {n_new}' if n_new else '')
-        out.append('<div class="sec">'
+        out.append(f'<div class="sec" id="w{i}">'
                    f'<h2>★ {e(g["label"])}</h2>'
                    f'<span class="cnt">{cnt}</span><span class="rule"></span></div>')
         if not items:

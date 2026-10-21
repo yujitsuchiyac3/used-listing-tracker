@@ -35,16 +35,22 @@ class StarTechnologyScraper(Scraper):
     name = "スターテクノロジー"
     base_url = "https://startechnology.jp"
 
-    def __init__(self, categories=None, pages_per_cat: int = 2,
-                 request_interval: float = 1.0):
+    def __init__(self, categories=None, pages_per_cat: Optional[int] = None,
+                 new_pages_per_cat: int = 2, request_interval: float = 1.0):
+        """pages_per_cat=None で各カテゴリを全ページ巡回(フォロー・全在庫用)。
+        新着判定は各カテゴリの新しい順の先頭 new_pages_per_cat ページだけで行う。"""
         super().__init__(request_interval=request_interval)
         self.categories = list(categories) if categories else list(CATEGORIES)
         self.pages_per_cat = pages_per_cat
+        self.new_pages_per_cat = new_pages_per_cat
 
     def fetch_listings(self) -> List[Listing]:
         by_uid = {}
+        self.new_window_uids = set()
         for cat in self.categories:
-            for page in range(1, self.pages_per_cat + 1):
+            page = 1
+            seen_cat = set()
+            while self.pages_per_cat is None or page <= self.pages_per_cat:
                 params = {"category_id": cat, "orderby": "date", "pageno": page}
                 soup = self.get_soup(LIST_URL, params=params)
                 items = self._parse_list_page(soup)
@@ -52,11 +58,15 @@ class StarTechnologyScraper(Scraper):
                     break
                 added = 0
                 for it in items:
-                    if it.uid not in by_uid:
-                        by_uid[it.uid] = it
+                    if it.uid not in seen_cat:
+                        seen_cat.add(it.uid)
                         added += 1
-                if added == 0:      # このカテゴリはこれ以上新しいものが無い
+                    by_uid.setdefault(it.uid, it)
+                    if page <= self.new_pages_per_cat:
+                        self.new_window_uids.add(it.uid)
+                if added == 0:      # このカテゴリはこれ以上ページが無い
                     break
+                page += 1
         return list(by_uid.values())
 
     def _parse_list_page(self, soup: BeautifulSoup) -> List[Listing]:

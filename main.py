@@ -110,7 +110,12 @@ def run(send: bool = False, force_all: bool = False) -> int:
         if force_all:
             new_items = listings
         else:
-            new_items = storage.diff_new(prev_state, site, listings)
+            # 全在庫を巡回するサイトは、新しい順の先頭ページだけを新着判定に使う
+            # (巡回範囲を広げた初日に過去在庫が新着扱いになるのを防ぐ)
+            window = scraper.new_window_uids
+            candidates = (listings if window is None
+                          else [it for it in listings if it.uid in window])
+            new_items = storage.diff_new(prev_state, site, candidates)
 
         # 新着のみ詳細補完
         if enrich:

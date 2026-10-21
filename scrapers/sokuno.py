@@ -22,13 +22,19 @@ class SokunoScraper(Scraper):
     name = "速納.com(TechEyes)"
     base_url = "https://www.techeyes-sokuno.com"
 
-    def __init__(self, max_pages: int = 4, request_interval: float = 1.0):
+    def __init__(self, max_pages: Optional[int] = None, new_pages: int = 4,
+                 request_interval: float = 1.0):
+        """max_pages=None で全ページ巡回(フォロー・全在庫用)。
+        新着判定は新しい順の先頭 new_pages ページだけで行う。"""
         super().__init__(request_interval=request_interval)
         self.max_pages = max_pages
+        self.new_pages = new_pages
 
     def fetch_listings(self) -> List[Listing]:
         by_uid = {}
-        for page in range(1, self.max_pages + 1):
+        self.new_window_uids = set()
+        page = 1
+        while self.max_pages is None or page <= self.max_pages:
             url = f"{CHU_ALL}/page{page}/"
             soup = self.get_soup(url)
             items = self._parse_list_page(soup)
@@ -39,8 +45,11 @@ class SokunoScraper(Scraper):
                 if it.uid not in by_uid:
                     by_uid[it.uid] = it
                     added += 1
+                if page <= self.new_pages:
+                    self.new_window_uids.add(it.uid)
             if added == 0:
                 break
+            page += 1
         return list(by_uid.values())
 
     def _parse_list_page(self, soup: BeautifulSoup) -> List[Listing]:

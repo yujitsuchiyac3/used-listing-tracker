@@ -57,6 +57,9 @@ class Scraper:
 
     def __init__(self, request_interval: float = 1.0):
         self.request_interval = request_interval
+        # 全在庫を巡回するサイトで、新着判定に使う範囲(新しい順の先頭ページ)の uid。
+        # None なら fetch_listings() の結果すべてを新着判定に使う。
+        self.new_window_uids = None
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": USER_AGENT})
 
