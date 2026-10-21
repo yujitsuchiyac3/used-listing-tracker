@@ -49,7 +49,8 @@
       "vectorstar", "shockline", "copper mountain", "s5048", "s7530"
     ],
     "exclude": [
-      "プロトコルアナライザ", "lanアナライザ", "パケット", "ethernet アナライザ"
+      "プロトコルアナライザ", "lanアナライザ", "パケット", "ethernet アナライザ",
+      "scalar network", "スカラネットワーク", "スカラーネットワーク"
     ]
   },
   {
@@ -75,7 +76,7 @@
       "signal recovery", "eg&g", "princeton applied",
       "zurich instruments", "hf2li", "mfli", "uhfli"
     ],
-    "exclude": []
+    "exclude": ["blocking"]
   },
   {
     "label": "クライオスタット・温度コントローラ(Lakeshore系)",
