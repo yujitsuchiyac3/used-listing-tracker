@@ -1,0 +1,42 @@
+name: pages
+
+# data/ を GitHub Pages で公開する。
+# 日次ジョブの push は GITHUB_TOKEN 由来で push トリガーが発火しないため、
+# workflow_run で日次ジョブの完了後にも走らせる。
+on:
+  push:
+    branches: [main]
+    paths: ["data/**"]
+  workflow_run:
+    workflows: [daily-listing-html]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: data
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

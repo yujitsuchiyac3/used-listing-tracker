@@ -119,14 +119,21 @@ python3 main.py --send       # 上記に加えてメール送信も行う(任意
 | `data/archive/YYYY-MM-DD.html` | 日付別アーカイブ |
 | `data/index.html` | 最新版＋アーカイブへのリンク一覧 |
 
-## 閲覧(GitHub上のHTMLをプレビュー)
+## 閲覧(GitHub Pages)
 
-GitHub はHTMLをソース表示するため、`raw.githack.com` 経由でレンダリング表示します:
+`data/` を GitHub Pages で公開しています(`.github/workflows/pages.yml`)。
+日次ジョブの完了後と、`data/` を main に push したときに再公開されます。
 
 ```
-https://raw.githack.com/yujitsuchiyac3/used-listing-tracker/main/data/index.html
-https://raw.githack.com/yujitsuchiyac3/used-listing-tracker/main/data/latest.html
+https://yujitsuchiyac3.github.io/used-listing-tracker/
+https://yujitsuchiyac3.github.io/used-listing-tracker/watch.html
 ```
+
+初回のみ、リポジトリの Settings → Pages → Build and deployment → Source を
+「GitHub Actions」にする必要があります。
+
+`raw.githack.com` 経由でも表示できますが、main を指す URL はキャッシュで
+更新が遅れることがあります。
 
 ## 自動実行
 
