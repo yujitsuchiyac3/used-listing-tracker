@@ -104,8 +104,16 @@ def run(send: bool = False, force_all: bool = False) -> int:
             continue
 
         all_by_site[site] = listings
-        # 今回分でスナップショット更新(初回はベースライン化)
-        new_state[site] = storage.build_state_for_site(listings)
+        # 今回分でスナップショット更新(初回はベースライン化)。
+        # 一部しか取れなかった日は前回分に足すだけにし、翌日に全件が戻ったとき
+        # 過去在庫が新着扱いになるのを防ぐ。
+        cur_state = storage.build_state_for_site(listings)
+        if scraper.partial and site in prev_state:
+            print(f"[WARN] {site}: 一部のみ取得({len(listings)}件)。スナップショットは前回分を保持",
+                  file=sys.stderr)
+            new_state[site] = {**prev_state[site], **cur_state}
+        else:
+            new_state[site] = cur_state
 
         if force_all:
             new_items = listings

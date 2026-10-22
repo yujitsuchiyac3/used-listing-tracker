@@ -60,6 +60,8 @@ class Scraper:
         # 全在庫を巡回するサイトで、新着判定に使う範囲(新しい順の先頭ページ)の uid。
         # None なら fetch_listings() の結果すべてを新着判定に使う。
         self.new_window_uids = None
+        # 一部しか取れなかった(フォールバック等)ときに True。スナップショットを上書きしない。
+        self.partial = False
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": USER_AGENT})
 

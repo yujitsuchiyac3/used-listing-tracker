@@ -28,6 +28,7 @@ class KeisokukiScraper(Scraper):
     def fetch_listings(self, max_pages: int = 30) -> List[Listing]:
         import time as _t
         by_uid = {}
+        self.partial = False
         try:
             for page in range(1, max_pages + 1):
                 data = {"PAGE": page, "Type": "01", "Search": "",
@@ -49,6 +50,8 @@ class KeisokukiScraper(Scraper):
         except Exception:
             # POST一覧API(t01)が一時的に503等になる場合があるため、
             # 通常のGET一覧(1ページ目=新着40件相当)にフォールバックする。
+            # どちらの場合も全件ではないので、スナップショットは上書きしない。
+            self.partial = True
             if not by_uid:
                 soup = BeautifulSoup(self.get(self.LIST_GET_URL).content, "lxml")
                 for it in self._parse_list_page(soup):
