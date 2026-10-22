@@ -433,7 +433,30 @@ def build_watch_groups(all_by_site, new_by_site):
                         matched.append(it)
         groups.append({"label": label, "items": matched,
                        "new_keys": {k for k in new_keys}})
+    _record_watch_seen(groups)
     return groups
+
+
+def _record_watch_seen(groups) -> None:
+    """フォローに初めて載った日を data/watch_seen.json に記録し、各グループに付ける。
+
+    初回(ファイルが無いとき)は日付別アーカイブから遡って埋める。アーカイブに
+    無い品は記録開始前から在庫にあったものとして日付を空にする。
+    """
+    today = datetime.date.today().isoformat()
+    seen = storage.load_watch_seen()
+    first_run = not seen
+    archived = storage.archive_first_dates() if first_run else {}
+    for g in groups:
+        for it in g["items"]:
+            k = it.key()
+            if k not in seen:
+                if first_run and k not in g["new_keys"]:
+                    seen[k] = archived.get(it.url, "")
+                else:
+                    seen[k] = today
+        g["first_seen"] = {it.key(): seen[it.key()] for it in g["items"]}
+    storage.save_watch_seen(seen)
 
 
 def _archive_rows_html(limit=None) -> str:

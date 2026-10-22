@@ -46,3 +46,41 @@ def diff_new(prev: Dict[str, Dict[str, str]], site: str,
 
 def build_state_for_site(listings: List[Listing]) -> Dict[str, str]:
     return {it.uid: it.fingerprint() for it in listings}
+
+
+# ---- フォロー該当品の「初めて見つけた日」 ------------------------------------
+
+WATCH_SEEN_PATH = "data/watch_seen.json"
+
+
+def load_watch_seen(path: str = WATCH_SEEN_PATH) -> Dict[str, str]:
+    """{Listing.key(): "YYYY-MM-DD"}。日付が空文字の品は記録開始前から在庫にあったもの。"""
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def save_watch_seen(seen: Dict[str, str], path: str = WATCH_SEEN_PATH) -> None:
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(seen, f, ensure_ascii=False, indent=1, sort_keys=True)
+
+
+def archive_first_dates(archive_dir: str = "data/archive") -> Dict[str, str]:
+    """日付別アーカイブ(新着ページ)に載った商品URL → 最初に載った日付。
+    watch_seen.json を初めて作るときの遡り用。"""
+    import glob
+    import html as _html
+    import re
+    first: Dict[str, str] = {}
+    for path in sorted(glob.glob(os.path.join(archive_dir, "*.html"))):
+        day = os.path.splitext(os.path.basename(path))[0]
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        for url in re.findall(r'href="(https?://[^"]+)"', text):
+            first.setdefault(_html.unescape(url), day)
+    return first

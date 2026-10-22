@@ -276,7 +276,27 @@ def build_html(new_by_site, site_names, day: date, *, kind: str = "new",
 
 # ---- フォロー中(監視対象)ページ -------------------------------------------
 
-def _watch_card(it: Listing, site_names, is_new: bool) -> str:
+def _seen_label(d: str) -> str:
+    """"2026-10-21" -> "10/21 発見"。空(記録開始前から在庫)なら空文字。"""
+    if not d:
+        return ""
+    y, m, dd = d.split("-")
+    return f"{int(m)}/{int(dd)} 発見"
+
+
+def _by_first_seen(items, first_seen, new_keys):
+    """本日新着 → 見つけた日が新しい順 → 記録開始前から在庫、の順に並べる。"""
+    return sorted(items, key=lambda it: (it.key() not in new_keys,
+                                         not first_seen.get(it.key()),
+                                         _neg(first_seen.get(it.key(), ""))))
+
+
+def _neg(d: str) -> str:
+    # 日付文字列の降順ソート用(数字を 9 の補数にする)
+    return "".join(chr(ord("9") - ord(c) + ord("0")) if c.isdigit() else c for c in d)
+
+
+def _watch_card(it: Listing, site_names, is_new: bool, seen: str = "") -> str:
     e = html.escape
     is_pdf = it.site == "orix"
     if it.image_url:
@@ -297,8 +317,9 @@ def _watch_card(it: Listing, site_names, is_new: bool) -> str:
     if it.name and it.name != it.model:
         parts.append(f'<div class="nm">{e(it.name)}</div>')
     parts.append(_price_html(it))
-    if it.condition:
-        parts.append(f'<div class="chip">{e(it.condition[:60])}</div>')
+    chips = [x for x in (it.condition[:60], _seen_label(seen)) if x]
+    if chips:
+        parts.append("".join(f'<span class="chip">{e(x)}</span> ' for x in chips))
     parts.append("</div></div>")
     return "".join(parts)
 
@@ -333,8 +354,8 @@ def build_watch(groups, site_names, day: date) -> str:
     for i, g in enumerate(groups):
         items = g["items"]
         new_keys = g["new_keys"]
-        # 新着を先頭に
-        items = sorted(items, key=lambda it: (it.key() not in new_keys))
+        first_seen = g.get("first_seen", {})
+        items = _by_first_seen(items, first_seen, new_keys)
         n_new = sum(1 for it in items if it.key() in new_keys)
         cnt = f'{len(items)}' + (f' / NEW {n_new}' if n_new else '')
         out.append(f'<div class="sec" id="w{i}">'
@@ -345,7 +366,8 @@ def build_watch(groups, site_names, day: date) -> str:
                        '見つかり次第ここに表示されます。</div>')
             continue
         out.append('<div class="grid">')
-        out.extend(_watch_card(it, site_names, it.key() in new_keys) for it in items)
+        out.extend(_watch_card(it, site_names, it.key() in new_keys,
+                               first_seen.get(it.key(), "")) for it in items)
         out.append("</div>")
 
     out.append(page_foot())
@@ -413,14 +435,23 @@ def build_home(day: date, *, new_by_site=None, watch_groups=None,
     if watch_groups:
         badge = (f'<span class="cnt">{watch_total}'
                  + (f' / NEW {watch_new}' if watch_new else '') + '</span>')
-        out.append(f'<div class="sec"><h2>★ フォロー中</h2>{badge}<span class="rule"></span></div>')
+        out.append(f'<div class="sec"><h2>★ フォロー中(最近見つけた順)</h2>{badge}'
+                   '<span class="rule"></span></div>')
         new_keys = set()
+        first_seen = {}
+        picks, seen_keys = [], set()
         for g in watch_groups:
             new_keys |= g.get("new_keys", set())
-        picks = [it for g in watch_groups for it in g["items"]]
+            first_seen.update(g.get("first_seen", {}))
+            for it in g["items"]:
+                if it.key() not in seen_keys:   # 複数フォローに該当する品は1回だけ
+                    seen_keys.add(it.key())
+                    picks.append(it)
+        picks = _by_first_seen(picks, first_seen, new_keys)
         if picks:
             out.append('<div class="grid">')
-            out.extend(_watch_card(it, site_names, it.key() in new_keys) for it in picks[:6])
+            out.extend(_watch_card(it, site_names, it.key() in new_keys,
+                                   first_seen.get(it.key(), "")) for it in picks[:6])
             out.append('</div>')
             out.append('<a class="more" href="watch.html">フォロー一覧へ →</a>')
         else:
