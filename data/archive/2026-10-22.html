@@ -1,0 +1,148 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>最新の新着 — 中古計測器トラッカー</title>
+<style>
+:root{
+  --bg:#f4f6f9; --card:#ffffff; --ink:#1a2230; --sub:#6b7684; --line:#e3e8ef;
+  --accent:#2b6cb0; --accent-weak:#eaf1fb; --price:#c05621; --chip:#eef2f7;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#11151b; --card:#1a2029; --ink:#e6eaf0; --sub:#9aa5b3; --line:#2a323d;
+    --accent:#6ba7e6; --accent-weak:#1e2a3a; --price:#f0a878; --chip:#232b36; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;line-height:1.6;
+  -webkit-font-smoothing:antialiased;}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
+.top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
+  margin:0 -16px 20px;padding:14px 16px;z-index:5}
+.top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
+.brand:hover{text-decoration:none}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
+.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
+.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
+.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
+.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
+.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
+.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
+.brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
+.nav{margin-left:auto;display:flex;gap:6px}
+.nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
+.nav a.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
+.hero{padding:8px 0 4px}
+.hero h1{margin:0;font-size:22px}
+.hero .meta{color:var(--sub);font-size:13px;margin-top:4px}
+.pill{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;
+  padding:2px 12px;font-size:13px;font-weight:700}
+.empty{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:28px;text-align:center;color:var(--sub)}
+.sec{margin:26px 0 10px;display:flex;align-items:center;gap:10px}
+.sec h2{margin:0;font-size:16px}
+.sec .cnt{background:var(--accent-weak);color:var(--accent);border-radius:999px;
+  padding:1px 10px;font-size:12px;font-weight:700}
+.sec .rule{flex:1;height:1px;background:var(--line)}
+.sec[id]{scroll-margin-top:72px}
+.jump{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.jump a{background:var(--card);border:1px solid var(--line);border-radius:999px;
+  padding:3px 10px;font-size:12.5px;color:var(--ink)}
+.jump a:hover{border-color:var(--accent);text-decoration:none}
+.jump .n{color:var(--accent);font-weight:700;margin-left:4px}
+.jump .z{color:var(--sub)}
+.jump .nw{color:var(--price);font-weight:700;margin-left:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.card{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:10px;transition:box-shadow .15s,transform .15s}
+.card:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px)}
+.thumb{width:96px;height:96px;flex:0 0 96px;border-radius:8px;overflow:hidden;
+  background:var(--chip);display:flex;align-items:center;justify-content:center}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb.ph{color:var(--sub);font-size:11px}
+.body{min-width:0;flex:1}
+.maker{color:var(--sub);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.model{font-weight:700;font-size:15px;margin:1px 0 2px;word-break:break-word}
+.nm{font-size:12.5px;color:var(--ink);opacity:.85;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.price{color:var(--price);font-weight:700;font-size:16px;margin-top:4px}
+.chip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
+  padding:1px 7px;font-size:11px;margin-top:5px}
+.pdf .thumb{background:var(--accent-weak);color:var(--accent);font-size:28px}
+.sitechip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
+  padding:0 6px;font-size:10px;margin-right:4px;vertical-align:middle}
+.newbadge{display:inline-block;background:var(--price);color:#fff;border-radius:6px;
+  padding:0 6px;font-size:10px;font-weight:700;margin-right:4px;vertical-align:middle}
+.card.isnew{border-color:var(--price);box-shadow:0 0 0 1px var(--price) inset}
+table.tb{border-collapse:collapse;width:100%;background:var(--card);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
+table.tb th{background:var(--accent-weak);color:var(--ink);font-weight:700}
+table.tb tr:last-child td{border-bottom:none}
+.hot{background:var(--accent-weak);font-weight:700}
+.muted{color:var(--sub)}
+.foot{margin-top:34px;color:var(--sub);font-size:11px;text-align:center}
+.scroll{overflow-x:auto}
+</style>
+</head><body>
+<div class="top"><div class="top-in">
+<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
+<span class="nav">
+<a class="" href="index.html">ホーム</a>
+<a class=" on" href="latest.html">新着</a>
+<a class="" href="watch.html">フォロー</a>
+<a class="" href="catalog.html">全在庫</a>
+<a class="" href="trends.html">傾向</a>
+</span></div></div>
+<div class="wrap">
+
+<div class="hero">
+<h1>最新の新着 <span class="pill">24件</span></h1>
+<div class="meta">2026年10月22日 ・ 5サイトで新着</div>
+</div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">7</span><span class="rule"></span></div>
+<div class="grid">
+<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=QA0024"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0024/IMG_0035.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=QA0024">ND-1S</a></div><div class="nm">デシケーター(オートドライ)</div><div class="price">お問合せください</div></div></div>
+<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=QA0025"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0025/IMG_0046.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=QA0025">BG GD-BG1K</a></div><div class="nm">デシケータ(ガス置換可)</div><div class="price">¥30,800</div></div></div>
+<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=QA0026"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0026/IMG_0056.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=QA0026">BG GD-BG1K</a></div><div class="nm">デシケータ(ガス置換可)</div><div class="price">¥30,800</div></div></div>
+<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=QA0027"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0027/IMG_0065.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=QA0027">BG GD-BG1K</a></div><div class="nm">デシケータ(ガス置換可)</div><div class="price">¥30,800</div></div></div>
+<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=QA0028"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0028/IMG_0074.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=QA0028">BG GD-BG1K</a></div><div class="nm">デシケータ(ガス置換可)</div><div class="price">¥30,800</div></div></div>
+<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q93057"><img src="https://askindex.co.jp/stocks/uploads/Q9/Q93057/IMG_0252.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">大西測定</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q93057">石定盤</a></div><div class="nm">石定盤</div><div class="price">¥16,500</div></div></div>
+<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q93058"><img src="https://askindex.co.jp/stocks/uploads/Q9/Q93058/IMG_0257.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ユニセイキ</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q93058">石定盤</a></div><div class="nm">石定盤</div><div class="price">¥11,000</div></div></div>
+</div>
+<div class="sec"><h2>中古市場(チューコイチ)</h2><span class="cnt">9</span><span class="rule"></span></div>
+<div class="grid">
+<div class="card"><a class="thumb" href="https://www.chukoichi.com/item/10778"><img src="https://www.chukoichi.com/thumb/w400/ZZ261021001s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エリオニクス　Elionix</div><div class="model"><a href="https://www.chukoichi.com/item/10778">EIS-220</a></div><div class="nm">イオンシャワー成膜装置</div><div class="price">¥2,500,000</div><div class="chip">管理番号 ZZ261021001</div></div></div>
+<div class="card"><a class="thumb" href="https://www.chukoichi.com/item/10777"><img src="https://www.chukoichi.com/thumb/w400/b9442c14f416e5cb.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ライボルト　Leybold</div><div class="model"><a href="https://www.chukoichi.com/item/10777">TW 690 MS</a></div><div class="nm">ターボ分子ポンプ（TMP）</div><div class="price">お問い合わせください</div><div class="chip">管理番号 MS-26102108</div></div></div>
+<div class="card"><a class="thumb" href="https://www.chukoichi.com/item/10776"><img src="https://www.chukoichi.com/thumb/w400/82a760ace8b44e63.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">日本電子　Jeol</div><div class="model"><a href="https://www.chukoichi.com/item/10776">IB-19500CP</a></div><div class="nm">断面試料作製装置</div><div class="price">¥1,800,000</div><div class="chip">管理番号 MS-26102107</div></div></div>
+<div class="card"><a class="thumb" href="https://www.chukoichi.com/item/10775"><img src="https://www.chukoichi.com/thumb/w400/b6b51fe1b75312fe.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">日本電子　Jeol</div><div class="model"><a href="https://www.chukoichi.com/item/10775">JEC-3000FC</a></div><div class="nm">スーパーファインコーター</div><div class="price">お問い合わせください</div><div class="chip">管理番号 MS-26102106</div></div></div>
+<div class="card"><a class="thumb" href="https://www.chukoichi.com/item/10774"><img src="https://www.chukoichi.com/thumb/w400/297ac9e42e1bf077.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エイコー・エンジニアリング(真空装置)</div><div class="model"><a href="https://www.chukoichi.com/item/10774">IB-3</a></div><div class="nm">イオンコーター</div><div class="price">お問い合わせください</div><div class="chip">管理番号 MS-26102105</div></div></div>
+<div class="card"><a class="thumb" href="https://www.chukoichi.com/item/10773"><img src="https://www.chukoichi.com/thumb/w400/8c4294e41b7a5f36.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーエンス　Keyence</div><div class="model"><a href="https://www.chukoichi.com/item/10773">Keyence</a></div><div class="nm">レーザーマーカー</div><div class="price">お問い合わせください</div><div class="chip">管理番号 MS-26102104</div></div></div>
+<div class="card"><a class="thumb" href="https://www.chukoichi.com/item/10772"><img src="https://www.chukoichi.com/thumb/w400/e33aeb80f7a9f51c.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">バルザース　Balzers</div><div class="model"><a href="https://www.chukoichi.com/item/10772">HLT 160</a></div><div class="nm">ヘリウムリークディテクター</div><div class="price">お問い合わせください</div><div class="chip">管理番号 MS-26102103</div></div></div>
+<div class="card"><a class="thumb" href="https://www.chukoichi.com/item/10771"><img src="https://www.chukoichi.com/thumb/w400/ebda1ee8382e5de0.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Adixen</div><div class="model"><a href="https://www.chukoichi.com/item/10771">ASM 310</a></div><div class="nm">ヘリウムリークディテクター</div><div class="price">¥900,000</div><div class="chip">管理番号 MS-26102102</div></div></div>
+<div class="card"><a class="thumb" href="https://www.chukoichi.com/item/10770"><img src="https://www.chukoichi.com/thumb/w400/f7fdebc2a81d6c10.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">浜井産業　HAMAI</div><div class="model"><a href="https://www.chukoichi.com/item/10770">5BN</a></div><div class="nm">ラップ盤</div><div class="price">お問い合わせください</div><div class="chip">管理番号 MS-26102101</div></div></div>
+</div>
+<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">4</span><span class="rule"></span></div>
+<div class="grid">
+<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11156.html"><img src="https://img.3915.jp/img/13691-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">オリンパス</div><div class="model"><a href="https://www.3915.jp/hp01/11156.html">BX51</a></div><div class="nm">落射蛍光顕微鏡</div></div></div>
+<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11157.html"><img src="https://img.3915.jp/img/13662-1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">島津製作所</div><div class="model"><a href="https://www.3915.jp/hp01/11157.html">AGS-500NX＋TCE-N300-CE</a></div><div class="nm">オートグラフ＋恒温槽</div></div></div>
+<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11155.html"><img src="https://img.3915.jp/img/13668-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">島津製作所</div><div class="model"><a href="https://www.3915.jp/hp01/11155.html">AGS-500NX</a></div><div class="nm">卓上形精密万能試験機</div></div></div>
+<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11154.html"><img src="https://img.3915.jp/img/13721-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">アジレント</div><div class="model"><a href="https://www.3915.jp/hp01/11154.html">4150</a></div><div class="nm">全自動電気泳動システム</div></div></div>
+</div>
+<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">1</span><span class="rule"></span></div>
+<div class="grid">
+<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">スペクトラムアナライザ 9kHz-31.8GHz</div><div class="model"><a href="https://used-lab.com/news/u3771-%e3%82%b9%e3%83%9a%e3%82%af%e3%83%88%e3%83%a9%e3%83%a0%e3%83%bb%e3%82%a2%e3%83%8a%e3%83%a9%e3%82%a4%e3%82%b6%e3%80%819-khz%ef%bd%9e31-8-ghz-%e3%82%a2%e3%83%89%e3%83%90%e3%83%b3%e3%83%86%e3%82%b9/">U3771</a></div><div class="nm">U3771　スペクトラムアナライザ 9kHz-31.8GHz　アドバンテスト　220400078</div><div class="price">¥1,067,900</div><div class="chip">新着製品 / 保証:納品後 1か月間（消耗品・劣化は対象外）</div></div></div>
+</div>
+<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">3</span><span class="rule"></span></div>
+<div class="grid">
+<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000008157/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000081573_XbRv6Hk.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">横河計測</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000008157/ct-CHU_ALL/page4/order/">6ダイヤル形可変抵抗器</a></div><div class="nm">6ダイヤル形可変抵抗器　2793 01</div><div class="price">¥129,600</div><div class="chip">訳あり品 中古(再生品)</div></div></div>
+<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000008158/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000081583_cwcpsEf.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">菊水電子工業</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000008158/ct-CHU_ALL/page4/order/">交流電子負荷装置</a></div><div class="nm">交流電子負荷装置　PCZ1000A</div><div class="price">¥104,000</div><div class="chip">訳あり品 中古(再生品)</div></div></div>
+<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000008160/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000081603_joPOtc3.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">テクトロニクス</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000008160/ct-CHU_ALL/page4/order/">P6245</a></div><div class="nm">P6245　アクティブプローブ(1.5GHz)</div><div class="price">¥96,800</div><div class="chip">訳あり品 中古(再生品)</div></div></div>
+</div>
+<div class="foot">used-listing-tracker — 自動生成</div>
+</div></body></html>
