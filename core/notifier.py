@@ -22,6 +22,18 @@ def _yen(item: Listing) -> str:
     return item.price or ""
 
 
+def _price_html(item: Listing) -> str:
+    """価格が数値で出ている品だけ強調し、「お問い合わせください」等は控えめに出す。"""
+    y = _yen(item)
+    if not y:
+        return ""
+    if item.price_value is not None:
+        return f'<div class="price">{html.escape(y)}</div>'
+    if "問" in y:
+        y = "価格は問合せ"
+    return f'<div class="price ask">{html.escape(y)}</div>'
+
+
 # ---- 共通スタイル / ヘッダ / フッタ ----------------------------------------
 
 def page_css() -> str:
@@ -42,7 +54,7 @@ a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 .wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
 .top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
-  margin:0 -16px 20px;padding:14px 16px;z-index:5}
+  margin:0 0 20px;padding:14px 16px;z-index:5}
 .top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
 .brand:hover{text-decoration:none}
@@ -62,6 +74,12 @@ a:hover{text-decoration:underline}
 .nav{margin-left:auto;display:flex;gap:6px}
 .nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
 .nav a.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
+@media (max-width:600px){
+  .top{position:static;padding:10px 16px 8px}
+  .top-in{gap:6px}
+  .nav{margin-left:-12px;max-width:calc(100% + 12px);overflow-x:auto;white-space:nowrap}
+  .nav a{padding:6px 10px;flex:0 0 auto}
+}
 .hero{padding:8px 0 4px}
 .hero h1{margin:0;font-size:22px}
 .hero .meta{color:var(--sub);font-size:13px;margin-top:4px}
@@ -74,8 +92,13 @@ a:hover{text-decoration:underline}
 .sec .cnt{background:var(--accent-weak);color:var(--accent);border-radius:999px;
   padding:1px 10px;font-size:12px;font-weight:700}
 .sec .rule{flex:1;height:1px;background:var(--line)}
-.sec[id]{scroll-margin-top:72px}
-.jump{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 12px)}
+.jump{display:flex;flex-wrap:wrap;gap:6px;margin:14px -16px 4px;padding:8px 16px;
+  position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);border-bottom:1px solid var(--line)}
+@media (max-width:600px){
+  .jump{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap}
+  .jump a{flex:0 0 auto}
+}
 .jump a{background:var(--card);border:1px solid var(--line);border-radius:999px;
   padding:3px 10px;font-size:12.5px;color:var(--ink)}
 .jump a:hover{border-color:var(--accent);text-decoration:none}
@@ -96,6 +119,7 @@ a:hover{text-decoration:underline}
 .nm{font-size:12.5px;color:var(--ink);opacity:.85;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .price{color:var(--price);font-weight:700;font-size:16px;margin-top:4px}
+.price.ask{color:var(--sub);font-weight:400;font-size:12px}
 .chip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
   padding:1px 7px;font-size:11px;margin-top:5px}
 .pdf .thumb{background:var(--accent-weak);color:var(--accent);font-size:28px}
@@ -139,8 +163,14 @@ def page_head(title: str, subtitle: str = "", active: str = "") -> str:
 
 
 def page_foot() -> str:
+    # 固定表示するヘッダ/ジャンプリンクの高さを測り、見出しへのジャンプ位置に使う
+    script = ("<script>(function(){function f(){var r=document.documentElement.style,"
+              "t=document.querySelector('.top'),j=document.querySelector('.jump');"
+              "r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');"
+              "r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}"
+              "f();addEventListener('resize',f)})()</script>")
     return ('<div class="foot">used-listing-tracker — 自動生成</div>\n'
-            "</div></body></html>")
+            f"</div>{script}</body></html>")
 
 
 # ---- 件名 / テキスト --------------------------------------------------------
@@ -193,9 +223,7 @@ def _card(it: Listing) -> str:
     parts.append(f'<div class="model"><a href="{e(it.url)}">{e(it.model or it.name)}</a></div>')
     if it.name and it.name != it.model:
         parts.append(f'<div class="nm">{e(it.name)}</div>')
-    y = _yen(it)
-    if y:
-        parts.append(f'<div class="price">{e(y)}</div>')
+    parts.append(_price_html(it))
     if it.condition:
         parts.append(f'<div class="chip">{e(it.condition[:60])}</div>')
     parts.append("</div></div>")
@@ -268,9 +296,7 @@ def _watch_card(it: Listing, site_names, is_new: bool) -> str:
     parts.append(f'<div class="model"><a href="{e(it.url)}">{e(it.model or it.name)}</a></div>')
     if it.name and it.name != it.model:
         parts.append(f'<div class="nm">{e(it.name)}</div>')
-    y = _yen(it)
-    if y:
-        parts.append(f'<div class="price">{e(y)}</div>')
+    parts.append(_price_html(it))
     if it.condition:
         parts.append(f'<div class="chip">{e(it.condition[:60])}</div>')
     parts.append("</div></div>")
@@ -285,7 +311,7 @@ def build_watch(groups, site_names, day: date) -> str:
     out = [page_head("フォロー中 — 中古計測器トラッカー", active="watch")]
     out.append('<div class="hero">')
     out.append(f'<h1>★ フォロー中 <span class="pill">{total}件</span></h1>')
-    subtitle = f"{day:%Y年%m月%d日} 時点 ・ 12サイト横断"
+    subtitle = f"{day:%Y年%m月%d日} 時点 ・ {len(site_names)}サイト横断"
     if new_total:
         subtitle += f" ・ <span style=\"color:var(--price);font-weight:700;\">本日 新着{new_total}件</span>"
     out.append(f'<div class="meta">{subtitle}</div>')
