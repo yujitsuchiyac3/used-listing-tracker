@@ -3,159 +3,228 @@
 <title>最新の新着 — 中古計測器トラッカー</title>
 <style>
 :root{
-  --bg:#f4f6f9; --card:#ffffff; --ink:#1a2230; --sub:#6b7684; --line:#e3e8ef;
-  --accent:#2b6cb0; --accent-weak:#eaf1fb; --price:#c05621; --chip:#eef2f7;
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
 }
 @media (prefers-color-scheme:dark){
-  :root{ --bg:#11151b; --card:#1a2029; --ink:#e6eaf0; --sub:#9aa5b3; --line:#2a323d;
-    --accent:#6ba7e6; --accent-weak:#1e2a3a; --price:#f0a878; --chip:#232b36; }
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;line-height:1.6;
-  -webkit-font-smoothing:antialiased;}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
-.top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
-  margin:0 -16px 20px;padding:14px 16px;z-index:5}
-.top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
-.brand:hover{text-decoration:none}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
-.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
-.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
-.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
-.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
-.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
-.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
-.brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
-.nav{margin-left:auto;display:flex;gap:6px}
-.nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
-.nav a.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
-.hero{padding:8px 0 4px}
-.hero h1{margin:0;font-size:22px}
-.hero .meta{color:var(--sub);font-size:13px;margin-top:4px}
-.pill{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;
-  padding:2px 12px;font-size:13px;font-weight:700}
-.empty{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:28px;text-align:center;color:var(--sub)}
-.sec{margin:26px 0 10px;display:flex;align-items:center;gap:10px}
-.sec h2{margin:0;font-size:16px}
-.sec .cnt{background:var(--accent-weak);color:var(--accent);border-radius:999px;
-  padding:1px 10px;font-size:12px;font-weight:700}
-.sec .rule{flex:1;height:1px;background:var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.card{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);
-  border-radius:12px;padding:10px;transition:box-shadow .15s,transform .15s}
-.card:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px)}
-.thumb{width:96px;height:96px;flex:0 0 96px;border-radius:8px;overflow:hidden;
-  background:var(--chip);display:flex;align-items:center;justify-content:center}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.thumb.ph{color:var(--sub);font-size:11px}
-.body{min-width:0;flex:1}
-.maker{color:var(--sub);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.model{font-weight:700;font-size:15px;margin:1px 0 2px;word-break:break-word}
-.nm{font-size:12.5px;color:var(--ink);opacity:.85;
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero{flex-wrap:wrap}.hero > .meta{flex-basis:100%;margin-top:-10px}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.hero + .sec{margin-top:18px}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;padding:8px 0;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump + .sec{border-top:0;margin-top:22px}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.opened{display:none;position:absolute;right:0;top:0;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;padding:2px 8px}
+.pc.seen .opened{display:block}
+.pc.seen .ph img,.pc.seen .noimg{opacity:.55}
+.pc.seen .mdl{color:var(--sub)}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.price{color:var(--price);font-weight:700;font-size:16px;margin-top:4px}
-.chip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:1px 7px;font-size:11px;margin-top:5px}
-.pdf .thumb{background:var(--accent-weak);color:var(--accent);font-size:28px}
-.sitechip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:0 6px;font-size:10px;margin-right:4px;vertical-align:middle}
-.newbadge{display:inline-block;background:var(--price);color:#fff;border-radius:6px;
-  padding:0 6px;font-size:10px;font-weight:700;margin-right:4px;vertical-align:middle}
-.card.isnew{border-color:var(--price);box-shadow:0 0 0 1px var(--price) inset}
-table.tb{border-collapse:collapse;width:100%;background:var(--card);
-  border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
-table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
-table.tb th{background:var(--accent-weak);color:var(--ink);font-weight:700}
-table.tb tr:last-child td{border-bottom:none}
-.hot{background:var(--accent-weak);font-weight:700}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
 .muted{color:var(--sub)}
-.foot{margin-top:34px;color:var(--sub);font-size:11px;text-align:center}
 .scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
 </style>
 </head><body>
 <div class="top"><div class="top-in">
-<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
-<span class="nav">
-<a class="" href="index.html">ホーム</a>
-<a class=" on" href="latest.html">新着</a>
-<a class="" href="watch.html">フォロー</a>
-<a class="" href="catalog.html">全在庫</a>
-<a class="" href="trends.html">傾向</a>
-</span></div></div>
+<a class="brand" href="../index.html">中古計測器トラッカー</a>
+<nav class="nav">
+<a href="../index.html">ホーム</a>
+<a class="on" href="../latest.html">新着</a>
+<a href="../watch.html">フォロー</a>
+<a href="../catalog.html">全在庫</a>
+<a href="../trends.html">傾向</a>
+</nav></div></div>
 <div class="wrap">
 
-<div class="hero">
-<h1>最新の新着 <span class="pill">42件</span></h1>
-<div class="meta">2026年08月21日 ・ 6サイトで新着</div>
+<div class="hero"><div><h1>新着 42件</h1><div class="meta">2026年08月21日 ・ 6サイトで新着</div></div></div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">10件</span></div>
+<div class="g5">
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70668" target="_blank" rel="noopener" title="FCI-280G"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70668/IMG_0044.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">FCI-280G</div><div class="sub">アズワン インキュベーター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70669" target="_blank" rel="noopener" title="FCI-280G"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70669/IMG_0003.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">FCI-280G</div><div class="sub">アズワン インキュベーター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70670" target="_blank" rel="noopener" title="FCI-280G"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70670/IMG_0002.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">FCI-280G</div><div class="sub">アズワン インキュベーター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70671" target="_blank" rel="noopener" title="FCI-280G"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70671/IMG_0003.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">FCI-280G</div><div class="sub">アズワン インキュベーター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70672" target="_blank" rel="noopener" title="FCI-280G"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70672/IMG_0003.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">FCI-280G</div><div class="sub">アズワン インキュベーター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70673" target="_blank" rel="noopener" title="FCI-280G"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70673/IMG_0002.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">FCI-280G</div><div class="sub">アズワン インキュベーター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70674" target="_blank" rel="noopener" title="FCI-280G"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70674/IMG_0003.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">FCI-280G</div><div class="sub">アズワン インキュベーター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70675" target="_blank" rel="noopener" title="FCI-280G"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70675/IMG_0003.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">FCI-280G</div><div class="sub">アズワン インキュベーター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70676" target="_blank" rel="noopener" title="FCS-280"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70676/IMG_0042.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">FCS-280</div><div class="sub">アズワン インキュベーター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70677" target="_blank" rel="noopener" title="5000ml"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70677/IMG_0049.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">5000ml</div><div class="sub">SIMAX メディウム瓶</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>アスカインデックス</h2><span class="cnt">10</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70668"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70668/IMG_0044.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70668">FCI-280G</a></div><div class="nm">インキュベーター</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70669"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70669/IMG_0003.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70669">FCI-280G</a></div><div class="nm">インキュベーター</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70670"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70670/IMG_0002.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70670">FCI-280G</a></div><div class="nm">インキュベーター</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70671"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70671/IMG_0003.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70671">FCI-280G</a></div><div class="nm">インキュベーター</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70672"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70672/IMG_0003.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70672">FCI-280G</a></div><div class="nm">インキュベーター</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70673"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70673/IMG_0002.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70673">FCI-280G</a></div><div class="nm">インキュベーター</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70674"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70674/IMG_0003.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70674">FCI-280G</a></div><div class="nm">インキュベーター</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70675"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70675/IMG_0003.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70675">FCI-280G</a></div><div class="nm">インキュベーター</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70676"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70676/IMG_0042.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70676">FCS-280</a></div><div class="nm">インキュベーター</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q70677"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70677/IMG_0049.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">SIMAX</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q70677">5000ml</a></div><div class="nm">メディウム瓶</div><div class="price">お問合せください</div></div></div>
+<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">7件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.3915.jp/hp01/11105.html" target="_blank" rel="noopener" title="EDX-LE"><span class="ph"><img src="https://img.3915.jp/img/13564-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">EDX-LE</div><div class="sub">島津製作所</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11104.html" target="_blank" rel="noopener" title="CM-42X"><span class="ph"><img src="https://img.3915.jp/img/13590-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">CM-42X</div><div class="sub">東亜ディーケーケー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11103.html" target="_blank" rel="noopener" title="OCMA-505-H"><span class="ph"><img src="https://img.3915.jp/img/13596-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">OCMA-505-H</div><div class="sub">堀場製作所</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11102.html" target="_blank" rel="noopener" title="DO-32A"><span class="ph"><img src="https://img.3915.jp/img/13598-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">DO-32A</div><div class="sub">東亜ディーケーケー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11101.html" target="_blank" rel="noopener" title="HM-42X"><span class="ph"><img src="https://img.3915.jp/img/13587-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">HM-42X</div><div class="sub">東亜ディーケーケー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11100.html" target="_blank" rel="noopener" title="AUW220D"><span class="ph"><img src="https://img.3915.jp/img/13586-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AUW220D</div><div class="sub">島津製作所</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11099.html" target="_blank" rel="noopener" title="AUX220"><span class="ph"><img src="https://img.3915.jp/img/13558-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AUX220</div><div class="sub">島津製作所</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">7</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11105.html"><img src="https://img.3915.jp/img/13564-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">島津製作所</div><div class="model"><a href="https://www.3915.jp/hp01/11105.html">EDX-LE</a></div><div class="nm">エネルギー分散型蛍光X線分析装置(RoHS/ELVスクリーニング対応)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11104.html"><img src="https://img.3915.jp/img/13590-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">東亜ディーケーケー</div><div class="model"><a href="https://www.3915.jp/hp01/11104.html">CM-42X</a></div><div class="nm">電気伝導率計</div></div></div>
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11103.html"><img src="https://img.3915.jp/img/13596-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">堀場製作所</div><div class="model"><a href="https://www.3915.jp/hp01/11103.html">OCMA-505-H</a></div><div class="nm">油分濃度計</div></div></div>
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11102.html"><img src="https://img.3915.jp/img/13598-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">東亜ディーケーケー</div><div class="model"><a href="https://www.3915.jp/hp01/11102.html">DO-32A</a></div><div class="nm">低濃度ポータブル溶存酸素計</div></div></div>
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11101.html"><img src="https://img.3915.jp/img/13587-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">東亜ディーケーケー</div><div class="model"><a href="https://www.3915.jp/hp01/11101.html">HM-42X</a></div><div class="nm">pHメーター</div></div></div>
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11100.html"><img src="https://img.3915.jp/img/13586-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">島津製作所</div><div class="model"><a href="https://www.3915.jp/hp01/11100.html">AUW220D</a></div><div class="nm">分析天びん</div></div></div>
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11099.html"><img src="https://img.3915.jp/img/13558-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">島津製作所</div><div class="model"><a href="https://www.3915.jp/hp01/11099.html">AUX220</a></div><div class="nm">電子天びん</div></div></div>
+<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">19件</span></div>
+<div class="g5">
+<a class="pc" href="https://used-lab.com/news/hrs050-w-20%e6%b0%b4%e5%86%b7%e5%bc%8f-%e3%82%b5%e3%83%bc%e3%83%a2%e3%83%81%e3%83%a9%e3%83%bc-%e3%82%a8%e3%82%b9%e3%82%a8%e3%83%a0%e3%82%b7%e3%83%bc-aw1289/" target="_blank" rel="noopener" title="HRS050-W-20(水冷式)"><span class="ph"><span class="noimg"><b>HRS050-W-20(水冷式)</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">HRS050-W-20(水冷式)</div><div class="sub">HRS050-W-20(水冷式) サーモチラー エスエムシー AW1289/AX076/AX078/AR171/AR173</div><div class="row"><span class="pr">¥198,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/hrs050-a-20-b%e7%a9%ba%e5%86%b7%e5%bc%8f-%e3%82%b5%e3%83%bc%e3%83%a2%e3%83%81%e3%83%a9%e3%83%bc-%e3%82%a8%e3%82%b9%e3%82%a8%e3%83%a0%e3%82%b7%e3%83%bc-wx1016/" target="_blank" rel="noopener" title="HRS050-A-20-B(空冷式)"><span class="ph"><span class="noimg"><b>HRS050-A-20-B(空冷式)</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">HRS050-A-20-B(空冷式)</div><div class="sub">HRS050-A-20-B(空冷式) サーモチラー エスエムシー WX1016</div><div class="row"><span class="pr">¥198,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/gl2000%e3%80%80%e9%ab%98%e9%9b%bb%e5%9c%a7%e9%ab%98%e9%80%9f4%e3%83%81%e3%83%a3%e3%83%8d%e3%83%ab%e3%83%87%e3%83%bc%e3%82%bf%e3%83%ad%e3%82%ac%e3%83%bc511592%e3%80%80%e3%82%b0%e3%83%a9%e3%83%95/" target="_blank" rel="noopener" title="GL2000"><span class="ph"><span class="noimg"><b>GL2000</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GL2000</div><div class="sub">高電圧高速4チャネルデータロガー GL2000　高電圧高速4チャネルデータロガー(511592)　グラフテック　C807D0498</div><div class="row"><span class="pr">¥175,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/sj-412%e3%80%80%e5%b0%8f%e5%9e%8b%e8%a1%a8%e9%9d%a2%e7%b2%97%e3%81%95%e6%b8%ac%e5%ae%9a%e6%a9%9f%e3%80%80%e3%83%9f%e3%83%84%e3%83%88%e3%83%a8%e3%80%80000511409/" target="_blank" rel="noopener" title="SJ-412"><span class="ph"><span class="noimg"><b>SJ-412</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">SJ-412</div><div class="sub">小型表面粗さ測定機 SJ-412　小型表面粗さ測定機　ミツトヨ　000511409</div><div class="row"><span class="pr">¥400,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/gl900-8%e3%80%80%e3%83%9f%e3%83%87%e3%82%a3%e3%83%ad%e3%82%ac%e3%83%bc%e3%80%80%e3%82%b0%e3%83%a9%e3%83%95%e3%83%86%e3%83%83%e3%82%af%e3%80%80h60513614/" target="_blank" rel="noopener" title="GL900-8"><span class="ph"><span class="noimg"><b>GL900-8</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GL900-8</div><div class="sub">ミディロガー GL900-8　ミディロガー　グラフテック　H60513614</div><div class="row"><span class="pr">¥137,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/gl900-8%e3%80%80%e3%83%9f%e3%83%87%e3%82%a3%e3%83%ad%e3%82%ac%e3%83%bc%e3%80%80%e3%82%b0%e3%83%a9%e3%83%95%e3%83%86%e3%83%83%e3%82%af%e3%80%80h51113468/" target="_blank" rel="noopener" title="GL900-8"><span class="ph"><span class="noimg"><b>GL900-8</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GL900-8</div><div class="sub">ミディロガー GL900-8　ミディロガー　グラフテック　H51113468</div><div class="row"><span class="pr">¥137,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/2786-10%e3%80%80%e3%83%80%e3%82%a4%e3%83%a4%e3%83%ab%e5%bd%a2%e5%8f%af%e5%a4%89%e6%8a%b5%e6%8a%97%e5%99%a8%e3%80%80%e6%a8%aa%e6%b2%b3%e8%a8%88%e6%b8%ac%e3%80%8045vu0075/" target="_blank" rel="noopener" title="2786-10"><span class="ph"><span class="noimg"><b>2786-10</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">2786-10</div><div class="sub">ダイヤル形可変抵抗器 2786-10　ダイヤル形可変抵抗器　横河計測　45VU0075</div><div class="row"><span class="pr">¥132,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/aq2733%e3%80%80%e3%82%bb%e3%83%b3%e3%82%b5%ef%bc%88aq2140%e7%94%a8%ef%bc%89%e3%80%80%e5%ae%89%e8%97%a4%e9%9b%bb%e6%b0%97%e3%80%80s-n70534309/" target="_blank" rel="noopener" title="AQ2733"><span class="ph"><span class="noimg"><b>AQ2733</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AQ2733</div><div class="sub">センサ AQ2733　センサ（AQ2140用）　安藤電気　70534309</div><div class="row"><span class="pr">¥44,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/mso6104a%e3%80%80%e3%83%9f%e3%83%83%e3%82%af%e3%82%b9%e3%83%89%e3%83%bb%e3%82%b7%e3%82%b0%e3%83%8a%e3%83%ab%e3%83%bb%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97-1ghz%e3%80%80/" target="_blank" rel="noopener" title="MSO6104A"><span class="ph"><span class="noimg"><b>MSO6104A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">MSO6104A</div><div class="sub">ミックスド・シグナル・オシロスコープ 1GHz MSO6104A　ミックスド・シグナル・オシロスコープ 1GHz　キーサイト(AT)　MY44006036</div><div class="row"><span class="pr">¥770,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/8481a%e3%80%80%e3%83%91%e3%83%af%e3%83%bc%e3%83%bb%e3%82%bb%e3%83%b3%e3%82%b510mhz%ef%bd%9e18ghlz%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88hp%ef%bc%89%e3%80%803318a87654/" target="_blank" rel="noopener" title="8481A"><span class="ph"><span class="noimg"><b>8481A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8481A</div><div class="sub">パワー・センサ10MHz～18GHlz 8481A　パワー・センサ10MHz～18GHlz　キーサイト（HP）　3318A87654</div><div class="row"><span class="pr">¥55,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/8481a%e3%80%80%e3%83%91%e3%83%af%e3%83%bc%e3%83%bb%e3%82%bb%e3%83%b3%e3%82%b510mhz%ef%bd%9e18ghlz%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88hp%ef%bc%89%e3%80%803318a87611/" target="_blank" rel="noopener" title="8481A"><span class="ph"><span class="noimg"><b>8481A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8481A</div><div class="sub">パワー・センサ10MHz～18GHlz 8481A　パワー・センサ10MHz～18GHlz　キーサイト（HP）　3318A87611</div><div class="row"><span class="pr">¥55,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/e3646a%e3%80%80%e3%83%87%e3%83%a5%e3%82%a2%e3%83%ab%e5%87%ba%e5%8a%9b%e7%9b%b4%e6%b5%81%e5%ae%89%e5%ae%9a%e5%8c%96%e9%9b%bb%e6%ba%90%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88at/" target="_blank" rel="noopener" title="E3646A"><span class="ph"><span class="noimg"><b>E3646A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E3646A</div><div class="sub">デュアル出力直流安定化電源 E3646A　デュアル出力直流安定化電源　キーサイト（AT） MY40004036</div><div class="row"><span class="pr">¥88,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/34401a%e3%80%80%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%83%9e%e3%83%ab%e3%83%81%e3%83%a1%e3%83%bc%e3%82%bf%e3%80%806%e6%a1%811-2%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88hp/" target="_blank" rel="noopener" title="34401A"><span class="ph"><span class="noimg"><b>34401A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">34401A</div><div class="sub">デジタルマルチメータ 34401A　デジタルマルチメータ　6桁1/2　キーサイト（HP）　3146A41106/3146A51736</div><div class="row"><span class="pr">¥55,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/tds754d%e3%80%80%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%80%80%e3%83%86%e3%82%af%e3%83%88%e3%83%ad%e3%83%8b%e3%82%af%e3%82%b9%e3%80%80s-n/" target="_blank" rel="noopener" title="TDS754D"><span class="ph"><span class="noimg"><b>TDS754D</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TDS754D</div><div class="sub">デジタルオシロスコープ TDS754D　デジタルオシロスコープ　テクトロニクス　B041038</div><div class="row"><span class="pr">¥110,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/e3631a%e3%80%8080w%e3%80%80%e3%83%88%e3%83%aa%e3%83%97%e3%83%ab%e5%87%ba%e5%8a%9b%e9%9b%bb%e6%ba%90%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88hp%ef%bc%89kr70905863/" target="_blank" rel="noopener" title="E3631A"><span class="ph"><span class="noimg"><b>E3631A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E3631A</div><div class="sub">80W E3631A　80W　トリプル出力電源　キーサイト（HP）KR70905863</div><div class="row"><span class="pr">¥88,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/437b%e3%80%80rf%e3%83%91%e3%83%af%e3%83%bc%e3%83%a1%e3%83%bc%e3%82%bf%e3%83%bc%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88hp%ef%bc%89%e3%80%803125u06091/" target="_blank" rel="noopener" title="437B"><span class="ph"><span class="noimg"><b>437B</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">437B</div><div class="sub">RFパワーメーター 437B　RFパワーメーター　キーサイト（HP）　3125U06091</div><div class="row"><span class="pr">¥44,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/hx0500-30%e3%80%80%e5%ae%9a%e9%9b%bb%e5%9c%a7%e5%ae%9a%e9%9b%bb%e6%b5%81%e7%9b%b4%e6%b5%81%e9%9b%bb%e6%ba%90%e3%80%80%e9%ab%98%e7%a0%82%e8%a3%bd%e4%bd%9c%e6%89%80%e3%80%80405890110047/" target="_blank" rel="noopener" title="HX0500-30"><span class="ph"><span class="noimg"><b>HX0500-30</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">HX0500-30</div><div class="sub">定電圧定電流直流電源 HX0500-30　定電圧定電流直流電源　高砂製作所　405890110047</div><div class="row"><span class="pr">¥396,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/e4421b%e3%80%80%e3%82%a2%e3%83%8a%e3%83%ad%e3%82%b0%e5%a4%89%e8%aa%bf%e4%bf%a1%e5%8f%b7%e7%99%ba%e7%94%9f%e5%99%a8%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88at%ef%bc%89%e3%80%80my4/" target="_blank" rel="noopener" title="E4421B"><span class="ph"><span class="noimg"><b>E4421B</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E4421B</div><div class="sub">アナログ変調信号発生器 E4421B　アナログ変調信号発生器　キーサイト（AT）　MY43350796</div><div class="row"><span class="pr">¥200,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/mp1201c%e3%80%80%e8%aa%a4%e3%82%8a%e7%8e%87%e6%b8%ac%e5%ae%9a%e5%99%a8%e3%80%80%e3%82%a2%e3%83%b3%e3%83%aa%e3%83%84%e3%80%80m49744/" target="_blank" rel="noopener" title="MP1201C"><span class="ph"><span class="noimg"><b>MP1201C</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">MP1201C</div><div class="sub">誤り率測定器 MP1201C　誤り率測定器　アンリツ　M49744</div><div class="row"><span class="pr">¥55,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">19</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="model"><a href="https://used-lab.com/news/hrs050-w-20%e6%b0%b4%e5%86%b7%e5%bc%8f-%e3%82%b5%e3%83%bc%e3%83%a2%e3%83%81%e3%83%a9%e3%83%bc-%e3%82%a8%e3%82%b9%e3%82%a8%e3%83%a0%e3%82%b7%e3%83%bc-aw1289/">HRS050-W-20(水冷式)</a></div><div class="nm">HRS050-W-20(水冷式) サーモチラー エスエムシー AW1289/AX076/AX078/AR171/AR173</div><div class="price">¥198,000</div><div class="chip">新着製品 / 保証:納品後 2週間 (消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="model"><a href="https://used-lab.com/news/hrs050-a-20-b%e7%a9%ba%e5%86%b7%e5%bc%8f-%e3%82%b5%e3%83%bc%e3%83%a2%e3%83%81%e3%83%a9%e3%83%bc-%e3%82%a8%e3%82%b9%e3%82%a8%e3%83%a0%e3%82%b7%e3%83%bc-wx1016/">HRS050-A-20-B(空冷式)</a></div><div class="nm">HRS050-A-20-B(空冷式) サーモチラー エスエムシー WX1016</div><div class="price">¥198,000</div><div class="chip">新着製品 / 保証:納品後 2週間 (消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">高電圧高速4チャネルデータロガー</div><div class="model"><a href="https://used-lab.com/news/gl2000%e3%80%80%e9%ab%98%e9%9b%bb%e5%9c%a7%e9%ab%98%e9%80%9f4%e3%83%81%e3%83%a3%e3%83%8d%e3%83%ab%e3%83%87%e3%83%bc%e3%82%bf%e3%83%ad%e3%82%ac%e3%83%bc511592%e3%80%80%e3%82%b0%e3%83%a9%e3%83%95/">GL2000</a></div><div class="nm">GL2000　高電圧高速4チャネルデータロガー(511592)　グラフテック　C807D0498</div><div class="price">¥175,000</div><div class="chip">新着製品 / 保証:納品後  1か月間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">小型表面粗さ測定機</div><div class="model"><a href="https://used-lab.com/news/sj-412%e3%80%80%e5%b0%8f%e5%9e%8b%e8%a1%a8%e9%9d%a2%e7%b2%97%e3%81%95%e6%b8%ac%e5%ae%9a%e6%a9%9f%e3%80%80%e3%83%9f%e3%83%84%e3%83%88%e3%83%a8%e3%80%80000511409/">SJ-412</a></div><div class="nm">SJ-412　小型表面粗さ測定機　ミツトヨ　000511409</div><div class="price">¥400,000</div><div class="chip">新着製品 / 保証:納品後 1か月間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">ミディロガー</div><div class="model"><a href="https://used-lab.com/news/gl900-8%e3%80%80%e3%83%9f%e3%83%87%e3%82%a3%e3%83%ad%e3%82%ac%e3%83%bc%e3%80%80%e3%82%b0%e3%83%a9%e3%83%95%e3%83%86%e3%83%83%e3%82%af%e3%80%80h60513614/">GL900-8</a></div><div class="nm">GL900-8　ミディロガー　グラフテック　H60513614</div><div class="price">¥137,500</div><div class="chip">新着製品 / 保証:納品後 1か月間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">ミディロガー</div><div class="model"><a href="https://used-lab.com/news/gl900-8%e3%80%80%e3%83%9f%e3%83%87%e3%82%a3%e3%83%ad%e3%82%ac%e3%83%bc%e3%80%80%e3%82%b0%e3%83%a9%e3%83%95%e3%83%86%e3%83%83%e3%82%af%e3%80%80h51113468/">GL900-8</a></div><div class="nm">GL900-8　ミディロガー　グラフテック　H51113468</div><div class="price">¥137,500</div><div class="chip">新着製品 / 保証:納品後 1か月間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">ダイヤル形可変抵抗器</div><div class="model"><a href="https://used-lab.com/news/2786-10%e3%80%80%e3%83%80%e3%82%a4%e3%83%a4%e3%83%ab%e5%bd%a2%e5%8f%af%e5%a4%89%e6%8a%b5%e6%8a%97%e5%99%a8%e3%80%80%e6%a8%aa%e6%b2%b3%e8%a8%88%e6%b8%ac%e3%80%8045vu0075/">2786-10</a></div><div class="nm">2786-10　ダイヤル形可変抵抗器　横河計測　45VU0075</div><div class="price">¥132,000</div><div class="chip">新着製品 / 保証:納品後 1か月間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">センサ</div><div class="model"><a href="https://used-lab.com/news/aq2733%e3%80%80%e3%82%bb%e3%83%b3%e3%82%b5%ef%bc%88aq2140%e7%94%a8%ef%bc%89%e3%80%80%e5%ae%89%e8%97%a4%e9%9b%bb%e6%b0%97%e3%80%80s-n70534309/">AQ2733</a></div><div class="nm">AQ2733　センサ（AQ2140用）　安藤電気　70534309</div><div class="price">¥44,000</div><div class="chip">新着製品 / 保証:納品後 2週間 (消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">ミックスド・シグナル・オシロスコープ 1GHz</div><div class="model"><a href="https://used-lab.com/news/mso6104a%e3%80%80%e3%83%9f%e3%83%83%e3%82%af%e3%82%b9%e3%83%89%e3%83%bb%e3%82%b7%e3%82%b0%e3%83%8a%e3%83%ab%e3%83%bb%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97-1ghz%e3%80%80/">MSO6104A</a></div><div class="nm">MSO6104A　ミックスド・シグナル・オシロスコープ 1GHz　キーサイト(AT)　MY44006036</div><div class="price">¥770,000</div><div class="chip">新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">パワー・センサ10MHz～18GHlz</div><div class="model"><a href="https://used-lab.com/news/8481a%e3%80%80%e3%83%91%e3%83%af%e3%83%bc%e3%83%bb%e3%82%bb%e3%83%b3%e3%82%b510mhz%ef%bd%9e18ghlz%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88hp%ef%bc%89%e3%80%803318a87654/">8481A</a></div><div class="nm">8481A　パワー・センサ10MHz～18GHlz　キーサイト（HP）　3318A87654</div><div class="price">¥55,000</div><div class="chip">新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">パワー・センサ10MHz～18GHlz</div><div class="model"><a href="https://used-lab.com/news/8481a%e3%80%80%e3%83%91%e3%83%af%e3%83%bc%e3%83%bb%e3%82%bb%e3%83%b3%e3%82%b510mhz%ef%bd%9e18ghlz%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88hp%ef%bc%89%e3%80%803318a87611/">8481A</a></div><div class="nm">8481A　パワー・センサ10MHz～18GHlz　キーサイト（HP）　3318A87611</div><div class="price">¥55,000</div><div class="chip">新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">デュアル出力直流安定化電源</div><div class="model"><a href="https://used-lab.com/news/e3646a%e3%80%80%e3%83%87%e3%83%a5%e3%82%a2%e3%83%ab%e5%87%ba%e5%8a%9b%e7%9b%b4%e6%b5%81%e5%ae%89%e5%ae%9a%e5%8c%96%e9%9b%bb%e6%ba%90%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88at/">E3646A</a></div><div class="nm">E3646A　デュアル出力直流安定化電源　キーサイト（AT） MY40004036</div><div class="price">¥88,000</div><div class="chip">新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">デジタルマルチメータ</div><div class="model"><a href="https://used-lab.com/news/34401a%e3%80%80%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%83%9e%e3%83%ab%e3%83%81%e3%83%a1%e3%83%bc%e3%82%bf%e3%80%806%e6%a1%811-2%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88hp/">34401A</a></div><div class="nm">34401A　デジタルマルチメータ　6桁1/2　キーサイト（HP）　3146A41106/3146A51736</div><div class="price">¥55,000</div><div class="chip">新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">デジタルオシロスコープ</div><div class="model"><a href="https://used-lab.com/news/tds754d%e3%80%80%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%80%80%e3%83%86%e3%82%af%e3%83%88%e3%83%ad%e3%83%8b%e3%82%af%e3%82%b9%e3%80%80s-n/">TDS754D</a></div><div class="nm">TDS754D　デジタルオシロスコープ　テクトロニクス　B041038</div><div class="price">¥110,000</div><div class="chip">新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">80W</div><div class="model"><a href="https://used-lab.com/news/e3631a%e3%80%8080w%e3%80%80%e3%83%88%e3%83%aa%e3%83%97%e3%83%ab%e5%87%ba%e5%8a%9b%e9%9b%bb%e6%ba%90%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88hp%ef%bc%89kr70905863/">E3631A</a></div><div class="nm">E3631A　80W　トリプル出力電源　キーサイト（HP）KR70905863</div><div class="price">¥88,000</div><div class="chip">新着製品 / 保証:納品後 2週間 (消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">RFパワーメーター</div><div class="model"><a href="https://used-lab.com/news/437b%e3%80%80rf%e3%83%91%e3%83%af%e3%83%bc%e3%83%a1%e3%83%bc%e3%82%bf%e3%83%bc%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88hp%ef%bc%89%e3%80%803125u06091/">437B</a></div><div class="nm">437B　RFパワーメーター　キーサイト（HP）　3125U06091</div><div class="price">¥44,000</div><div class="chip">新着製品 / 保証:納品後 2週間 (消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">定電圧定電流直流電源</div><div class="model"><a href="https://used-lab.com/news/hx0500-30%e3%80%80%e5%ae%9a%e9%9b%bb%e5%9c%a7%e5%ae%9a%e9%9b%bb%e6%b5%81%e7%9b%b4%e6%b5%81%e9%9b%bb%e6%ba%90%e3%80%80%e9%ab%98%e7%a0%82%e8%a3%bd%e4%bd%9c%e6%89%80%e3%80%80405890110047/">HX0500-30</a></div><div class="nm">HX0500-30　定電圧定電流直流電源　高砂製作所　405890110047</div><div class="price">¥396,000</div><div class="chip">新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">アナログ変調信号発生器</div><div class="model"><a href="https://used-lab.com/news/e4421b%e3%80%80%e3%82%a2%e3%83%8a%e3%83%ad%e3%82%b0%e5%a4%89%e8%aa%bf%e4%bf%a1%e5%8f%b7%e7%99%ba%e7%94%9f%e5%99%a8%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%ef%bc%88at%ef%bc%89%e3%80%80my4/">E4421B</a></div><div class="nm">E4421B　アナログ変調信号発生器　キーサイト（AT）　MY43350796</div><div class="price">¥200,000</div><div class="chip">新着製品 / 保証:納品後 2週間 (消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">誤り率測定器</div><div class="model"><a href="https://used-lab.com/news/mp1201c%e3%80%80%e8%aa%a4%e3%82%8a%e7%8e%87%e6%b8%ac%e5%ae%9a%e5%99%a8%e3%80%80%e3%82%a2%e3%83%b3%e3%83%aa%e3%83%84%e3%80%80m49744/">MP1201C</a></div><div class="nm">MP1201C　誤り率測定器　アンリツ　M49744</div><div class="price">¥55,000</div><div class="chip">新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)</div></div></div>
+<div class="sec"><h2>スターテクノロジー</h2><span class="cnt">1件</span></div>
+<div class="g5">
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12303" target="_blank" rel="noopener" title="MSO22 2-BW-500"><span class="ph"><img src="https://startechnology.jp/img/pic/10167-03w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">MSO22 2-BW-500</div><div class="sub">Tektronix Mixed Signal Oscilloscopes, 500MHz,2ch,1.25GS/s</div><div class="row"><span class="pr">¥550,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>スターテクノロジー</h2><span class="cnt">1</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://startechnology.jp/products/detail.php?product_id=12303"><img src="https://startechnology.jp/img/pic/10167-03w_s.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Tektronix</div><div class="model"><a href="https://startechnology.jp/products/detail.php?product_id=12303">MSO22 2-BW-500</a></div><div class="nm">Mixed Signal Oscilloscopes, 500MHz,2ch,1.25GS/s</div><div class="price">¥550,000</div><div class="chip">中古</div></div></div>
+<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">2件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001279/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="TCA-1MEG"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000012793_9c0Xuxk.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TCA-1MEG</div><div class="sub">テクトロニクス TCA-1MEG　TCAハイインピーダンスバッファアンプ</div><div class="row"><span class="pr">¥81,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001283/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="電流プローブ(100MHz:30A)"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000012833_0xGRayq.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">電流プローブ(100MHz:30A)</div><div class="sub">横河計測 電流プローブ(100MHz:30A)　7019 32</div><div class="row"><span class="pr">¥105,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">2</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001279/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000012793_9c0Xuxk.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">テクトロニクス</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001279/ct-CHU_ALL/page4/order/">TCA-1MEG</a></div><div class="nm">TCA-1MEG　TCAハイインピーダンスバッファアンプ</div><div class="price">¥81,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001283/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000012833_0xGRayq.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">横河計測</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001283/ct-CHU_ALL/page4/order/">電流プローブ(100MHz:30A)</a></div><div class="nm">電流プローブ(100MHz:30A)　7019 32</div><div class="price">¥105,000</div><div class="chip">中古(再生品)</div></div></div>
-</div>
-<div class="sec"><h2>測定器市場</h2><span class="cnt">3</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">グラフテック</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011227.html">GL820</a></div><div class="nm">絶縁多チャンネルハンディロガー</div><div class="price">¥99,000</div><div class="chip">中古</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">フルーク</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011226.html">287 Si</a></div><div class="nm">デジタルマルチメータ</div><div class="price">¥55,000</div><div class="chip">中古</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">日置電機</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011228.html">PW3360-10 + 9661 ×3</a></div><div class="nm">クランプオンパワーロガー ＋ クランプオンセンサ</div><div class="price">¥143,000</div><div class="chip">中古</div></div></div>
+<div class="sec"><h2>測定器市場</h2><span class="cnt">3件</span></div>
+<div class="g5">
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011227.html" target="_blank" rel="noopener" title="GL820"><span class="ph"><span class="noimg"><b>GL820</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GL820</div><div class="sub">グラフテック 絶縁多チャンネルハンディロガー</div><div class="row"><span class="pr">¥99,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011226.html" target="_blank" rel="noopener" title="287 Si"><span class="ph"><span class="noimg"><b>287 Si</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">287 Si</div><div class="sub">フルーク デジタルマルチメータ</div><div class="row"><span class="pr">¥55,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011228.html" target="_blank" rel="noopener" title="PW3360-10 + 9661 ×3"><span class="ph"><span class="noimg"><b>PW3360-10 + 9661 ×3</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PW3360-10 + 9661 ×3</div><div class="sub">日置電機 クランプオンパワーロガー ＋ クランプオンセンサ</div><div class="row"><span class="pr">¥143,000</span><span class="sub"></span></div></div></a>
 </div>
 <div class="foot">used-listing-tracker — 自動生成</div>
-</div></body></html>
+</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})();
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+
+(function(){
+  var K='ult-opened', set={};
+  try{ (JSON.parse(localStorage.getItem(K)||'[]')).forEach(function(u){ set[u]=1; }); }catch(e){}
+  function mark(){ document.querySelectorAll('a.pc').forEach(function(a){
+    a.classList.toggle('seen', !!set[a.getAttribute('href')]); }); }
+  document.addEventListener('click', function(ev){
+    var a=ev.target.closest && ev.target.closest('a.pc'); if(!a) return;
+    var u=a.getAttribute('href'); set[u]=1;
+    try{ var l=Object.keys(set); if(l.length>3000) l=l.slice(-3000);
+         localStorage.setItem(K, JSON.stringify(l)); }catch(e){}
+    setTimeout(mark, 0);
+  }, true);
+  window.addEventListener('pageshow', mark);
+  mark();
+})();
+</script></body></html>

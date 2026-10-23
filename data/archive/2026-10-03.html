@@ -3,131 +3,200 @@
 <title>最新の新着 — 中古計測器トラッカー</title>
 <style>
 :root{
-  --bg:#f4f6f9; --card:#ffffff; --ink:#1a2230; --sub:#6b7684; --line:#e3e8ef;
-  --accent:#2b6cb0; --accent-weak:#eaf1fb; --price:#c05621; --chip:#eef2f7;
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
 }
 @media (prefers-color-scheme:dark){
-  :root{ --bg:#11151b; --card:#1a2029; --ink:#e6eaf0; --sub:#9aa5b3; --line:#2a323d;
-    --accent:#6ba7e6; --accent-weak:#1e2a3a; --price:#f0a878; --chip:#232b36; }
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;line-height:1.6;
-  -webkit-font-smoothing:antialiased;}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
-.top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
-  margin:0 -16px 20px;padding:14px 16px;z-index:5}
-.top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
-.brand:hover{text-decoration:none}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
-.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
-.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
-.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
-.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
-.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
-.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
-.brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
-.nav{margin-left:auto;display:flex;gap:6px}
-.nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
-.nav a.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
-.hero{padding:8px 0 4px}
-.hero h1{margin:0;font-size:22px}
-.hero .meta{color:var(--sub);font-size:13px;margin-top:4px}
-.pill{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;
-  padding:2px 12px;font-size:13px;font-weight:700}
-.empty{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:28px;text-align:center;color:var(--sub)}
-.sec{margin:26px 0 10px;display:flex;align-items:center;gap:10px}
-.sec h2{margin:0;font-size:16px}
-.sec .cnt{background:var(--accent-weak);color:var(--accent);border-radius:999px;
-  padding:1px 10px;font-size:12px;font-weight:700}
-.sec .rule{flex:1;height:1px;background:var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.card{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);
-  border-radius:12px;padding:10px;transition:box-shadow .15s,transform .15s}
-.card:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px)}
-.thumb{width:96px;height:96px;flex:0 0 96px;border-radius:8px;overflow:hidden;
-  background:var(--chip);display:flex;align-items:center;justify-content:center}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.thumb.ph{color:var(--sub);font-size:11px}
-.body{min-width:0;flex:1}
-.maker{color:var(--sub);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.model{font-weight:700;font-size:15px;margin:1px 0 2px;word-break:break-word}
-.nm{font-size:12.5px;color:var(--ink);opacity:.85;
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero{flex-wrap:wrap}.hero > .meta{flex-basis:100%;margin-top:-10px}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.hero + .sec{margin-top:18px}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;padding:8px 0;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump + .sec{border-top:0;margin-top:22px}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.opened{display:none;position:absolute;right:0;top:0;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;padding:2px 8px}
+.pc.seen .opened{display:block}
+.pc.seen .ph img,.pc.seen .noimg{opacity:.55}
+.pc.seen .mdl{color:var(--sub)}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.price{color:var(--price);font-weight:700;font-size:16px;margin-top:4px}
-.chip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:1px 7px;font-size:11px;margin-top:5px}
-.pdf .thumb{background:var(--accent-weak);color:var(--accent);font-size:28px}
-.sitechip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:0 6px;font-size:10px;margin-right:4px;vertical-align:middle}
-.newbadge{display:inline-block;background:var(--price);color:#fff;border-radius:6px;
-  padding:0 6px;font-size:10px;font-weight:700;margin-right:4px;vertical-align:middle}
-.card.isnew{border-color:var(--price);box-shadow:0 0 0 1px var(--price) inset}
-table.tb{border-collapse:collapse;width:100%;background:var(--card);
-  border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
-table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
-table.tb th{background:var(--accent-weak);color:var(--ink);font-weight:700}
-table.tb tr:last-child td{border-bottom:none}
-.hot{background:var(--accent-weak);font-weight:700}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
 .muted{color:var(--sub)}
-.foot{margin-top:34px;color:var(--sub);font-size:11px;text-align:center}
 .scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
 </style>
 </head><body>
 <div class="top"><div class="top-in">
-<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
-<span class="nav">
-<a class="" href="index.html">ホーム</a>
-<a class=" on" href="latest.html">新着</a>
-<a class="" href="watch.html">フォロー</a>
-<a class="" href="catalog.html">全在庫</a>
-<a class="" href="trends.html">傾向</a>
-</span></div></div>
+<a class="brand" href="../index.html">中古計測器トラッカー</a>
+<nav class="nav">
+<a href="../index.html">ホーム</a>
+<a class="on" href="../latest.html">新着</a>
+<a href="../watch.html">フォロー</a>
+<a href="../catalog.html">全在庫</a>
+<a href="../trends.html">傾向</a>
+</nav></div></div>
 <div class="wrap">
 
-<div class="hero">
-<h1>最新の新着 <span class="pill">17件</span></h1>
-<div class="meta">2026年10月03日 ・ 5サイトで新着</div>
+<div class="hero"><div><h1>新着 17件</h1><div class="meta">2026年10月03日 ・ 5サイトで新着</div></div></div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">11件</span></div>
+<div class="g5">
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80517" target="_blank" rel="noopener" title="EHS-212M"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80517/IMG_5818.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">EHS-212M</div><div class="sub">エスペック 高度加速寿命試験装置</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80523" target="_blank" rel="noopener" title="LA-150TX"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80523/IMG_5863.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">LA-150TX</div><div class="sub">林時計工業 コールドライト</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80336" target="_blank" rel="noopener" title="AM-129"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80336/IMG_0004.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AM-129</div><div class="sub">明立精機 除振台</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80337" target="_blank" rel="noopener" title="TDI-1510LAY-ZG"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80337/IMG_0010.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TDI-1510LAY-ZG</div><div class="sub">ヘルツ 防振台</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80338" target="_blank" rel="noopener" title="AMF-1809K1"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80338/IMG_0023.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AMF-1809K1</div><div class="sub">明立精機 光学防振台</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80339" target="_blank" rel="noopener" title="70-80-1209-M650"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80339/IMG_0028.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">70-80-1209-M650</div><div class="sub">倉敷化工 光学防振台</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80340" target="_blank" rel="noopener" title="HOA-189LAS"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80340/IMG_0035.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">HOA-189LAS</div><div class="sub">ヘルツ工業 光学防振台</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80341" target="_blank" rel="noopener" title="70-80-1209-M650"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80341/IMG_0043.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">70-80-1209-M650</div><div class="sub">倉敷化工 光学防振台</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80342" target="_blank" rel="noopener" title="GD-S"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80342/IMG_0057.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GD-S</div><div class="sub">アズワン デシケター(ガス置換可）</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80343" target="_blank" rel="noopener" title="GD-S"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80343/IMG_0057.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GD-S</div><div class="sub">アズワン デシケター(ガス置換可）</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80344" target="_blank" rel="noopener" title="デシケター(ガス置換可）"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80344/IMG_0067.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">デシケター(ガス置換可）</div><div class="sub">井内盛栄堂</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>アスカインデックス</h2><span class="cnt">11</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80517"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80517/IMG_5818.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エスペック</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80517">EHS-212M</a></div><div class="nm">高度加速寿命試験装置</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80523"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80523/IMG_5863.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">林時計工業</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80523">LA-150TX</a></div><div class="nm">コールドライト</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80336"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80336/IMG_0004.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">明立精機</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80336">AM-129</a></div><div class="nm">除振台</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80337"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80337/IMG_0010.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ヘルツ</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80337">TDI-1510LAY-ZG</a></div><div class="nm">防振台</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80338"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80338/IMG_0023.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">明立精機</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80338">AMF-1809K1</a></div><div class="nm">光学防振台</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80339"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80339/IMG_0028.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">倉敷化工</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80339">70-80-1209-M650</a></div><div class="nm">光学防振台</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80340"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80340/IMG_0035.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ヘルツ工業</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80340">HOA-189LAS</a></div><div class="nm">光学防振台</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80341"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80341/IMG_0043.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">倉敷化工</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80341">70-80-1209-M650</a></div><div class="nm">光学防振台</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80342"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80342/IMG_0057.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80342">GD-S</a></div><div class="nm">デシケター(ガス置換可）</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80343"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80343/IMG_0057.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80343">GD-S</a></div><div class="nm">デシケター(ガス置換可）</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80344"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80344/IMG_0067.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">井内盛栄堂</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80344">デシケター(ガス置換可）</a></div><div class="nm">デシケター(ガス置換可）</div><div class="price">お問合せください</div></div></div>
+<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">1件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.3915.jp/hp01/11134.html" target="_blank" rel="noopener" title="SU-662"><span class="ph"><img src="https://img.3915.jp/img/12202-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">SU-662</div><div class="sub">エスペック</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">1</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11134.html"><img src="https://img.3915.jp/img/12202-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">エスペック</div><div class="model"><a href="https://www.3915.jp/hp01/11134.html">SU-662</a></div><div class="nm">小型環境試験器</div></div></div>
+<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">2件</span></div>
+<div class="g5">
+<a class="pc" href="https://used-lab.com/news/dlm4058-d-hj-p8-c1-e1-%e6%a0%a1%e6%ad%a3%e6%b8%88%e3%81%bf%e3%80%80%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%80%80%e6%a8%aa%e6%b2%b3/" target="_blank" rel="noopener" title="DLM4058"><span class="ph"><span class="noimg"><b>DLM4058</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">DLM4058</div><div class="sub">デジタルオシロスコープ DLM4058 -D-HJ/P8/C1/E1 [校正済み]　デジタルオシロスコープ　横河計測　91U428892</div><div class="row"><span class="pr">¥990,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/mdo4104-3%e3%80%80%e3%83%9f%e3%83%83%e3%82%af%e3%82%b9%e3%83%89%e3%83%bb%e3%83%89%e3%83%a1%e3%82%a4%e3%83%b3%e3%83%bb%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%80%80%e3%83%86/" target="_blank" rel="noopener" title="MDO4104-3"><span class="ph"><span class="noimg"><b>MDO4104-3</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">MDO4104-3</div><div class="sub">ミックスド・ドメイン・オシロスコープ MDO4104-3　ミックスド・ドメイン・オシロスコープ　テクトロニクス　S/N:C010879</div><div class="row"><span class="pr">¥990,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">2</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">デジタルオシロスコープ</div><div class="model"><a href="https://used-lab.com/news/dlm4058-d-hj-p8-c1-e1-%e6%a0%a1%e6%ad%a3%e6%b8%88%e3%81%bf%e3%80%80%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%80%80%e6%a8%aa%e6%b2%b3/">DLM4058</a></div><div class="nm">DLM4058 -D-HJ/P8/C1/E1 [校正済み]　デジタルオシロスコープ　横河計測　91U428892</div><div class="price">¥990,000</div><div class="chip">新着製品 / 保証:納品後 1か月間（消耗品・劣化は対象外）</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">ミックスド・ドメイン・オシロスコープ</div><div class="model"><a href="https://used-lab.com/news/mdo4104-3%e3%80%80%e3%83%9f%e3%83%83%e3%82%af%e3%82%b9%e3%83%89%e3%83%bb%e3%83%89%e3%83%a1%e3%82%a4%e3%83%b3%e3%83%bb%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%80%80%e3%83%86/">MDO4104-3</a></div><div class="nm">MDO4104-3　ミックスド・ドメイン・オシロスコープ　テクトロニクス　S/N:C010879</div><div class="price">¥990,000</div><div class="chip">新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）</div></div></div>
+<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">1件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000003628/ct-CHU_ALL/page3/order/" target="_blank" rel="noopener" title="DLM3054-D-HJ/B5/P4/C1/C8"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000036283_UPOR3Ay.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">DLM3054-D-HJ/B5/P4/C1/C8</div><div class="sub">横河計測 DLM3054-D-HJ/B5/P4/C1/C8　ミックスドシグナルオシロスコープ</div><div class="row"><span class="pr">¥718,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">1</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000003628/ct-CHU_ALL/page3/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000036283_UPOR3Ay.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">横河計測</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000003628/ct-CHU_ALL/page3/order/">DLM3054-D-HJ/B5/P4/C1/C8</a></div><div class="nm">DLM3054-D-HJ/B5/P4/C1/C8　ミックスドシグナルオシロスコープ</div><div class="price">¥718,000</div><div class="chip">中古(再生品)</div></div></div>
-</div>
-<div class="sec"><h2>測定器市場</h2><span class="cnt">2</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">菊水電子工業</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011262.html">PWR400L</a></div><div class="nm">ワイドレンジ直流安定化電源</div><div class="price">¥55,000</div><div class="chip">中古</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">菊水電子工業</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011263.html">PWR400L</a></div><div class="nm">ワイドレンジ直流安定化電源</div><div class="price">¥55,000</div><div class="chip">中古</div></div></div>
+<div class="sec"><h2>測定器市場</h2><span class="cnt">2件</span></div>
+<div class="g5">
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011262.html" target="_blank" rel="noopener" title="PWR400L"><span class="ph"><span class="noimg"><b>PWR400L</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PWR400L</div><div class="sub">菊水電子工業 ワイドレンジ直流安定化電源</div><div class="row"><span class="pr">¥55,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011263.html" target="_blank" rel="noopener" title="PWR400L"><span class="ph"><span class="noimg"><b>PWR400L</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PWR400L</div><div class="sub">菊水電子工業 ワイドレンジ直流安定化電源</div><div class="row"><span class="pr">¥55,000</span><span class="sub"></span></div></div></a>
 </div>
 <div class="foot">used-listing-tracker — 自動生成</div>
-</div></body></html>
+</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})();
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+
+(function(){
+  var K='ult-opened', set={};
+  try{ (JSON.parse(localStorage.getItem(K)||'[]')).forEach(function(u){ set[u]=1; }); }catch(e){}
+  function mark(){ document.querySelectorAll('a.pc').forEach(function(a){
+    a.classList.toggle('seen', !!set[a.getAttribute('href')]); }); }
+  document.addEventListener('click', function(ev){
+    var a=ev.target.closest && ev.target.closest('a.pc'); if(!a) return;
+    var u=a.getAttribute('href'); set[u]=1;
+    try{ var l=Object.keys(set); if(l.length>3000) l=l.slice(-3000);
+         localStorage.setItem(K, JSON.stringify(l)); }catch(e){}
+    setTimeout(mark, 0);
+  }, true);
+  window.addEventListener('pageshow', mark);
+  mark();
+})();
+</script></body></html>

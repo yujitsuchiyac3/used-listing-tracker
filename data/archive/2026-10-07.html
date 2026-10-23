@@ -3,161 +3,230 @@
 <title>最新の新着 — 中古計測器トラッカー</title>
 <style>
 :root{
-  --bg:#f4f6f9; --card:#ffffff; --ink:#1a2230; --sub:#6b7684; --line:#e3e8ef;
-  --accent:#2b6cb0; --accent-weak:#eaf1fb; --price:#c05621; --chip:#eef2f7;
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
 }
 @media (prefers-color-scheme:dark){
-  :root{ --bg:#11151b; --card:#1a2029; --ink:#e6eaf0; --sub:#9aa5b3; --line:#2a323d;
-    --accent:#6ba7e6; --accent-weak:#1e2a3a; --price:#f0a878; --chip:#232b36; }
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;line-height:1.6;
-  -webkit-font-smoothing:antialiased;}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
-.top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
-  margin:0 -16px 20px;padding:14px 16px;z-index:5}
-.top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
-.brand:hover{text-decoration:none}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
-.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
-.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
-.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
-.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
-.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
-.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
-.brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
-.nav{margin-left:auto;display:flex;gap:6px}
-.nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
-.nav a.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
-.hero{padding:8px 0 4px}
-.hero h1{margin:0;font-size:22px}
-.hero .meta{color:var(--sub);font-size:13px;margin-top:4px}
-.pill{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;
-  padding:2px 12px;font-size:13px;font-weight:700}
-.empty{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:28px;text-align:center;color:var(--sub)}
-.sec{margin:26px 0 10px;display:flex;align-items:center;gap:10px}
-.sec h2{margin:0;font-size:16px}
-.sec .cnt{background:var(--accent-weak);color:var(--accent);border-radius:999px;
-  padding:1px 10px;font-size:12px;font-weight:700}
-.sec .rule{flex:1;height:1px;background:var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.card{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);
-  border-radius:12px;padding:10px;transition:box-shadow .15s,transform .15s}
-.card:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px)}
-.thumb{width:96px;height:96px;flex:0 0 96px;border-radius:8px;overflow:hidden;
-  background:var(--chip);display:flex;align-items:center;justify-content:center}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.thumb.ph{color:var(--sub);font-size:11px}
-.body{min-width:0;flex:1}
-.maker{color:var(--sub);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.model{font-weight:700;font-size:15px;margin:1px 0 2px;word-break:break-word}
-.nm{font-size:12.5px;color:var(--ink);opacity:.85;
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero{flex-wrap:wrap}.hero > .meta{flex-basis:100%;margin-top:-10px}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.hero + .sec{margin-top:18px}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;padding:8px 0;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump + .sec{border-top:0;margin-top:22px}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.opened{display:none;position:absolute;right:0;top:0;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;padding:2px 8px}
+.pc.seen .opened{display:block}
+.pc.seen .ph img,.pc.seen .noimg{opacity:.55}
+.pc.seen .mdl{color:var(--sub)}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.price{color:var(--price);font-weight:700;font-size:16px;margin-top:4px}
-.chip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:1px 7px;font-size:11px;margin-top:5px}
-.pdf .thumb{background:var(--accent-weak);color:var(--accent);font-size:28px}
-.sitechip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:0 6px;font-size:10px;margin-right:4px;vertical-align:middle}
-.newbadge{display:inline-block;background:var(--price);color:#fff;border-radius:6px;
-  padding:0 6px;font-size:10px;font-weight:700;margin-right:4px;vertical-align:middle}
-.card.isnew{border-color:var(--price);box-shadow:0 0 0 1px var(--price) inset}
-table.tb{border-collapse:collapse;width:100%;background:var(--card);
-  border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
-table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
-table.tb th{background:var(--accent-weak);color:var(--ink);font-weight:700}
-table.tb tr:last-child td{border-bottom:none}
-.hot{background:var(--accent-weak);font-weight:700}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
 .muted{color:var(--sub)}
-.foot{margin-top:34px;color:var(--sub);font-size:11px;text-align:center}
 .scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
 </style>
 </head><body>
 <div class="top"><div class="top-in">
-<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
-<span class="nav">
-<a class="" href="index.html">ホーム</a>
-<a class=" on" href="latest.html">新着</a>
-<a class="" href="watch.html">フォロー</a>
-<a class="" href="catalog.html">全在庫</a>
-<a class="" href="trends.html">傾向</a>
-</span></div></div>
+<a class="brand" href="../index.html">中古計測器トラッカー</a>
+<nav class="nav">
+<a href="../index.html">ホーム</a>
+<a class="on" href="../latest.html">新着</a>
+<a href="../watch.html">フォロー</a>
+<a href="../catalog.html">全在庫</a>
+<a href="../trends.html">傾向</a>
+</nav></div></div>
 <div class="wrap">
 
-<div class="hero">
-<h1>最新の新着 <span class="pill">44件</span></h1>
-<div class="meta">2026年10月07日 ・ 6サイトで新着</div>
+<div class="hero"><div><h1>新着 44件</h1><div class="meta">2026年10月07日 ・ 6サイトで新着</div></div></div>
+<div class="sec"><h2>オルティカ (OrutiKA)</h2><span class="cnt">9件</span></div>
+<div class="g5">
+<a class="pc" href="https://orutika.com/product/0023745/" target="_blank" rel="noopener" title="16058-61603 2本"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023745/1-1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">16058-61603 2本</div><div class="sub">キーサイトテクノロジー 低リーケージ・トライアキシャル・ケーブル1.5m</div><div class="row"><span class="pr">¥15,400</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023746/" target="_blank" rel="noopener" title="16058-61603 2本"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023746/1-1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">16058-61603 2本</div><div class="sub">キーサイトテクノロジー 低リーケージ・トライアキシャル・ケーブル1.5m</div><div class="row"><span class="pr">¥15,400</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023747/" target="_blank" rel="noopener" title="16058-61603 2本"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023747/1-1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">16058-61603 2本</div><div class="sub">キーサイトテクノロジー 低リーケージ・トライアキシャル・ケーブル1.5m</div><div class="row"><span class="pr">¥15,400</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023738/" target="_blank" rel="noopener" title="6541"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023738/1-1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">6541</div><div class="sub">ADC 4CH 直流電圧・電流源/モニタ</div><div class="row"><span class="pr">¥352,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023739/" target="_blank" rel="noopener" title="7451A"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023739/1-1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">7451A</div><div class="sub">ADC デジタルマルチメータ</div><div class="row"><span class="pr">¥57,200</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023748/" target="_blank" rel="noopener" title="87421A"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023748/1-1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">87421A</div><div class="sub">キーサイトテクノロジー (アジレント) RFアンプ用電源</div><div class="row"><span class="pr ask">商談中</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023742/" target="_blank" rel="noopener" title="8902A"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023742/1-1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8902A</div><div class="sub">キーサイトテクノロジー (HP) メジャーリングレシーバ</div><div class="row"><span class="pr">¥253,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023741/" target="_blank" rel="noopener" title="OTF-320"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023741/1-1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">OTF-320</div><div class="sub">サンテック 波長可変フィルター</div><div class="row"><span class="pr">¥110,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023740/" target="_blank" rel="noopener" title="TLA5204B"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023740/1-1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TLA5204B</div><div class="sub">テクトロニクス ロジックアナライザ</div><div class="row"><span class="pr">¥198,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>オルティカ (OrutiKA)</h2><span class="cnt">9</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://orutika.com/product/0023745/"><img src="https://orutika.com/wp/wp-content/uploads/product/023745/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーサイトテクノロジー</div><div class="model"><a href="https://orutika.com/product/0023745/">16058-61603 2本</a></div><div class="nm">低リーケージ・トライアキシャル・ケーブル1.5m</div><div class="price">¥15,400</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり)</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0023746/"><img src="https://orutika.com/wp/wp-content/uploads/product/023746/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーサイトテクノロジー</div><div class="model"><a href="https://orutika.com/product/0023746/">16058-61603 2本</a></div><div class="nm">低リーケージ・トライアキシャル・ケーブル1.5m</div><div class="price">¥15,400</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり)</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0023747/"><img src="https://orutika.com/wp/wp-content/uploads/product/023747/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーサイトテクノロジー</div><div class="model"><a href="https://orutika.com/product/0023747/">16058-61603 2本</a></div><div class="nm">低リーケージ・トライアキシャル・ケーブル1.5m</div><div class="price">¥15,400</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり)</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0023738/"><img src="https://orutika.com/wp/wp-content/uploads/product/023738/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ADC</div><div class="model"><a href="https://orutika.com/product/0023738/">6541</a></div><div class="nm">4CH 直流電圧・電流源/モニタ</div><div class="price">¥352,000</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:3P AC電源コード ネジ式5P出力コネクタ</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0023739/"><img src="https://orutika.com/wp/wp-content/uploads/product/023739/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ADC</div><div class="model"><a href="https://orutika.com/product/0023739/">7451A</a></div><div class="nm">デジタルマルチメータ</div><div class="price">¥57,200</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 5.傷あり) / 付属:3P AC電源コード 電圧プローブ・ワニ口ク</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0023748/"><img src="https://orutika.com/wp/wp-content/uploads/product/023748/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーサイトテクノロジー (アジレント)</div><div class="model"><a href="https://orutika.com/product/0023748/">87421A</a></div><div class="nm">RFアンプ用電源</div><div class="price">商談中</div><div class="chip">外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:3P AC電源コード 接続ケーブル(9P D</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0023742/"><img src="https://orutika.com/wp/wp-content/uploads/product/023742/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーサイトテクノロジー (HP)</div><div class="model"><a href="https://orutika.com/product/0023742/">8902A</a></div><div class="nm">メジャーリングレシーバ</div><div class="price">¥253,000</div><div class="chip">外観[3] (1.美品 2.良好 3.目立つ傷なし 5.傷あり) / 付属:3P AC電源コード</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0023741/"><img src="https://orutika.com/wp/wp-content/uploads/product/023741/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">サンテック</div><div class="model"><a href="https://orutika.com/product/0023741/">OTF-320</a></div><div class="nm">波長可変フィルター</div><div class="price">¥110,000</div><div class="chip">外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり)</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0023740/"><img src="https://orutika.com/wp/wp-content/uploads/product/023740/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">テクトロニクス</div><div class="model"><a href="https://orutika.com/product/0023740/">TLA5204B</a></div><div class="nm">ロジックアナライザ</div><div class="price">¥198,000</div><div class="chip">外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:3P AC電源コード プローブ固定金具8個 </div></div></div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">3件</span></div>
+<div class="g5">
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80355" target="_blank" rel="noopener" title="MCE-202"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80355/IMG_0001.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">MCE-202</div><div class="sub">島津製作所 マイクロチップ電気泳動装置</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80374" target="_blank" rel="noopener" title="100-S"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80374/IMG_0138.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">100-S</div><div class="sub">クレシア JKワイパー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80375" target="_blank" rel="noopener" title="61001"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80375/IMG_0144.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">61001</div><div class="sub">クレシア キムタオル</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>アスカインデックス</h2><span class="cnt">3</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80355"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80355/IMG_0001.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">島津製作所</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80355">MCE-202</a></div><div class="nm">マイクロチップ電気泳動装置</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80374"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80374/IMG_0138.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">クレシア</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80374">100-S</a></div><div class="nm">JKワイパー</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80375"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80375/IMG_0144.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">クレシア</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80375">61001</a></div><div class="nm">キムタオル</div><div class="price">お問合せください</div></div></div>
+<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">3件</span></div>
+<div class="g5">
+<a class="pc" href="https://used-lab.com/news/hsa4011%e3%80%80%e3%83%90%e3%82%a4%e3%83%9d%e3%83%bc%e3%83%a9%e9%9b%bb%e6%ba%90%e3%80%80%e3%82%a8%e3%83%8c%e3%82%a8%e3%83%95%e5%9b%9e%e8%b7%af%e8%a8%ad%e8%a8%88%e3%83%96%e3%83%ad%e3%83%83%e3%82%af/" target="_blank" rel="noopener" title="HSA4011"><span class="ph"><span class="noimg"><b>HSA4011</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">HSA4011</div><div class="sub">バイポーラ電源 HSA4011　バイポーラ電源　エヌエフ回路設計ブロック　9235942</div><div class="row"><span class="pr">¥290,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/ec1000sa-%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9e%e3%83%96%e3%83%ab%e4%ba%a4%e6%b5%81%e9%9b%bb%e6%ba%90%e3%80%81%e3%82%a8%e3%83%8c%e3%82%a8%e3%83%95%e5%9b%9e%e8%b7%af%e8%a8%ad%e8%a8%88%e3%83%96/" target="_blank" rel="noopener" title="EC1000SA"><span class="ph"><span class="noimg"><b>EC1000SA</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">EC1000SA</div><div class="sub">プログラマブル交流電源 EC1000SA　プログラマブル交流電源　エヌエフ回路設計ブロック　9186082</div><div class="row"><span class="pr">¥264,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/dg535%e5%9e%8b-%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e9%81%85%e5%bb%b6%e3%83%91%e3%83%ab%e3%82%b9%e7%99%ba%e7%94%9f%e5%99%a8-%e3%82%b9%e3%82%bf%e3%83%b3%e3%83%95%e3%82%a9%e3%83%bc%e3%83%89%e3%83%aa/" target="_blank" rel="noopener" title="DG535"><span class="ph"><span class="noimg"><b>DG535</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">DG535</div><div class="sub">デジタル遅延パルス発生器 DG535　デジタル遅延パルス発生器　スタンフォードリサーチ　04169</div><div class="row"><span class="pr">¥478,500</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">3</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">バイポーラ電源</div><div class="model"><a href="https://used-lab.com/news/hsa4011%e3%80%80%e3%83%90%e3%82%a4%e3%83%9d%e3%83%bc%e3%83%a9%e9%9b%bb%e6%ba%90%e3%80%80%e3%82%a8%e3%83%8c%e3%82%a8%e3%83%95%e5%9b%9e%e8%b7%af%e8%a8%ad%e8%a8%88%e3%83%96%e3%83%ad%e3%83%83%e3%82%af/">HSA4011</a></div><div class="nm">HSA4011　バイポーラ電源　エヌエフ回路設計ブロック　9235942</div><div class="price">¥290,000</div><div class="chip">新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">プログラマブル交流電源</div><div class="model"><a href="https://used-lab.com/news/ec1000sa-%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9e%e3%83%96%e3%83%ab%e4%ba%a4%e6%b5%81%e9%9b%bb%e6%ba%90%e3%80%81%e3%82%a8%e3%83%8c%e3%82%a8%e3%83%95%e5%9b%9e%e8%b7%af%e8%a8%ad%e8%a8%88%e3%83%96/">EC1000SA</a></div><div class="nm">EC1000SA　プログラマブル交流電源　エヌエフ回路設計ブロック　9186082</div><div class="price">¥264,000</div><div class="chip">新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">デジタル遅延パルス発生器</div><div class="model"><a href="https://used-lab.com/news/dg535%e5%9e%8b-%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e9%81%85%e5%bb%b6%e3%83%91%e3%83%ab%e3%82%b9%e7%99%ba%e7%94%9f%e5%99%a8-%e3%82%b9%e3%82%bf%e3%83%b3%e3%83%95%e3%82%a9%e3%83%bc%e3%83%89%e3%83%aa/">DG535</a></div><div class="nm">DG535　デジタル遅延パルス発生器　スタンフォードリサーチ　04169</div><div class="price">¥478,500</div><div class="chip">新着製品 / 保証:納品後 1か月間（消耗品・劣化は対象外）</div></div></div>
+<div class="sec"><h2>スターテクノロジー</h2><span class="cnt">1件</span></div>
+<div class="g5">
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=10995" target="_blank" rel="noopener" title="U2049XA-TVA/TVAC"><span class="ph"><img src="https://startechnology.jp/img/pic/6607-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">U2049XA-TVA/TVAC</div><div class="sub">Keysight LAN Peak and Average Power Sensor, 10MHz-33GHz</div><div class="row"><span class="pr">¥330,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>スターテクノロジー</h2><span class="cnt">1</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://startechnology.jp/products/detail.php?product_id=10995"><img src="https://startechnology.jp/img/pic/6607-01w_s.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Keysight</div><div class="model"><a href="https://startechnology.jp/products/detail.php?product_id=10995">U2049XA-TVA/TVAC</a></div><div class="nm">LAN Peak and Average Power Sensor, 10MHz-33GHz</div><div class="price">¥330,000</div><div class="chip">推奨 中古</div></div></div>
+<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">23件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001317/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="電流プローブ(120MHz:30A)"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013173_oZ7H8sq.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">電流プローブ(120MHz:30A)</div><div class="sub">テクトロニクス 電流プローブ(120MHz:30A)　TCP0030A</div><div class="row"><span class="pr">¥362,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001318/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="電流プローブ(100MHz:30A)"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013183_o1OAn9t.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">電流プローブ(100MHz:30A)</div><div class="sub">テクトロニクス 電流プローブ(100MHz:30A)　TCP312A(TCPA300)</div><div class="row"><span class="pr">¥416,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001329/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="9320"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013293_0UGrLc4.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">9320</div><div class="sub">日置電機 9320　ロジックプロ-ブ</div><div class="row"><span class="pr">¥6,300</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001331/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="差動プローブ"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013313_RUX67lF.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">差動プローブ</div><div class="sub">日置電機 差動プローブ　9322 (ACアダプタ付)</div><div class="row"><span class="pr">¥40,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001332/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="AP11-105"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013323_4oFWNX6.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AP11-105</div><div class="sub">エー・アンド・デイ AP11-105　イベントアンプユニット</div><div class="row"><span class="pr">¥13,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001347/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="MR8847-01(9664、8966*8、L9198*16)"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013473_20wTgt2.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">MR8847-01(9664、8966*8、L9198*16)</div><div class="sub">日置電機 MR8847-01(9664、8966*8、L9198*16)　ユニット付きメモリハイコーダ</div><div class="row"><span class="pr">¥483,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001350/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="AP11-102"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013503_Eb6niZ8.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AP11-102</div><div class="sub">エー・アンド・デイ AP11-102　FFTアンプ(2ch)</div><div class="row"><span class="pr">¥31,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001353/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="1539"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013533_uURKrqb.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">1539</div><div class="sub">エー・アンド・デイ 1539　フローティング電圧プローブ</div><div class="row"><span class="pr">¥14,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001355/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="温度ユニット"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013553_WY6t1UK.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">温度ユニット</div><div class="sub">日置電機 温度ユニット　8967</div><div class="row"><span class="pr">¥35,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001379/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="LX-110"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013793_gnHO9qz.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">LX-110</div><div class="sub">TEAC LX-110 (16ch、PCカード、LAN)　ユニット付きデータレコーダ(同期記録キット付)</div><div class="row"><span class="pr">¥357,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001381/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="WX-7016"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013813_VN0gHvm.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">WX-7016</div><div class="sub">TEAC WX-7016 (CL-407*32)　ワイドバンドデータレコーダ</div><div class="row"><span class="pr">¥533,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001382/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="AU-WXEPIO"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013823_8malQgg.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AU-WXEPIO</div><div class="sub">TEAC AU-WXEPIO (CL-407*32)　WX-7000用16ch拡張ユニット</div><div class="row"><span class="pr">¥576,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001383/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="AL1101"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013833_xlx5xGU.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AL1101</div><div class="sub">エー・アンド・デイ AL1101　2CH直流アンプ</div><div class="row"><span class="pr">¥32,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001384/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="AL1000シリーズ用ベンチトップケース"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013843_qpEP6R5.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AL1000シリーズ用ベンチトップケース</div><div class="sub">エー・アンド・デイ AL1000シリーズ用ベンチトップケース　AL13-104</div><div class="row"><span class="pr">¥13,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001385/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="AL1000シリーズ用ベンチトップケース"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013853_3z5MzOP.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AL1000シリーズ用ベンチトップケース</div><div class="sub">エー・アンド・デイ AL1000シリーズ用ベンチトップケース　AL13-103</div><div class="row"><span class="pr">¥13,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001389/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="同軸形ステップ減衰器"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013893_YH1mu78.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">同軸形ステップ減衰器</div><div class="sub">キーサイト・テクノロジー 同軸形ステップ減衰器　8496B-Op001</div><div class="row"><span class="pr">¥121,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001401/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="標準抵抗器"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014013_cKvB1HR.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">標準抵抗器</div><div class="sub">横河計測 標準抵抗器 10Ω　2792A05</div><div class="row"><span class="pr">¥53,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001408/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="アッテネータ/スイッチ・ドライバ"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014083_u03P652.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">アッテネータ/スイッチ・ドライバ</div><div class="sub">キーサイト・テクノロジー アッテネータ/スイッチ・ドライバ　11713B-Op101*2/LXI</div><div class="row"><span class="pr">¥138,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001421/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="PWR400L"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014213_IoZ5MgO.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PWR400L</div><div class="sub">菊水電子工業 PWR400L　直流安定化電源</div><div class="row"><span class="pr">¥47,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001425/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="直流安定化電源"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014253_M3u0aDz.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">直流安定化電源</div><div class="sub">キーサイト・テクノロジー 直流安定化電源　E3646A</div><div class="row"><span class="pr">¥118,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001432/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="N6733B"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014323_1SDECh2.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">N6733B</div><div class="sub">キーサイト・テクノロジー N6733B　DC電源アナライザ モジュール</div><div class="row"><span class="pr">¥21,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001442/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="6033A"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014423_H0iHqI0.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">6033A</div><div class="sub">キーサイト・テクノロジー 6033A　直流安定化電源</div><div class="row"><span class="pr">¥114,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001482/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="10/100/1000Mイーサネットモジュール"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014823_RNkQbxR.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">10/100/1000Mイーサネットモジュール</div><div class="sub">アンリツ 10/100/1000Mイーサネットモジュール　MU120121A</div><div class="row"><span class="pr">¥602,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">23</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001317/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013173_oZ7H8sq.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">テクトロニクス</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001317/ct-CHU_ALL/page4/order/">電流プローブ(120MHz:30A)</a></div><div class="nm">電流プローブ(120MHz:30A)　TCP0030A</div><div class="price">¥362,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001318/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013183_o1OAn9t.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">テクトロニクス</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001318/ct-CHU_ALL/page4/order/">電流プローブ(100MHz:30A)</a></div><div class="nm">電流プローブ(100MHz:30A)　TCP312A(TCPA300)</div><div class="price">¥416,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001329/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013293_0UGrLc4.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">日置電機</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001329/ct-CHU_ALL/page4/order/">9320</a></div><div class="nm">9320　ロジックプロ-ブ</div><div class="price">¥6,300</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001331/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013313_RUX67lF.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">日置電機</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001331/ct-CHU_ALL/page4/order/">差動プローブ</a></div><div class="nm">差動プローブ　9322 (ACアダプタ付)</div><div class="price">¥40,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001332/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013323_4oFWNX6.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エー・アンド・デイ</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001332/ct-CHU_ALL/page4/order/">AP11-105</a></div><div class="nm">AP11-105　イベントアンプユニット</div><div class="price">¥13,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001347/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013473_20wTgt2.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">日置電機</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001347/ct-CHU_ALL/page4/order/">MR8847-01(9664、8966*8、L9198*16)</a></div><div class="nm">MR8847-01(9664、8966*8、L9198*16)　ユニット付きメモリハイコーダ</div><div class="price">¥483,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001350/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013503_Eb6niZ8.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エー・アンド・デイ</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001350/ct-CHU_ALL/page4/order/">AP11-102</a></div><div class="nm">AP11-102　FFTアンプ(2ch)</div><div class="price">¥31,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001353/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013533_uURKrqb.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エー・アンド・デイ</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001353/ct-CHU_ALL/page4/order/">1539</a></div><div class="nm">1539　フローティング電圧プローブ</div><div class="price">¥14,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001355/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013553_WY6t1UK.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">日置電機</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001355/ct-CHU_ALL/page4/order/">温度ユニット</a></div><div class="nm">温度ユニット　8967</div><div class="price">¥35,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001379/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013793_gnHO9qz.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">TEAC</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001379/ct-CHU_ALL/page4/order/">LX-110</a></div><div class="nm">LX-110 (16ch、PCカード、LAN)　ユニット付きデータレコーダ(同期記録キット付)</div><div class="price">¥357,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001381/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013813_VN0gHvm.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">TEAC</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001381/ct-CHU_ALL/page4/order/">WX-7016</a></div><div class="nm">WX-7016 (CL-407*32)　ワイドバンドデータレコーダ</div><div class="price">¥533,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001382/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013823_8malQgg.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">TEAC</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001382/ct-CHU_ALL/page4/order/">AU-WXEPIO</a></div><div class="nm">AU-WXEPIO (CL-407*32)　WX-7000用16ch拡張ユニット</div><div class="price">¥576,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001383/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013833_xlx5xGU.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エー・アンド・デイ</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001383/ct-CHU_ALL/page4/order/">AL1101</a></div><div class="nm">AL1101　2CH直流アンプ</div><div class="price">¥32,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001384/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013843_qpEP6R5.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エー・アンド・デイ</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001384/ct-CHU_ALL/page4/order/">AL1000シリーズ用ベンチトップケース</a></div><div class="nm">AL1000シリーズ用ベンチトップケース　AL13-104</div><div class="price">¥13,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001385/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013853_3z5MzOP.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エー・アンド・デイ</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001385/ct-CHU_ALL/page4/order/">AL1000シリーズ用ベンチトップケース</a></div><div class="nm">AL1000シリーズ用ベンチトップケース　AL13-103</div><div class="price">¥13,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001389/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000013893_YH1mu78.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーサイト・テクノロジー</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001389/ct-CHU_ALL/page4/order/">同軸形ステップ減衰器</a></div><div class="nm">同軸形ステップ減衰器　8496B-Op001</div><div class="price">¥121,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001401/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014013_cKvB1HR.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">横河計測</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001401/ct-CHU_ALL/page4/order/">標準抵抗器</a></div><div class="nm">標準抵抗器 10Ω　2792A05</div><div class="price">¥53,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001408/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014083_u03P652.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーサイト・テクノロジー</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001408/ct-CHU_ALL/page4/order/">アッテネータ/スイッチ・ドライバ</a></div><div class="nm">アッテネータ/スイッチ・ドライバ　11713B-Op101*2/LXI</div><div class="price">¥138,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001421/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014213_IoZ5MgO.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">菊水電子工業</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001421/ct-CHU_ALL/page4/order/">PWR400L</a></div><div class="nm">PWR400L　直流安定化電源</div><div class="price">¥47,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001425/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014253_M3u0aDz.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーサイト・テクノロジー</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001425/ct-CHU_ALL/page4/order/">直流安定化電源</a></div><div class="nm">直流安定化電源　E3646A</div><div class="price">¥118,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001432/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014323_1SDECh2.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーサイト・テクノロジー</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001432/ct-CHU_ALL/page4/order/">N6733B</a></div><div class="nm">N6733B　DC電源アナライザ モジュール</div><div class="price">¥21,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001442/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014423_H0iHqI0.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">キーサイト・テクノロジー</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001442/ct-CHU_ALL/page4/order/">6033A</a></div><div class="nm">6033A　直流安定化電源</div><div class="price">¥114,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001482/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014823_RNkQbxR.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アンリツ</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001482/ct-CHU_ALL/page4/order/">10/100/1000Mイーサネットモジュール</a></div><div class="nm">10/100/1000Mイーサネットモジュール　MU120121A</div><div class="price">¥602,000</div><div class="chip">中古(再生品)</div></div></div>
-</div>
-<div class="sec"><h2>測定器市場</h2><span class="cnt">5</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">キーサイトテクノロジー (アジレント・HP)</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011271.html">8902A</a></div><div class="nm">メジャーリングレシーバ</div><div class="price">¥253,000</div><div class="chip">中古</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">ＡＤＣ</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011268.html">6243</a></div><div class="nm">直流電流電圧発生器</div><div class="price">¥154,000</div><div class="chip">中古</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">ＡＤＣ</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011269.html">6541</a></div><div class="nm">４ＣＨ 直流電圧・電流源／モニタ</div><div class="price">¥352,000</div><div class="chip">中古</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">ＡＤＣ</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011270.html">6541</a></div><div class="nm">４ＣＨ直流電圧・電流源／モニタ</div><div class="price">¥352,000</div><div class="chip">中古</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">横河計測</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011272.html">2013-17</a></div><div class="nm">アナログ交流電圧計</div><div class="price">¥13,200</div><div class="chip">中古</div></div></div>
+<div class="sec"><h2>測定器市場</h2><span class="cnt">5件</span></div>
+<div class="g5">
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011271.html" target="_blank" rel="noopener" title="8902A"><span class="ph"><span class="noimg"><b>8902A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8902A</div><div class="sub">キーサイトテクノロジー (アジレント・HP) メジャーリングレシーバ</div><div class="row"><span class="pr">¥253,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011268.html" target="_blank" rel="noopener" title="6243"><span class="ph"><span class="noimg"><b>6243</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">6243</div><div class="sub">ＡＤＣ 直流電流電圧発生器</div><div class="row"><span class="pr">¥154,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011269.html" target="_blank" rel="noopener" title="6541"><span class="ph"><span class="noimg"><b>6541</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">6541</div><div class="sub">ＡＤＣ ４ＣＨ 直流電圧・電流源／モニタ</div><div class="row"><span class="pr">¥352,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011270.html" target="_blank" rel="noopener" title="6541"><span class="ph"><span class="noimg"><b>6541</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">6541</div><div class="sub">ＡＤＣ ４ＣＨ直流電圧・電流源／モニタ</div><div class="row"><span class="pr">¥352,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011272.html" target="_blank" rel="noopener" title="2013-17"><span class="ph"><span class="noimg"><b>2013-17</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">2013-17</div><div class="sub">横河計測 アナログ交流電圧計</div><div class="row"><span class="pr">¥13,200</span><span class="sub"></span></div></div></a>
 </div>
 <div class="foot">used-listing-tracker — 自動生成</div>
-</div></body></html>
+</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})();
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+
+(function(){
+  var K='ult-opened', set={};
+  try{ (JSON.parse(localStorage.getItem(K)||'[]')).forEach(function(u){ set[u]=1; }); }catch(e){}
+  function mark(){ document.querySelectorAll('a.pc').forEach(function(a){
+    a.classList.toggle('seen', !!set[a.getAttribute('href')]); }); }
+  document.addEventListener('click', function(ev){
+    var a=ev.target.closest && ev.target.closest('a.pc'); if(!a) return;
+    var u=a.getAttribute('href'); set[u]=1;
+    try{ var l=Object.keys(set); if(l.length>3000) l=l.slice(-3000);
+         localStorage.setItem(K, JSON.stringify(l)); }catch(e){}
+    setTimeout(mark, 0);
+  }, true);
+  window.addEventListener('pageshow', mark);
+  mark();
+})();
+</script></body></html>

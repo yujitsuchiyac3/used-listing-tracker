@@ -68,6 +68,7 @@ a{color:inherit;text-decoration:none}
 .nav a:hover{color:var(--ink)}
 .hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 .hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero{flex-wrap:wrap}.hero > .meta{flex-basis:100%;margin-top:-10px}
 .hero h1 em{font-style:normal;color:var(--hot)}
 .meta{color:var(--sub);font-size:12.5px;margin-top:2px}
 .btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
@@ -79,11 +80,13 @@ a{color:inherit;text-decoration:none}
 .sec .cnt{color:var(--sub);font-size:12px}
 .sec .cnt b{color:var(--hot)}
 .sec .rule{display:none}
+.hero + .sec{margin-top:18px}
 .sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
 .jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
-  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px -28px 0;padding:8px 28px;
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;padding:8px 0;
   border-bottom:1px solid var(--line);font-size:12.5px}
 .jump a{white-space:nowrap}
+.jump + .sec{border-top:0;margin-top:22px}
 .jump a:hover{text-decoration:underline}
 .jump .n{color:var(--sub);margin-left:3px}
 .jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
@@ -102,13 +105,19 @@ a{color:inherit;text-decoration:none}
 .new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
   font-size:12px;font-weight:700;padding:3px 9px}
 .pc.unread .new{display:block}
+.opened{display:none;position:absolute;right:0;top:0;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;padding:2px 8px}
+.pc.seen .opened{display:block}
+.pc.seen .ph img,.pc.seen .noimg{opacity:.55}
+.pc.seen .mdl{color:var(--sub)}
 .tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
   font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
 .pc.unread .tag.dt{display:none}
 .cap{padding:8px 1px 0}
-.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .g5 .mdl{font-size:13.5px}
 .pc:hover .mdl{color:var(--link);text-decoration:underline}
 .sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -137,27 +146,28 @@ table.tb a{color:var(--link)}
   .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
   .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
   .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
-  .jump{margin:8px -14px 0;padding:8px 14px;flex-wrap:nowrap;overflow-x:auto}
+  .jump{flex-wrap:nowrap;overflow-x:auto}
   .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
 }
 </style>
 """.replace("FONTSTACK", FONT)
 
 
-def page_head(title: str, subtitle: str = "", active: str = "") -> str:
+def page_head(title: str, subtitle: str = "", active: str = "", base: str = "") -> str:
+    """base: ページが data/ 直下以外(archive/ など)にあるときのリンクの前置き("../")。"""
     def nav(href, label, key):
         on = ' class="on"' if key == active else ""
-        return f'<a{on} href="{href}">{label}</a>'
+        return f'<a{on} href="{base}{href}">{label}</a>'
     e = html.escape
     return f"""<!doctype html><html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title>{page_css()}</head><body>
 <div class="top"><div class="top-in">
-<a class="brand" href="index.html">中古計測器トラッカー</a>
+<a class="brand" href="{base}index.html">中古計測器トラッカー</a>
 <nav class="nav">
 {nav("index.html","ホーム","home")}
-{nav("watch.html","フォロー","watch")}
 {nav("latest.html","新着","latest")}
+{nav("watch.html","フォロー","watch")}
 {nav("catalog.html","全在庫","catalog")}
 {nav("trends.html","傾向","trends")}
 </nav></div></div>
@@ -200,6 +210,25 @@ _UNREAD_JS = r"""
 })();
 """
 
+# 一度開いた品(カードをクリックした品)をブラウザに記録し、どのページでも「確認済み」にする。
+_OPENED_JS = r"""
+(function(){
+  var K='ult-opened', set={};
+  try{ (JSON.parse(localStorage.getItem(K)||'[]')).forEach(function(u){ set[u]=1; }); }catch(e){}
+  function mark(){ document.querySelectorAll('a.pc').forEach(function(a){
+    a.classList.toggle('seen', !!set[a.getAttribute('href')]); }); }
+  document.addEventListener('click', function(ev){
+    var a=ev.target.closest && ev.target.closest('a.pc'); if(!a) return;
+    var u=a.getAttribute('href'); set[u]=1;
+    try{ var l=Object.keys(set); if(l.length>3000) l=l.slice(-3000);
+         localStorage.setItem(K, JSON.stringify(l)); }catch(e){}
+    setTimeout(mark, 0);
+  }, true);
+  window.addEventListener('pageshow', mark);
+  mark();
+})();
+"""
+
 _LAYOUT_JS = (
     "(function(){function f(){var r=document.documentElement.style,"
     "t=document.querySelector('.top'),j=document.querySelector('.jump');"
@@ -211,7 +240,7 @@ _LAYOUT_JS = (
 
 def page_foot() -> str:
     return ('<div class="foot">used-listing-tracker — 自動生成</div>\n'
-            f"</div><script>{_LAYOUT_JS}{_UNREAD_JS}</script></body></html>")
+            f"</div><script>{_LAYOUT_JS}{_UNREAD_JS}{_OPENED_JS}</script></body></html>")
 
 
 # ---- 写真カード(全ページ共通) ----------------------------------------------
@@ -243,8 +272,9 @@ def _photo_card(it: Listing, *, site_label: str = "", seen: str = "",
         tg = ""
     desc = " ".join(x for x in (it.maker, it.name if it.name != title else "") if x)
     right = site_label
-    return (f'<a class="pc" href="{e(it.url)}" target="_blank" rel="noopener"{attrs}>'
-            f'<span class="ph">{img}{new}{tg}</span><div class="cap">'
+    tip = " / ".join(x for x in (title, it.condition) if x)
+    return (f'<a class="pc" href="{e(it.url)}" target="_blank" rel="noopener" title="{e(tip)}"{attrs}>'
+            f'<span class="ph">{img}{new}{tg}<span class="opened">確認済み</span></span><div class="cap">'
             f'<div class="mdl">{e(title)}</div><div class="sub">{e(desc)}</div>'
             f'<div class="row">{_price_html(it)}<span class="sub">{e(right)}</span></div>'
             "</div></a>")
@@ -291,7 +321,7 @@ def build_text(new_by_site, site_names, day: date) -> str:
 # ---- 新着まとめ / 全在庫 HTML ------------------------------------------------
 
 def build_html(new_by_site, site_names, day: date, *, kind: str = "new",
-               extra_html: str = "") -> str:
+               extra_html: str = "", base: str = "") -> str:
     """kind='new' で新着まとめ、kind='all' で全在庫ページを生成。
     extra_html はセクションの後(フッタ前)に差し込む追加HTML。"""
     total = sum(len(v) for v in new_by_site.values())
@@ -308,7 +338,7 @@ def build_html(new_by_site, site_names, day: date, *, kind: str = "new",
         meta = f"{day:%Y年%m月%d日} ・ {n_sites}サイトで新着"
         empty_msg = "本日の新着はありませんでした。"
 
-    out = [page_head(title, active=active)]
+    out = [page_head(title, active=active, base=base)]
     out.append(f'<div class="hero"><div><h1>{hero}</h1><div class="meta">{meta}</div></div></div>')
 
     if total == 0:

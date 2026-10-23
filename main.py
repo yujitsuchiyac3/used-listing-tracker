@@ -139,13 +139,13 @@ def run(send: bool = False, force_all: bool = False) -> int:
 
     total = sum(len(v) for v in new_by_site.values())
     subject = notifier.build_subject(new_by_site, day)
-    html = notifier.build_html(new_by_site, names, day)   # メール・アーカイブ用(素の新着)
+    html = notifier.build_html(new_by_site, names, day)   # メール用(素の新着)
     text = notifier.build_text(new_by_site, names, day)
 
     # HTML を出力(日付別アーカイブは素の新着、latest は下に過去の新着一覧を付ける)
     os.makedirs("data/archive", exist_ok=True)
     with open(f"data/archive/{day:%Y-%m-%d}.html", "w", encoding="utf-8") as f:
-        f.write(html)
+        f.write(notifier.build_html(new_by_site, names, day, base="../"))
     with open("data/latest.html", "w", encoding="utf-8") as f:
         f.write(notifier.build_html(new_by_site, names, day,
                                     extra_html=_archive_section_html()))
@@ -374,9 +374,9 @@ def write_trends() -> None:
         f'<tr><th>サイト</th>{head}<th style="text-align:right;">合計</th></tr>'
         f'{"".join(mat_rows)}</table></div>'
         '<div class="sec"><h2>サイト別サマリ</h2><span class="rule"></span></div>'
-        '<table class="tb"><tr><th>サイト</th><th>観測日数</th><th>新着あり日</th>'
+        '<div class="scroll"><table class="tb"><tr><th>サイト</th><th>観測日数</th><th>新着あり日</th>'
         '<th style="text-align:right;">新着合計</th><th style="text-align:right;">1日平均</th></tr>'
-        f'{"".join(sum_rows)}</table>'
+        f'{"".join(sum_rows)}</table></div>'
     )
     out += notifier.page_foot()
     with open("data/trends.html", "w", encoding="utf-8") as f:

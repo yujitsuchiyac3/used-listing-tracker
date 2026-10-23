@@ -3,148 +3,217 @@
 <title>最新の新着 — 中古計測器トラッカー</title>
 <style>
 :root{
-  --bg:#f4f6f9; --card:#ffffff; --ink:#1a2230; --sub:#6b7684; --line:#e3e8ef;
-  --accent:#2b6cb0; --accent-weak:#eaf1fb; --price:#c05621; --chip:#eef2f7;
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
 }
 @media (prefers-color-scheme:dark){
-  :root{ --bg:#11151b; --card:#1a2029; --ink:#e6eaf0; --sub:#9aa5b3; --line:#2a323d;
-    --accent:#6ba7e6; --accent-weak:#1e2a3a; --price:#f0a878; --chip:#232b36; }
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;line-height:1.6;
-  -webkit-font-smoothing:antialiased;}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
-.top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
-  margin:0 -16px 20px;padding:14px 16px;z-index:5}
-.top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
-.brand:hover{text-decoration:none}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
-.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
-.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
-.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
-.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
-.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
-.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
-.brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
-.nav{margin-left:auto;display:flex;gap:6px}
-.nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
-.nav a.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
-.hero{padding:8px 0 4px}
-.hero h1{margin:0;font-size:22px}
-.hero .meta{color:var(--sub);font-size:13px;margin-top:4px}
-.pill{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;
-  padding:2px 12px;font-size:13px;font-weight:700}
-.empty{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:28px;text-align:center;color:var(--sub)}
-.sec{margin:26px 0 10px;display:flex;align-items:center;gap:10px}
-.sec h2{margin:0;font-size:16px}
-.sec .cnt{background:var(--accent-weak);color:var(--accent);border-radius:999px;
-  padding:1px 10px;font-size:12px;font-weight:700}
-.sec .rule{flex:1;height:1px;background:var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.card{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);
-  border-radius:12px;padding:10px;transition:box-shadow .15s,transform .15s}
-.card:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px)}
-.thumb{width:96px;height:96px;flex:0 0 96px;border-radius:8px;overflow:hidden;
-  background:var(--chip);display:flex;align-items:center;justify-content:center}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.thumb.ph{color:var(--sub);font-size:11px}
-.body{min-width:0;flex:1}
-.maker{color:var(--sub);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.model{font-weight:700;font-size:15px;margin:1px 0 2px;word-break:break-word}
-.nm{font-size:12.5px;color:var(--ink);opacity:.85;
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero{flex-wrap:wrap}.hero > .meta{flex-basis:100%;margin-top:-10px}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.hero + .sec{margin-top:18px}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;padding:8px 0;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump + .sec{border-top:0;margin-top:22px}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.opened{display:none;position:absolute;right:0;top:0;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;padding:2px 8px}
+.pc.seen .opened{display:block}
+.pc.seen .ph img,.pc.seen .noimg{opacity:.55}
+.pc.seen .mdl{color:var(--sub)}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.price{color:var(--price);font-weight:700;font-size:16px;margin-top:4px}
-.chip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:1px 7px;font-size:11px;margin-top:5px}
-.pdf .thumb{background:var(--accent-weak);color:var(--accent);font-size:28px}
-.sitechip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:0 6px;font-size:10px;margin-right:4px;vertical-align:middle}
-.newbadge{display:inline-block;background:var(--price);color:#fff;border-radius:6px;
-  padding:0 6px;font-size:10px;font-weight:700;margin-right:4px;vertical-align:middle}
-.card.isnew{border-color:var(--price);box-shadow:0 0 0 1px var(--price) inset}
-table.tb{border-collapse:collapse;width:100%;background:var(--card);
-  border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
-table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
-table.tb th{background:var(--accent-weak);color:var(--ink);font-weight:700}
-table.tb tr:last-child td{border-bottom:none}
-.hot{background:var(--accent-weak);font-weight:700}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
 .muted{color:var(--sub)}
-.foot{margin-top:34px;color:var(--sub);font-size:11px;text-align:center}
 .scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
 </style>
 </head><body>
 <div class="top"><div class="top-in">
-<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
-<span class="nav">
-<a class="" href="index.html">ホーム</a>
-<a class=" on" href="latest.html">新着</a>
-<a class="" href="watch.html">フォロー</a>
-<a class="" href="catalog.html">全在庫</a>
-<a class="" href="trends.html">傾向</a>
-</span></div></div>
+<a class="brand" href="../index.html">中古計測器トラッカー</a>
+<nav class="nav">
+<a href="../index.html">ホーム</a>
+<a class="on" href="../latest.html">新着</a>
+<a href="../watch.html">フォロー</a>
+<a href="../catalog.html">全在庫</a>
+<a href="../trends.html">傾向</a>
+</nav></div></div>
 <div class="wrap">
 
-<div class="hero">
-<h1>最新の新着 <span class="pill">31件</span></h1>
-<div class="meta">2026年10月09日 ・ 6サイトで新着</div>
+<div class="hero"><div><h1>新着 31件</h1><div class="meta">2026年10月09日 ・ 6サイトで新着</div></div></div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">4件</span></div>
+<div class="g5">
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80376" target="_blank" rel="noopener" title="61411（ホップアップトリプル）"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80376/IMG_0150.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">61411（ホップアップトリプル）</div><div class="sub">クレシア キムタオル</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80377" target="_blank" rel="noopener" title="タフミザ50"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80377/IMG_0157.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">タフミザ50</div><div class="sub">大王製紙 プロワイプ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q80378" target="_blank" rel="noopener" title="タフミザ50/18"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80378/IMG_0163.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">タフミザ50/18</div><div class="sub">大王製紙 プロワイプ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q83107" target="_blank" rel="noopener" title="BR-2"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q83107/IMG_9931.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">BR-2</div><div class="sub">アズワン ロール撹拌機</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>アスカインデックス</h2><span class="cnt">4</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80376"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80376/IMG_0150.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">クレシア</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80376">61411（ホップアップトリプル）</a></div><div class="nm">キムタオル</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80377"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80377/IMG_0157.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">大王製紙</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80377">タフミザ50</a></div><div class="nm">プロワイプ</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q80378"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q80378/IMG_0163.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">大王製紙</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q80378">タフミザ50/18</a></div><div class="nm">プロワイプ</div><div class="price">お問合せください</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q83107"><img src="https://askindex.co.jp/stocks/uploads/Q8/Q83107/IMG_9931.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アズワン</div><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q83107">BR-2</a></div><div class="nm">ロール撹拌機</div><div class="price">¥49,500</div></div></div>
+<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">1件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.3915.jp/hp01/11136.html" target="_blank" rel="noopener" title="UVC-200"><span class="ph"><img src="https://img.3915.jp/img/13705-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">UVC-200</div><div class="sub">テクノビジョン</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">1</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11136.html"><img src="https://img.3915.jp/img/13705-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">テクノビジョン</div><div class="model"><a href="https://www.3915.jp/hp01/11136.html">UVC-200</a></div><div class="nm">UVフィルム硬化装置</div></div></div>
+<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">7件</span></div>
+<div class="g5">
+<a class="pc" href="https://used-lab.com/news/pcr500la%e3%80%80%e5%a4%9a%e6%a9%9f%e8%83%bd%e4%ba%a4%e6%b5%81%e5%ae%89%e5%ae%9a%e5%8c%96%e9%9b%bb%e6%ba%90%e3%80%80%e8%8f%8a%e6%b0%b4%e9%9b%bb%e5%ad%90%e5%b7%a5%e6%a5%ad%e3%80%80qk001755/" target="_blank" rel="noopener" title="PCR500LA"><span class="ph"><span class="noimg"><b>PCR500LA</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PCR500LA</div><div class="sub">多機能交流安定化電源 PCR500LA　多機能交流安定化電源　菊水電子工業　QK001755</div><div class="row"><span class="pr">¥132,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/voac7522h%e3%80%80%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%83%9e%e3%83%ab%e3%83%81%e3%83%a1%e3%83%bc%e3%82%bf%e3%83%bc%e3%80%80%e5%b2%a9%e5%b4%8e%e9%80%9a%e4%bf%a1%e6%a9%9f%e3%80%80bb107100061/" target="_blank" rel="noopener" title="VOAC7522H"><span class="ph"><span class="noimg"><b>VOAC7522H</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">VOAC7522H</div><div class="sub">デジタルマルチメーター VOAC7522H　デジタルマルチメーター　岩崎通信機　BB107100061</div><div class="row"><span class="pr">¥44,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/su-261%e3%80%80%e5%b0%8f%e5%9e%8b%e7%92%b0%e5%a2%83%e8%a9%a6%e9%a8%93%e5%99%a8-%e6%9e%b6%e5%8f%b0%e4%bb%98%e3%81%8d%e3%80%80-%e3%82%a8%e3%82%b9%e3%83%9a%e3%83%83%e3%82%af%e3%80%8092002178/" target="_blank" rel="noopener" title="SU-261"><span class="ph"><span class="noimg"><b>SU-261</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">SU-261</div><div class="sub">小型環境試験器 SU-261　小型環境試験器 (架台付き)　 エスペック　92002178</div><div class="row"><span class="pr">¥430,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/su-261-%e5%b0%8f%e5%9e%8b%e7%92%b0%e5%a2%83%e8%a9%a6%e9%a8%93%e5%99%a8%e6%9e%b6%e5%8f%b0%e4%bb%98-%e3%82%a8%e3%82%b9%e3%83%9a%e3%83%83%e3%82%af/" target="_blank" rel="noopener" title="SU-261"><span class="ph"><span class="noimg"><b>SU-261</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">SU-261</div><div class="sub">小型環境試験器 SU-261　小型環境試験器 (架台付き)　 エスペック　92001027</div><div class="row"><span class="pr">¥430,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/gr-7500%e3%80%80%e7%b5%b6%e7%b8%818ch%e9%ab%98%e9%80%9f%e3%83%9e%e3%83%ab%e3%83%81%e3%83%ac%e3%82%b3%e3%83%bc%e3%83%80%e3%80%80%e3%82%ad%e3%83%bc%e3%82%a8%e3%83%b3%e3%82%b9%e3%80%8078700036d/" target="_blank" rel="noopener" title="GR-7500"><span class="ph"><span class="noimg"><b>GR-7500</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GR-7500</div><div class="sub">絶縁8CH高速マルチレコーダ GR-7500　絶縁8CH高速マルチレコーダ　キーエンス　78700036D</div><div class="row"><span class="pr">¥154,300</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/aedfa-dwdm-22-b-fc%e5%8b%95%e4%bd%9c%e7%a2%ba%e8%aa%8d%e6%b8%88%e3%81%bf%e3%80%80%e5%85%89%e3%83%95%e3%82%a1%e3%82%a4%e3%83%90%e5%a2%97%e5%b9%85%e5%99%a8%e3%80%80%e3%82%a2%e3%83%a2%e3%83%8b%e3%82%af/" target="_blank" rel="noopener" title="AEDFA-DWDM-22-B-FC[動作確認済み]"><span class="ph"><span class="noimg"><b>AEDFA-DWDM-22-B-FC[動作確認済み]</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AEDFA-DWDM-22-B-FC[動作確認済み]</div><div class="sub">光ファイバ増幅器 AEDFA-DWDM-22-B-FC[動作確認済み]　光ファイバ増幅器　アモニクス　3121821</div><div class="row"><span class="pr">¥250,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/ddso81304b%e3%83%87%e3%82%a3%e3%82%b8%e3%82%bf%e3%83%ab%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%e3%80%80my45000004/" target="_blank" rel="noopener" title="DSO81304Bディジタルオシロスコープキーサイト"><span class="ph"><span class="noimg"><b>DSO81304Bディジタルオシロスコープキーサイト</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">DSO81304Bディジタルオシロスコープキーサイト</div><div class="sub">MY45000004 DSO81304Bディジタルオシロスコープキーサイト　MY45000004</div><div class="row"><span class="pr">¥1,700,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">7</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">多機能交流安定化電源</div><div class="model"><a href="https://used-lab.com/news/pcr500la%e3%80%80%e5%a4%9a%e6%a9%9f%e8%83%bd%e4%ba%a4%e6%b5%81%e5%ae%89%e5%ae%9a%e5%8c%96%e9%9b%bb%e6%ba%90%e3%80%80%e8%8f%8a%e6%b0%b4%e9%9b%bb%e5%ad%90%e5%b7%a5%e6%a5%ad%e3%80%80qk001755/">PCR500LA</a></div><div class="nm">PCR500LA　多機能交流安定化電源　菊水電子工業　QK001755</div><div class="price">¥132,000</div><div class="chip">新着製品 / 保証:納品後 1か月間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">デジタルマルチメーター</div><div class="model"><a href="https://used-lab.com/news/voac7522h%e3%80%80%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%83%9e%e3%83%ab%e3%83%81%e3%83%a1%e3%83%bc%e3%82%bf%e3%83%bc%e3%80%80%e5%b2%a9%e5%b4%8e%e9%80%9a%e4%bf%a1%e6%a9%9f%e3%80%80bb107100061/">VOAC7522H</a></div><div class="nm">VOAC7522H　デジタルマルチメーター　岩崎通信機　BB107100061</div><div class="price">¥44,000</div><div class="chip">新着製品 / 保証:納品後 1ヵ月(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">小型環境試験器</div><div class="model"><a href="https://used-lab.com/news/su-261%e3%80%80%e5%b0%8f%e5%9e%8b%e7%92%b0%e5%a2%83%e8%a9%a6%e9%a8%93%e5%99%a8-%e6%9e%b6%e5%8f%b0%e4%bb%98%e3%81%8d%e3%80%80-%e3%82%a8%e3%82%b9%e3%83%9a%e3%83%83%e3%82%af%e3%80%8092002178/">SU-261</a></div><div class="nm">SU-261　小型環境試験器 (架台付き)　 エスペック　92002178</div><div class="price">¥430,000</div><div class="chip">新着製品 / 保証:納品後 2週間消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">小型環境試験器</div><div class="model"><a href="https://used-lab.com/news/su-261-%e5%b0%8f%e5%9e%8b%e7%92%b0%e5%a2%83%e8%a9%a6%e9%a8%93%e5%99%a8%e6%9e%b6%e5%8f%b0%e4%bb%98-%e3%82%a8%e3%82%b9%e3%83%9a%e3%83%83%e3%82%af/">SU-261</a></div><div class="nm">SU-261　小型環境試験器 (架台付き)　 エスペック　92001027</div><div class="price">¥430,000</div><div class="chip">新着製品 / 保証:納品後 2週間消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">絶縁8CH高速マルチレコーダ</div><div class="model"><a href="https://used-lab.com/news/gr-7500%e3%80%80%e7%b5%b6%e7%b8%818ch%e9%ab%98%e9%80%9f%e3%83%9e%e3%83%ab%e3%83%81%e3%83%ac%e3%82%b3%e3%83%bc%e3%83%80%e3%80%80%e3%82%ad%e3%83%bc%e3%82%a8%e3%83%b3%e3%82%b9%e3%80%8078700036d/">GR-7500</a></div><div class="nm">GR-7500　絶縁8CH高速マルチレコーダ　キーエンス　78700036D</div><div class="price">¥154,300</div><div class="chip">新着製品 / 保証:納品後 2週間 (消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">光ファイバ増幅器</div><div class="model"><a href="https://used-lab.com/news/aedfa-dwdm-22-b-fc%e5%8b%95%e4%bd%9c%e7%a2%ba%e8%aa%8d%e6%b8%88%e3%81%bf%e3%80%80%e5%85%89%e3%83%95%e3%82%a1%e3%82%a4%e3%83%90%e5%a2%97%e5%b9%85%e5%99%a8%e3%80%80%e3%82%a2%e3%83%a2%e3%83%8b%e3%82%af/">AEDFA-DWDM-22-B-FC[動作確認済み]</a></div><div class="nm">AEDFA-DWDM-22-B-FC[動作確認済み]　光ファイバ増幅器　アモニクス　3121821</div><div class="price">¥250,000</div><div class="chip">新着製品 / 保証:納品後 1か月間(消耗品・劣化は対象外)</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">MY45000004</div><div class="model"><a href="https://used-lab.com/news/ddso81304b%e3%83%87%e3%82%a3%e3%82%b8%e3%82%bf%e3%83%ab%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88%e3%80%80my45000004/">DSO81304Bディジタルオシロスコープキーサイト</a></div><div class="nm">DSO81304Bディジタルオシロスコープキーサイト　MY45000004</div><div class="price">¥1,700,000</div><div class="chip">新着製品 / 保証:1か月間(消耗品・劣化は対象外)</div></div></div>
+<div class="sec"><h2>スターテクノロジー</h2><span class="cnt">3件</span></div>
+<div class="g5">
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12320" target="_blank" rel="noopener" title="8703B"><span class="ph"><img src="https://startechnology.jp/img/pic/10197-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8703B</div><div class="sub">Keysight (HP) 20GHz Vector network analyzer</div><div class="row"><span class="pr">¥990,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12319" target="_blank" rel="noopener" title="4155A"><span class="ph"><img src="https://startechnology.jp/img/pic/10200-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">4155A</div><div class="sub">Keysight (HP) Semiconductor Parameter Analyzer</div><div class="row"><span class="pr">¥600,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12318" target="_blank" rel="noopener" title="8902A/002"><span class="ph"><img src="https://startechnology.jp/img/pic/10199-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8902A/002</div><div class="sub">Keysight (HP) Measuring receiver</div><div class="row"><span class="pr">¥330,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>スターテクノロジー</h2><span class="cnt">3</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://startechnology.jp/products/detail.php?product_id=12320"><img src="https://startechnology.jp/img/pic/10197-01w_s.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Keysight (HP)</div><div class="model"><a href="https://startechnology.jp/products/detail.php?product_id=12320">8703B</a></div><div class="nm">20GHz Vector network analyzer</div><div class="price">¥990,000</div><div class="chip">推奨 中古</div></div></div>
-<div class="card"><a class="thumb" href="https://startechnology.jp/products/detail.php?product_id=12319"><img src="https://startechnology.jp/img/pic/10200-01w_s.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Keysight (HP)</div><div class="model"><a href="https://startechnology.jp/products/detail.php?product_id=12319">4155A</a></div><div class="nm">Semiconductor Parameter Analyzer</div><div class="price">¥600,000</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://startechnology.jp/products/detail.php?product_id=12318"><img src="https://startechnology.jp/img/pic/10199-01w_s.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Keysight (HP)</div><div class="model"><a href="https://startechnology.jp/products/detail.php?product_id=12318">8902A/002</a></div><div class="nm">Measuring receiver</div><div class="price">¥330,000</div><div class="chip">推奨 中古</div></div></div>
+<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">1件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001483/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="G0136"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014833_2VKxId0.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">G0136</div><div class="sub">アンリツ G0136　SFP トランシーバモジュール(SX,850nm)</div><div class="row"><span class="pr">¥13,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">1</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001483/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000014833_2VKxId0.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">アンリツ</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001483/ct-CHU_ALL/page4/order/">G0136</a></div><div class="nm">G0136　SFP トランシーバモジュール(SX,850nm)</div><div class="price">¥13,000</div><div class="chip">中古(再生品)</div></div></div>
-</div>
-<div class="sec"><h2>ZAI(理化学リユース)</h2><span class="cnt">15</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8696"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/da55b48e-ba47-460e-9db0-606ea640ce7c/45adc8ef-6b5a-420f-bfff-0bb21f859869.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8696">送風低温恒温器</a></div><div class="nm">送風低温恒温器</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8708"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/f6602c09-9f19-46d5-8399-c37a164f2739/451991fc-020d-4f56-beb7-915cacad68b3.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8708">【運送費込み】薬用冷蔵ショーケース</a></div><div class="nm">【運送費込み】薬用冷蔵ショーケース</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8704"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/25825a97-05aa-4025-944a-8bdfcbf126fd/9723f6ef-2406-43c3-bd0c-13651625e0d6.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8704">CO2インキュベーター</a></div><div class="nm">CO2インキュベーター</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8701"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/419be3ff-82b1-4e52-a51a-b2295e8e683c/305d9981-917f-4c7e-8e14-d7e32d744f8c.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8701">冷凍機付インキュベーター</a></div><div class="nm">冷凍機付インキュベーター</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8700"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/856b7ef9-a879-4df8-99ea-05910dbc172e/baf3c1cb-cfdb-4820-b9b2-efa12342a9d9.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8700">CO2インキュベーター</a></div><div class="nm">CO2インキュベーター</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8699"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/acd06b05-b564-482d-80e5-a53e0f98c19e/65a829e5-d81a-4db5-83af-b4557ca155a9.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8699">恒温器(インキュベーター)</a></div><div class="nm">恒温器(インキュベーター)</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8698"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/374a0bc1-c72b-4dea-a54b-02216dc8815e/2aab3b12-c584-4fe4-81ee-70a26b208211.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8698">【運送費込み】低温恒温器(低温インキュベーター)</a></div><div class="nm">【運送費込み】低温恒温器(低温インキュベーター)</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8713"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/83a6cec1-0d0b-46a5-95cb-22c26bde86bc/104f2df5-4de8-4885-a858-1b7723c490b5.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8713">角形真空定温乾燥器</a></div><div class="nm">角形真空定温乾燥器</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8707"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/082fcb5c-ff33-4269-9a30-244e67e26450/b5bd7f21-25e4-4f70-92c4-0a2c4d246bb0.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8707">【運送費込み】精密高温器</a></div><div class="nm">【運送費込み】精密高温器</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8710"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/b0a7a79c-9686-4c42-8679-2bd98be48000/12df33ce-0aad-4a6e-be48-4613d2bcf090.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8710">【運送費込み】インキュベーター</a></div><div class="nm">【運送費込み】インキュベーター</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8784"><img src="/assets/placeholder_s-3efe9f9e53b4ba68719f2dc25b454d7c727931ade45c11ca89d3401deb95a204.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8784">恒温器(インキュベーター)</a></div><div class="nm">恒温器(インキュベーター)</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8729"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/12c388d1-b37c-4222-b1bb-dea63e7b8147/64f3a5b9-bb5e-491d-9e00-fea9564055b1.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8729">【運送費込み】冷蔵冷凍庫</a></div><div class="nm">【運送費込み】冷蔵冷凍庫</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8714"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/fd3c58b9-6727-4e1e-9502-c318072e87d0/8b298f43-747f-4299-aeaf-9ecd88f80029.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8714">ロータリーシェーカー</a></div><div class="nm">ロータリーシェーカー</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8711"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/6bdf488e-81b2-4389-bc8c-2082e34d4ffa/d4c1d18d-440d-4def-988e-b4aec7d25875.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8711">振とう器</a></div><div class="nm">振とう器</div><div class="chip">販売中</div></div></div>
-<div class="card"><a class="thumb" href="https://zai.zaico.co.jp/inventories/8712"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/40370000-3c44-4330-931f-57760b6415ac/8a1140e4-97f9-4c9f-8fca-7658f2350c2c.png" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://zai.zaico.co.jp/inventories/8712">【運送費込み】バイオショーケース</a></div><div class="nm">【運送費込み】バイオショーケース</div><div class="chip">販売中</div></div></div>
+<div class="sec"><h2>ZAI(理化学リユース)</h2><span class="cnt">15件</span></div>
+<div class="g5">
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8696" target="_blank" rel="noopener" title="送風低温恒温器"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/da55b48e-ba47-460e-9db0-606ea640ce7c/45adc8ef-6b5a-420f-bfff-0bb21f859869.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">送風低温恒温器</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8708" target="_blank" rel="noopener" title="【運送費込み】薬用冷蔵ショーケース"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/f6602c09-9f19-46d5-8399-c37a164f2739/451991fc-020d-4f56-beb7-915cacad68b3.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">【運送費込み】薬用冷蔵ショーケース</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8704" target="_blank" rel="noopener" title="CO2インキュベーター"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/25825a97-05aa-4025-944a-8bdfcbf126fd/9723f6ef-2406-43c3-bd0c-13651625e0d6.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">CO2インキュベーター</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8701" target="_blank" rel="noopener" title="冷凍機付インキュベーター"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/419be3ff-82b1-4e52-a51a-b2295e8e683c/305d9981-917f-4c7e-8e14-d7e32d744f8c.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">冷凍機付インキュベーター</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8700" target="_blank" rel="noopener" title="CO2インキュベーター"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/856b7ef9-a879-4df8-99ea-05910dbc172e/baf3c1cb-cfdb-4820-b9b2-efa12342a9d9.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">CO2インキュベーター</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8699" target="_blank" rel="noopener" title="恒温器(インキュベーター)"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/acd06b05-b564-482d-80e5-a53e0f98c19e/65a829e5-d81a-4db5-83af-b4557ca155a9.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">恒温器(インキュベーター)</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8698" target="_blank" rel="noopener" title="【運送費込み】低温恒温器(低温インキュベーター)"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/374a0bc1-c72b-4dea-a54b-02216dc8815e/2aab3b12-c584-4fe4-81ee-70a26b208211.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">【運送費込み】低温恒温器(低温インキュベーター)</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8713" target="_blank" rel="noopener" title="角形真空定温乾燥器"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/83a6cec1-0d0b-46a5-95cb-22c26bde86bc/104f2df5-4de8-4885-a858-1b7723c490b5.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">角形真空定温乾燥器</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8707" target="_blank" rel="noopener" title="【運送費込み】精密高温器"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/082fcb5c-ff33-4269-9a30-244e67e26450/b5bd7f21-25e4-4f70-92c4-0a2c4d246bb0.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">【運送費込み】精密高温器</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8710" target="_blank" rel="noopener" title="【運送費込み】インキュベーター"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/b0a7a79c-9686-4c42-8679-2bd98be48000/12df33ce-0aad-4a6e-be48-4613d2bcf090.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">【運送費込み】インキュベーター</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8784" target="_blank" rel="noopener" title="恒温器(インキュベーター)"><span class="ph"><img src="/assets/placeholder_s-3efe9f9e53b4ba68719f2dc25b454d7c727931ade45c11ca89d3401deb95a204.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">恒温器(インキュベーター)</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8729" target="_blank" rel="noopener" title="【運送費込み】冷蔵冷凍庫"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/12c388d1-b37c-4222-b1bb-dea63e7b8147/64f3a5b9-bb5e-491d-9e00-fea9564055b1.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">【運送費込み】冷蔵冷凍庫</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8714" target="_blank" rel="noopener" title="ロータリーシェーカー"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/fd3c58b9-6727-4e1e-9502-c318072e87d0/8b298f43-747f-4299-aeaf-9ecd88f80029.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ロータリーシェーカー</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8711" target="_blank" rel="noopener" title="振とう器"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/6bdf488e-81b2-4389-bc8c-2082e34d4ffa/d4c1d18d-440d-4def-988e-b4aec7d25875.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">振とう器</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8712" target="_blank" rel="noopener" title="【運送費込み】バイオショーケース"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/40370000-3c44-4330-931f-57760b6415ac/8a1140e4-97f9-4c9f-8fca-7658f2350c2c.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">【運送費込み】バイオショーケース</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
 <div class="foot">used-listing-tracker — 自動生成</div>
-</div></body></html>
+</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})();
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+
+(function(){
+  var K='ult-opened', set={};
+  try{ (JSON.parse(localStorage.getItem(K)||'[]')).forEach(function(u){ set[u]=1; }); }catch(e){}
+  function mark(){ document.querySelectorAll('a.pc').forEach(function(a){
+    a.classList.toggle('seen', !!set[a.getAttribute('href')]); }); }
+  document.addEventListener('click', function(ev){
+    var a=ev.target.closest && ev.target.closest('a.pc'); if(!a) return;
+    var u=a.getAttribute('href'); set[u]=1;
+    try{ var l=Object.keys(set); if(l.length>3000) l=l.slice(-3000);
+         localStorage.setItem(K, JSON.stringify(l)); }catch(e){}
+    setTimeout(mark, 0);
+  }, true);
+  window.addEventListener('pageshow', mark);
+  mark();
+})();
+</script></body></html>

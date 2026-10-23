@@ -3,177 +3,246 @@
 <title>最新の新着 — 中古計測器トラッカー</title>
 <style>
 :root{
-  --bg:#f4f6f9; --card:#ffffff; --ink:#1a2230; --sub:#6b7684; --line:#e3e8ef;
-  --accent:#2b6cb0; --accent-weak:#eaf1fb; --price:#c05621; --chip:#eef2f7;
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
 }
 @media (prefers-color-scheme:dark){
-  :root{ --bg:#11151b; --card:#1a2029; --ink:#e6eaf0; --sub:#9aa5b3; --line:#2a323d;
-    --accent:#6ba7e6; --accent-weak:#1e2a3a; --price:#f0a878; --chip:#232b36; }
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;line-height:1.6;
-  -webkit-font-smoothing:antialiased;}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
-.top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
-  margin:0 -16px 20px;padding:14px 16px;z-index:5}
-.top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
-.brand:hover{text-decoration:none}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
-.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
-.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
-.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
-.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
-.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
-.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
-.brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
-.nav{margin-left:auto;display:flex;gap:6px}
-.nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
-.nav a.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
-.hero{padding:8px 0 4px}
-.hero h1{margin:0;font-size:22px}
-.hero .meta{color:var(--sub);font-size:13px;margin-top:4px}
-.pill{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;
-  padding:2px 12px;font-size:13px;font-weight:700}
-.empty{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:28px;text-align:center;color:var(--sub)}
-.sec{margin:26px 0 10px;display:flex;align-items:center;gap:10px}
-.sec h2{margin:0;font-size:16px}
-.sec .cnt{background:var(--accent-weak);color:var(--accent);border-radius:999px;
-  padding:1px 10px;font-size:12px;font-weight:700}
-.sec .rule{flex:1;height:1px;background:var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.card{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);
-  border-radius:12px;padding:10px;transition:box-shadow .15s,transform .15s}
-.card:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px)}
-.thumb{width:96px;height:96px;flex:0 0 96px;border-radius:8px;overflow:hidden;
-  background:var(--chip);display:flex;align-items:center;justify-content:center}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.thumb.ph{color:var(--sub);font-size:11px}
-.body{min-width:0;flex:1}
-.maker{color:var(--sub);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.model{font-weight:700;font-size:15px;margin:1px 0 2px;word-break:break-word}
-.nm{font-size:12.5px;color:var(--ink);opacity:.85;
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero{flex-wrap:wrap}.hero > .meta{flex-basis:100%;margin-top:-10px}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.hero + .sec{margin-top:18px}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;padding:8px 0;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump + .sec{border-top:0;margin-top:22px}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.opened{display:none;position:absolute;right:0;top:0;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;padding:2px 8px}
+.pc.seen .opened{display:block}
+.pc.seen .ph img,.pc.seen .noimg{opacity:.55}
+.pc.seen .mdl{color:var(--sub)}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.price{color:var(--price);font-weight:700;font-size:16px;margin-top:4px}
-.chip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:1px 7px;font-size:11px;margin-top:5px}
-.pdf .thumb{background:var(--accent-weak);color:var(--accent);font-size:28px}
-.sitechip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:0 6px;font-size:10px;margin-right:4px;vertical-align:middle}
-.newbadge{display:inline-block;background:var(--price);color:#fff;border-radius:6px;
-  padding:0 6px;font-size:10px;font-weight:700;margin-right:4px;vertical-align:middle}
-.card.isnew{border-color:var(--price);box-shadow:0 0 0 1px var(--price) inset}
-table.tb{border-collapse:collapse;width:100%;background:var(--card);
-  border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
-table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
-table.tb th{background:var(--accent-weak);color:var(--ink);font-weight:700}
-table.tb tr:last-child td{border-bottom:none}
-.hot{background:var(--accent-weak);font-weight:700}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
 .muted{color:var(--sub)}
-.foot{margin-top:34px;color:var(--sub);font-size:11px;text-align:center}
 .scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
 </style>
 </head><body>
 <div class="top"><div class="top-in">
-<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
-<span class="nav">
-<a class="" href="index.html">ホーム</a>
-<a class=" on" href="latest.html">新着</a>
-<a class="" href="watch.html">フォロー</a>
-<a class="" href="catalog.html">全在庫</a>
-<a class="" href="trends.html">傾向</a>
-</span></div></div>
+<a class="brand" href="../index.html">中古計測器トラッカー</a>
+<nav class="nav">
+<a href="../index.html">ホーム</a>
+<a class="on" href="../latest.html">新着</a>
+<a href="../watch.html">フォロー</a>
+<a href="../catalog.html">全在庫</a>
+<a href="../trends.html">傾向</a>
+</nav></div></div>
 <div class="wrap">
 
-<div class="hero">
-<h1>最新の新着 <span class="pill">54件</span></h1>
-<div class="meta">2026年08月19日 ・ 8サイトで新着</div>
+<div class="hero"><div><h1>新着 54件</h1><div class="meta">2026年08月19日 ・ 8サイトで新着</div></div></div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">2件</span></div>
+<div class="g5">
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q51124" target="_blank" rel="noopener" title="オリフラアライナー"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q5/Q51124/IMG_9226.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">オリフラアライナー</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q51125" target="_blank" rel="noopener" title="オリフラアライナー"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q5/Q51125/IMG_9233.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">オリフラアライナー</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>アスカインデックス</h2><span class="cnt">2</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q51124"><img src="https://askindex.co.jp/stocks/uploads/Q5/Q51124/IMG_9226.jpg" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q51124">オリフラアライナー</a></div><div class="nm">オリフラアライナー</div><div class="price">¥19,800</div></div></div>
-<div class="card"><a class="thumb" href="https://stocks.askindex.co.jp/product/?code=Q51125"><img src="https://askindex.co.jp/stocks/uploads/Q5/Q51125/IMG_9233.jpg" alt="" loading="lazy"></a><div class="body"><div class="model"><a href="https://stocks.askindex.co.jp/product/?code=Q51125">オリフラアライナー</a></div><div class="nm">オリフラアライナー</div><div class="price">¥19,800</div></div></div>
+<div class="sec"><h2>中古市場(チューコイチ)</h2><span class="cnt">10件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.chukoichi.com/pro_count.php?photoid=19428" target="_blank" rel="noopener" title="Y60-0349-000"><span class="ph"><img src="https://www.chukoichi.com/photo/Z26081801s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">Y60-0349-000</div><div class="sub">その他 G2, G5ミラー（誘電帯膜）</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/pro_count.php?photoid=19429" target="_blank" rel="noopener" title="BN9-4443-030"><span class="ph"><img src="https://www.chukoichi.com/photo/Z26081802s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">BN9-4443-030</div><div class="sub">その他 G4ミラー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/pro_count.php?photoid=19430" target="_blank" rel="noopener" title="BN9-4444-030"><span class="ph"><img src="https://www.chukoichi.com/photo/Z26081803s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">BN9-4444-030</div><div class="sub">その他 G6ミラー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/pro_count.php?photoid=19431" target="_blank" rel="noopener" title="BN9-8079-000"><span class="ph"><img src="https://www.chukoichi.com/photo/Z26081804s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">BN9-8079-000</div><div class="sub">その他 G2ミラー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/pro_count.php?photoid=19432" target="_blank" rel="noopener" title="BF6-0591-050"><span class="ph"><img src="https://www.chukoichi.com/photo/Z26081805s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">BF6-0591-050</div><div class="sub">その他 G2ミラー（MPA600SUPER）</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/pro_count.php?photoid=19433" target="_blank" rel="noopener" title="BN9-5205-000"><span class="ph"><img src="https://www.chukoichi.com/photo/Z26081806s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">BN9-5205-000</div><div class="sub">その他 第3コンデンサーレンズ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/pro_count.php?photoid=19434" target="_blank" rel="noopener" title="Y60-4040-000"><span class="ph"><img src="https://www.chukoichi.com/photo/Z26081807s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">Y60-4040-000</div><div class="sub">その他 輪帯球面ミラー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/pro_count.php?photoid=19435" target="_blank" rel="noopener" title="WAFER DISK"><span class="ph"><img src="https://www.chukoichi.com/photo/Z26081808s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">WAFER DISK</div><div class="sub">その他</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/pro_count.php?photoid=19436" target="_blank" rel="noopener" title="WAFER CHUCK（Black）"><span class="ph"><img src="https://www.chukoichi.com/photo/Z26081809s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">WAFER CHUCK（Black）</div><div class="sub">その他</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/pro_count.php?photoid=19437" target="_blank" rel="noopener" title="MASK CHUCK"><span class="ph"><img src="https://www.chukoichi.com/photo/Z26081810s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">MASK CHUCK</div><div class="sub">その他</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>中古市場(チューコイチ)</h2><span class="cnt">10</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://www.chukoichi.com/pro_count.php?photoid=19428"><img src="https://www.chukoichi.com/photo/Z26081801s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">その他</div><div class="model"><a href="https://www.chukoichi.com/pro_count.php?photoid=19428">Y60-0349-000</a></div><div class="nm">G2, G5ミラー（誘電帯膜）</div><div class="price">¥550,000</div></div></div>
-<div class="card"><a class="thumb" href="https://www.chukoichi.com/pro_count.php?photoid=19429"><img src="https://www.chukoichi.com/photo/Z26081802s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">その他</div><div class="model"><a href="https://www.chukoichi.com/pro_count.php?photoid=19429">BN9-4443-030</a></div><div class="nm">G4ミラー</div><div class="price">¥60,000</div></div></div>
-<div class="card"><a class="thumb" href="https://www.chukoichi.com/pro_count.php?photoid=19430"><img src="https://www.chukoichi.com/photo/Z26081803s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">その他</div><div class="model"><a href="https://www.chukoichi.com/pro_count.php?photoid=19430">BN9-4444-030</a></div><div class="nm">G6ミラー</div><div class="price">¥40,000</div></div></div>
-<div class="card"><a class="thumb" href="https://www.chukoichi.com/pro_count.php?photoid=19431"><img src="https://www.chukoichi.com/photo/Z26081804s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">その他</div><div class="model"><a href="https://www.chukoichi.com/pro_count.php?photoid=19431">BN9-8079-000</a></div><div class="nm">G2ミラー</div><div class="price">¥120,000</div></div></div>
-<div class="card"><a class="thumb" href="https://www.chukoichi.com/pro_count.php?photoid=19432"><img src="https://www.chukoichi.com/photo/Z26081805s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">その他</div><div class="model"><a href="https://www.chukoichi.com/pro_count.php?photoid=19432">BF6-0591-050</a></div><div class="nm">G2ミラー（MPA600SUPER）</div><div class="price">¥160,000</div></div></div>
-<div class="card"><a class="thumb" href="https://www.chukoichi.com/pro_count.php?photoid=19433"><img src="https://www.chukoichi.com/photo/Z26081806s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">その他</div><div class="model"><a href="https://www.chukoichi.com/pro_count.php?photoid=19433">BN9-5205-000</a></div><div class="nm">第3コンデンサーレンズ</div><div class="price">¥300,000</div></div></div>
-<div class="card"><a class="thumb" href="https://www.chukoichi.com/pro_count.php?photoid=19434"><img src="https://www.chukoichi.com/photo/Z26081807s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">その他</div><div class="model"><a href="https://www.chukoichi.com/pro_count.php?photoid=19434">Y60-4040-000</a></div><div class="nm">輪帯球面ミラー</div><div class="price">¥300,000</div></div></div>
-<div class="card"><a class="thumb" href="https://www.chukoichi.com/pro_count.php?photoid=19435"><img src="https://www.chukoichi.com/photo/Z26081808s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">その他</div><div class="model"><a href="https://www.chukoichi.com/pro_count.php?photoid=19435">WAFER DISK</a></div><div class="nm">WAFER DISK</div><div class="price">¥1,000,000</div></div></div>
-<div class="card"><a class="thumb" href="https://www.chukoichi.com/pro_count.php?photoid=19436"><img src="https://www.chukoichi.com/photo/Z26081809s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">その他</div><div class="model"><a href="https://www.chukoichi.com/pro_count.php?photoid=19436">WAFER CHUCK（Black）</a></div><div class="nm">WAFER CHUCK（Black）</div><div class="price">¥1,000,000</div></div></div>
-<div class="card"><a class="thumb" href="https://www.chukoichi.com/pro_count.php?photoid=19437"><img src="https://www.chukoichi.com/photo/Z26081810s1.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">その他</div><div class="model"><a href="https://www.chukoichi.com/pro_count.php?photoid=19437">MASK CHUCK</a></div><div class="nm">MASK CHUCK</div><div class="price">¥800,000</div></div></div>
+<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">5件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.3915.jp/hp01/11088.html" target="_blank" rel="noopener" title="PF7"><span class="ph"><img src="https://img.3915.jp/img/13606-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PF7</div><div class="sub">WATSON</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11087.html" target="_blank" rel="noopener" title="ASA-4"><span class="ph"><img src="https://img.3915.jp/img/12717-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ASA-4</div><div class="sub">信光電気計装</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11086.html" target="_blank" rel="noopener" title="TEM-V300"><span class="ph"><img src="https://img.3915.jp/img/13332-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TEM-V300</div><div class="sub">耐圧硝子工業</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11085.html" target="_blank" rel="noopener" title="XM-T1200【XM-1500】"><span class="ph"><img src="https://img.3915.jp/img/13304-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">XM-T1200【XM-1500】</div><div class="sub">キーエンス</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11084.html" target="_blank" rel="noopener" title="PVH-222M"><span class="ph"><img src="https://img.3915.jp/img/11590-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PVH-222M</div><div class="sub">エスペック</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">5</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11088.html"><img src="https://img.3915.jp/img/13606-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">WATSON</div><div class="model"><a href="https://www.3915.jp/hp01/11088.html">PF7</a></div><div class="nm">MARLOW 分注チューブポンプ Flexicon</div></div></div>
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11087.html"><img src="https://img.3915.jp/img/12717-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">信光電気計装</div><div class="model"><a href="https://www.3915.jp/hp01/11087.html">ASA-4</a></div><div class="nm">コロナスキャナー</div></div></div>
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11086.html"><img src="https://img.3915.jp/img/13332-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">耐圧硝子工業</div><div class="model"><a href="https://www.3915.jp/hp01/11086.html">TEM-V300</a></div><div class="nm">ハイパーグラスター</div></div></div>
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11085.html"><img src="https://img.3915.jp/img/13304-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">キーエンス</div><div class="model"><a href="https://www.3915.jp/hp01/11085.html">XM-T1200【XM-1500】</a></div><div class="nm">ハンディプローブ三次元測定機</div></div></div>
-<div class="card"><a class="thumb" href="https://www.3915.jp/hp01/11084.html"><img src="https://img.3915.jp/img/11590-1.JPG" alt="" loading="lazy"></a><div class="body"><div class="maker">エスペック</div><div class="model"><a href="https://www.3915.jp/hp01/11084.html">PVH-222M</a></div><div class="nm">恒温器</div></div></div>
+<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">3件</span></div>
+<div class="g5">
+<a class="pc" href="https://used-lab.com/news/ct52%e3%80%80%e5%85%89%e3%83%95%e3%82%a1%e3%82%a4%e3%83%90%e3%82%ab%e3%83%83%e3%82%bf%e3%80%80%e3%83%95%e3%82%b8%e3%82%af%e3%83%a9%e3%80%80040323-040329/" target="_blank" rel="noopener" title="CT52"><span class="ph"><span class="noimg"><b>CT52</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">CT52</div><div class="sub">光ファイバカッタ CT52　光ファイバカッタ　フジクラ　040323/040329</div><div class="row"><span class="pr">¥44,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/ct-32%e3%80%80%e5%85%89%e3%83%95%e3%82%a1%e3%82%a4%e3%83%90%e3%82%ab%e3%83%83%e3%82%bf%e3%80%80%e3%83%95%e3%82%b8%e3%82%af%e3%83%a9%e3%80%8003040/" target="_blank" rel="noopener" title="CT-32"><span class="ph"><span class="noimg"><b>CT-32</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">CT-32</div><div class="sub">光ファイバカッタ CT-32　光ファイバカッタ　フジクラ　03040/03287/003041</div><div class="row"><span class="pr">¥44,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/tps2024%e3%80%80%e3%82%ab%e3%83%a9%e3%83%bc%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%83%bb%e3%82%b9%e3%83%88%e3%83%ac%e3%83%bc%e3%82%b8%e3%83%bb%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc/" target="_blank" rel="noopener" title="TPS2024"><span class="ph"><span class="noimg"><b>TPS2024</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TPS2024</div><div class="sub">カラーデジタル・ストレージ・オシロスコープ TPS2024　カラーデジタル・ストレージ・オシロスコープ　テクトロニクス　C024397</div><div class="row"><span class="pr">¥268,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">3</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">光ファイバカッタ</div><div class="model"><a href="https://used-lab.com/news/ct52%e3%80%80%e5%85%89%e3%83%95%e3%82%a1%e3%82%a4%e3%83%90%e3%82%ab%e3%83%83%e3%82%bf%e3%80%80%e3%83%95%e3%82%b8%e3%82%af%e3%83%a9%e3%80%80040323-040329/">CT52</a></div><div class="nm">CT52　光ファイバカッタ　フジクラ　040323/040329</div><div class="price">¥44,000</div><div class="chip">新着製品 / 保証:納品後 1か月間（消耗品・劣化は対象外）</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">光ファイバカッタ</div><div class="model"><a href="https://used-lab.com/news/ct-32%e3%80%80%e5%85%89%e3%83%95%e3%82%a1%e3%82%a4%e3%83%90%e3%82%ab%e3%83%83%e3%82%bf%e3%80%80%e3%83%95%e3%82%b8%e3%82%af%e3%83%a9%e3%80%8003040/">CT-32</a></div><div class="nm">CT-32　光ファイバカッタ　フジクラ　03040/03287/003041</div><div class="price">¥44,000</div><div class="chip">新着製品 / 保証:納品後 1か月間（消耗品・劣化は対象外）</div></div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">カラーデジタル・ストレージ・オシロスコープ</div><div class="model"><a href="https://used-lab.com/news/tps2024%e3%80%80%e3%82%ab%e3%83%a9%e3%83%bc%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%83%bb%e3%82%b9%e3%83%88%e3%83%ac%e3%83%bc%e3%82%b8%e3%83%bb%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc/">TPS2024</a></div><div class="nm">TPS2024　カラーデジタル・ストレージ・オシロスコープ　テクトロニクス　C024397</div><div class="price">¥268,000</div><div class="chip">新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）</div></div></div>
+<div class="sec"><h2>スターテクノロジー</h2><span class="cnt">2件</span></div>
+<div class="g5">
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12309" target="_blank" rel="noopener" title="8481A"><span class="ph"><img src="https://startechnology.jp/img/pic/9937-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8481A</div><div class="sub">Keysight (HP) Power sensor, 10MHz〜18GHz</div><div class="row"><span class="pr">¥50,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12302" target="_blank" rel="noopener" title="00281-60004"><span class="ph"><img src="https://startechnology.jp/img/pic/10164-02w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">00281-60004</div><div class="sub">Keysight (HP) Waveguide to Coax Adapter, W-Band</div><div class="row"><span class="pr">¥300,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>スターテクノロジー</h2><span class="cnt">2</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://startechnology.jp/products/detail.php?product_id=12309"><img src="https://startechnology.jp/img/pic/9937-01w_s.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Keysight (HP)</div><div class="model"><a href="https://startechnology.jp/products/detail.php?product_id=12309">8481A</a></div><div class="nm">Power sensor, 10MHz〜18GHz</div><div class="price">¥50,000</div><div class="chip">推奨 中古</div></div></div>
-<div class="card"><a class="thumb" href="https://startechnology.jp/products/detail.php?product_id=12302"><img src="https://startechnology.jp/img/pic/10164-02w_s.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">Keysight (HP)</div><div class="model"><a href="https://startechnology.jp/products/detail.php?product_id=12302">00281-60004</a></div><div class="nm">Waveguide to Coax Adapter, W-Band</div><div class="price">¥300,000</div><div class="chip">推奨</div></div></div>
+<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">2件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000002935/ct-CHU_ALL/page3/order/" target="_blank" rel="noopener" title="TPS2024(TPSBAT,TPSCHG)"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000029353_dAEchDz.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TPS2024(TPSBAT,TPSCHG)</div><div class="sub">テクトロニクス TPS2024(TPSBAT,TPSCHG)　デジタル・オシロスコープ</div><div class="row"><span class="pr">¥189,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.techeyes-sokuno.com/shopdetail/000000001158/ct-CHU_ALL/page4/order/" target="_blank" rel="noopener" title="WF1974"><span class="ph"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000011583_A8EhlUG.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">WF1974</div><div class="sub">エヌエフ回路設計ブロック WF1974　ファンクションジェネレータ</div><div class="row"><span class="pr">¥126,000</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>速納.com(TechEyes)</h2><span class="cnt">2</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000002935/ct-CHU_ALL/page3/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000029353_dAEchDz.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">テクトロニクス</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000002935/ct-CHU_ALL/page3/order/">TPS2024(TPSBAT,TPSCHG)</a></div><div class="nm">TPS2024(TPSBAT,TPSCHG)　デジタル・オシロスコープ</div><div class="price">¥189,000</div><div class="chip">中古(再生品)</div></div></div>
-<div class="card"><a class="thumb" href="https://www.techeyes-sokuno.com/shopdetail/000000001158/ct-CHU_ALL/page4/order/"><img src="https://makeshop-multi-images.akamaized.net/TEDirectShop/itemimages/0000000011583_A8EhlUG.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エヌエフ回路設計ブロック</div><div class="model"><a href="https://www.techeyes-sokuno.com/shopdetail/000000001158/ct-CHU_ALL/page4/order/">WF1974</a></div><div class="nm">WF1974　ファンクションジェネレータ</div><div class="price">¥126,000</div><div class="chip">中古(再生品)</div></div></div>
+<div class="sec"><h2>EHI(中古科学機器)</h2><span class="cnt">29件</span></div>
+<div class="g5">
+<a class="pc" href="https://ehi.co.jp/35937/" target="_blank" rel="noopener" title="VL‑30M"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4402-2-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">VL‑30M</div><div class="sub">Vilber Lourmat -2UVランプ</div><div class="row"><span class="pr">¥12,100</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35965/" target="_blank" rel="noopener" title="BP-98AL"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4403-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">BP-98AL</div><div class="sub">ソフトロン 非観血自動血圧測定装置</div><div class="row"><span class="pr">¥181,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35935/" target="_blank" rel="noopener" title="VL‑30M"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4402-1-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">VL‑30M</div><div class="sub">Vilber Lourmat -1UVランプ</div><div class="row"><span class="pr">¥12,100</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35922/" target="_blank" rel="noopener" title="ユニットデシケーター"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4401-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ユニットデシケーター</div><div class="sub">井内盛栄堂</div><div class="row"><span class="pr">¥6,050</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35877/" target="_blank" rel="noopener" title="5415 C"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4399-2-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">5415 C</div><div class="sub">エッペンドルフ -2マイクロ遠心機</div><div class="row"><span class="pr">¥60,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35875/" target="_blank" rel="noopener" title="5415 C"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4399-1-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">5415 C</div><div class="sub">エッペンドルフ -1マイクロ遠心機</div><div class="row"><span class="pr">¥60,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35856/" target="_blank" rel="noopener" title="VS‑70R"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4396-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">VS‑70R</div><div class="sub">井内盛栄堂 超音波洗浄器</div><div class="row"><span class="pr">¥18,150</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35844/" target="_blank" rel="noopener" title="YE"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4395-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">YE</div><div class="sub">東京技術研究所 マントルヒーター</div><div class="row"><span class="pr">¥12,100</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35829/" target="_blank" rel="noopener" title="RH‑KT/CS1"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4392-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">RH‑KT/CS1</div><div class="sub">IKA ホットプレートスターラー</div><div class="row"><span class="pr">¥36,300</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35816/" target="_blank" rel="noopener" title="Ｏ-4"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4390-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">Ｏ-4</div><div class="sub">YAZAWA オイルバス</div><div class="row"><span class="pr">¥6,050</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35802/" target="_blank" rel="noopener" title="SB-35"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4389-2-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">SB-35</div><div class="sub">EYELA -2恒温水槽　ウォーターバス</div><div class="row"><span class="pr">¥6,050</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35769/" target="_blank" rel="noopener" title="G-560"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4387-3-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">G-560</div><div class="sub">サイエンティフィックインダストリーズ -3ボルテックスミキサー</div><div class="row"><span class="pr">¥24,200</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35767/" target="_blank" rel="noopener" title="G-560"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4387-1-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">G-560</div><div class="sub">サイエンティフィックインダストリーズ -1ボルテックスミキサー</div><div class="row"><span class="pr">¥24,200</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35749/" target="_blank" rel="noopener" title="AE200"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4383-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AE200</div><div class="sub">メトラー・トレド 分析天秤</div><div class="row"><span class="pr">¥121,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35726/" target="_blank" rel="noopener" title="PG3001-S"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4381-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PG3001-S</div><div class="sub">メトラー・トレド 上皿天秤</div><div class="row"><span class="pr">¥48,400</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35693/" target="_blank" rel="noopener" title="PM3000"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4380-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PM3000</div><div class="sub">メトラー・トレド 上皿天秤</div><div class="row"><span class="pr">¥36,300</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35668/" target="_blank" rel="noopener" title="UT-30A・UO300FB"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4378-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">UT-30A・UO300FB</div><div class="sub">国際電気エルテック 強力超音波洗浄機</div><div class="row"><span class="pr">¥121,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35649/" target="_blank" rel="noopener" title="DX41"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4377-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">DX41</div><div class="sub">ヤマト科学 定温乾燥器</div><div class="row"><span class="pr">¥36,300</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35626/" target="_blank" rel="noopener" title="AR-205"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4376-1-488x650.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">AR-205</div><div class="sub">アドバンテック 電子冷熱恒温恒湿器</div><div class="row"><span class="pr">¥242,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35610/" target="_blank" rel="noopener" title="PS‑C2"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4375-2-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PS‑C2</div><div class="sub">サクラ -2サクラパラフィン伸展器</div><div class="row"><span class="pr">¥48,400</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35591/" target="_blank" rel="noopener" title="PS‑C2"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4375-1-2-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PS‑C2</div><div class="sub">サクラ -1サクラパラフィン伸展器</div><div class="row"><span class="pr">¥48,400</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35571/" target="_blank" rel="noopener" title="C-MAG HS 10"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4372-1-650x366.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">C-MAG HS 10</div><div class="sub">IKA マグネットスターラー</div><div class="row"><span class="pr">¥60,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35542/" target="_blank" rel="noopener" title="-2万能スタチーフ"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4371-2-1-650x366.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">-2万能スタチーフ</div><div class="sub">夏目製作所</div><div class="row"><span class="pr">¥30,250</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35540/" target="_blank" rel="noopener" title="-1万能スタチーフ"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4371-1-1-650x366.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">-1万能スタチーフ</div><div class="sub">夏目製作所</div><div class="row"><span class="pr">¥30,250</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35528/" target="_blank" rel="noopener" title="331372"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4370-4-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">331372</div><div class="sub">ベックマン・コールター -4遠心チューブ</div><div class="row"><span class="pr">¥6,050</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35514/" target="_blank" rel="noopener" title="-3組織培養用フラスコ"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4370-3-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">-3組織培養用フラスコ</div><div class="sub">Falcon®</div><div class="row"><span class="pr">¥3,630</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35501/" target="_blank" rel="noopener" title="-2組織培養用フラスコ"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4370-2-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">-2組織培養用フラスコ</div><div class="sub">Falcon®</div><div class="row"><span class="pr">¥3,630</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35487/" target="_blank" rel="noopener" title="-1組織培養用フラスコ"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4370-1-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">-1組織培養用フラスコ</div><div class="sub">Falcon®</div><div class="row"><span class="pr">¥3,630</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://ehi.co.jp/35466/" target="_blank" rel="noopener" title="HW-10KGV"><span class="ph"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4369-1-650x488.jpeg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">HW-10KGV</div><div class="sub">エー・アンド・デイ デジタル台はかり</div><div class="row"><span class="pr">¥24,200</span><span class="sub"></span></div></div></a>
 </div>
-<div class="sec"><h2>EHI(中古科学機器)</h2><span class="cnt">29</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35937/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4402-2-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">Vilber Lourmat</div><div class="model"><a href="https://ehi.co.jp/35937/">VL‑30M</a></div><div class="nm">-2UVランプ</div><div class="price">¥12,100</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35965/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4403-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">ソフトロン</div><div class="model"><a href="https://ehi.co.jp/35965/">BP-98AL</a></div><div class="nm">非観血自動血圧測定装置</div><div class="price">¥181,500</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35935/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4402-1-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">Vilber Lourmat</div><div class="model"><a href="https://ehi.co.jp/35935/">VL‑30M</a></div><div class="nm">-1UVランプ</div><div class="price">¥12,100</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35922/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4401-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">井内盛栄堂</div><div class="model"><a href="https://ehi.co.jp/35922/">ユニットデシケーター</a></div><div class="nm">ユニットデシケーター</div><div class="price">¥6,050</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35877/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4399-2-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">エッペンドルフ</div><div class="model"><a href="https://ehi.co.jp/35877/">5415 C</a></div><div class="nm">-2マイクロ遠心機</div><div class="price">¥60,500</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35875/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4399-1-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">エッペンドルフ</div><div class="model"><a href="https://ehi.co.jp/35875/">5415 C</a></div><div class="nm">-1マイクロ遠心機</div><div class="price">¥60,500</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35856/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4396-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">井内盛栄堂</div><div class="model"><a href="https://ehi.co.jp/35856/">VS‑70R</a></div><div class="nm">超音波洗浄器</div><div class="price">¥18,150</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35844/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4395-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">東京技術研究所</div><div class="model"><a href="https://ehi.co.jp/35844/">YE</a></div><div class="nm">マントルヒーター</div><div class="price">¥12,100</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35829/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4392-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">IKA</div><div class="model"><a href="https://ehi.co.jp/35829/">RH‑KT/CS1</a></div><div class="nm">ホットプレートスターラー</div><div class="price">¥36,300</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35816/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4390-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">YAZAWA</div><div class="model"><a href="https://ehi.co.jp/35816/">Ｏ-4</a></div><div class="nm">オイルバス</div><div class="price">¥6,050</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35802/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4389-2-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">EYELA</div><div class="model"><a href="https://ehi.co.jp/35802/">SB-35</a></div><div class="nm">-2恒温水槽　ウォーターバス</div><div class="price">¥6,050</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35769/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4387-3-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">サイエンティフィックインダストリーズ</div><div class="model"><a href="https://ehi.co.jp/35769/">G-560</a></div><div class="nm">-3ボルテックスミキサー</div><div class="price">¥24,200</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35767/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4387-1-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">サイエンティフィックインダストリーズ</div><div class="model"><a href="https://ehi.co.jp/35767/">G-560</a></div><div class="nm">-1ボルテックスミキサー</div><div class="price">¥24,200</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35749/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4383-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">メトラー・トレド</div><div class="model"><a href="https://ehi.co.jp/35749/">AE200</a></div><div class="nm">分析天秤</div><div class="price">¥121,000</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35726/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4381-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">メトラー・トレド</div><div class="model"><a href="https://ehi.co.jp/35726/">PG3001-S</a></div><div class="nm">上皿天秤</div><div class="price">¥48,400</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35693/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4380-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">メトラー・トレド</div><div class="model"><a href="https://ehi.co.jp/35693/">PM3000</a></div><div class="nm">上皿天秤</div><div class="price">¥36,300</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35668/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4378-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">国際電気エルテック</div><div class="model"><a href="https://ehi.co.jp/35668/">UT-30A・UO300FB</a></div><div class="nm">強力超音波洗浄機</div><div class="price">¥121,000</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35649/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4377-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">ヤマト科学</div><div class="model"><a href="https://ehi.co.jp/35649/">DX41</a></div><div class="nm">定温乾燥器</div><div class="price">¥36,300</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35626/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4376-1-488x650.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">アドバンテック</div><div class="model"><a href="https://ehi.co.jp/35626/">AR-205</a></div><div class="nm">電子冷熱恒温恒湿器</div><div class="price">¥242,000</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35610/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4375-2-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">サクラ</div><div class="model"><a href="https://ehi.co.jp/35610/">PS‑C2</a></div><div class="nm">-2サクラパラフィン伸展器</div><div class="price">¥48,400</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35591/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4375-1-2-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">サクラ</div><div class="model"><a href="https://ehi.co.jp/35591/">PS‑C2</a></div><div class="nm">-1サクラパラフィン伸展器</div><div class="price">¥48,400</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35571/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4372-1-650x366.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">IKA</div><div class="model"><a href="https://ehi.co.jp/35571/">C-MAG HS 10</a></div><div class="nm">マグネットスターラー</div><div class="price">¥60,500</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35542/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4371-2-1-650x366.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">夏目製作所</div><div class="model"><a href="https://ehi.co.jp/35542/">-2万能スタチーフ</a></div><div class="nm">-2万能スタチーフ</div><div class="price">¥30,250</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35540/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4371-1-1-650x366.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">夏目製作所</div><div class="model"><a href="https://ehi.co.jp/35540/">-1万能スタチーフ</a></div><div class="nm">-1万能スタチーフ</div><div class="price">¥30,250</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35528/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4370-4-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">ベックマン・コールター</div><div class="model"><a href="https://ehi.co.jp/35528/">331372</a></div><div class="nm">-4遠心チューブ</div><div class="price">¥6,050</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35514/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4370-3-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">Falcon®</div><div class="model"><a href="https://ehi.co.jp/35514/">-3組織培養用フラスコ</a></div><div class="nm">-3組織培養用フラスコ</div><div class="price">¥3,630</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35501/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4370-2-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">Falcon®</div><div class="model"><a href="https://ehi.co.jp/35501/">-2組織培養用フラスコ</a></div><div class="nm">-2組織培養用フラスコ</div><div class="price">¥3,630</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35487/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4370-1-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">Falcon®</div><div class="model"><a href="https://ehi.co.jp/35487/">-1組織培養用フラスコ</a></div><div class="nm">-1組織培養用フラスコ</div><div class="price">¥3,630</div><div class="chip">中古</div></div></div>
-<div class="card"><a class="thumb" href="https://ehi.co.jp/35466/"><img src="https://ehi.co.jp/wp-content/uploads/2026/08/4369-1-650x488.jpeg" alt="" loading="lazy"></a><div class="body"><div class="maker">エー・アンド・デイ</div><div class="model"><a href="https://ehi.co.jp/35466/">HW-10KGV</a></div><div class="nm">デジタル台はかり</div><div class="price">¥24,200</div><div class="chip">中古</div></div></div>
-</div>
-<div class="sec"><h2>測定器市場</h2><span class="cnt">1</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker">キーサイトテクノロジー (アジレント・HP)</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000010700.html">84904K</a></div><div class="nm">プログラマブル ステップアッテネータ</div><div class="price">¥176,000</div><div class="chip">中古</div></div></div>
+<div class="sec"><h2>測定器市場</h2><span class="cnt">1件</span></div>
+<div class="g5">
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000010700.html" target="_blank" rel="noopener" title="84904K"><span class="ph"><span class="noimg"><b>84904K</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">84904K</div><div class="sub">キーサイトテクノロジー (アジレント・HP) プログラマブル ステップアッテネータ</div><div class="row"><span class="pr">¥176,000</span><span class="sub"></span></div></div></a>
 </div>
 <div class="foot">used-listing-tracker — 自動生成</div>
-</div></body></html>
+</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})();
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+
+(function(){
+  var K='ult-opened', set={};
+  try{ (JSON.parse(localStorage.getItem(K)||'[]')).forEach(function(u){ set[u]=1; }); }catch(e){}
+  function mark(){ document.querySelectorAll('a.pc').forEach(function(a){
+    a.classList.toggle('seen', !!set[a.getAttribute('href')]); }); }
+  document.addEventListener('click', function(ev){
+    var a=ev.target.closest && ev.target.closest('a.pc'); if(!a) return;
+    var u=a.getAttribute('href'); set[u]=1;
+    try{ var l=Object.keys(set); if(l.length>3000) l=l.slice(-3000);
+         localStorage.setItem(K, JSON.stringify(l)); }catch(e){}
+    setTimeout(mark, 0);
+  }, true);
+  window.addEventListener('pageshow', mark);
+  mark();
+})();
+</script></body></html>
