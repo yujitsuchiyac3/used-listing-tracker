@@ -1,14 +1,15 @@
 """日次まとめの HTML / テキスト生成。
 
-Web ページ(githack で閲覧)としても、メール本文としても使える HTML を生成する。
-- ページ全体は共通の見出し・ナビ・スタイル(page_head / page_foot)で統一
-- 商品はカード型。ライト/ダーク両対応、レスポンシブ
-- カード内は email でも崩れにくいようインラインスタイルを併用
+GitHub Pages で閲覧するページと、メール・アーカイブ用の HTML を生成する。
+- 写真を主役にしたカード(_photo_card)を全ページで共通に使う
+- 配色は OS の昼/夜設定に合わせて自動で切り替える
+- フォロー該当品は「前回見たとき以降に見つかった品」をブラウザ側で判定して先頭に出す
+  (前回の閲覧日はブラウザの localStorage に保存。サーバ側には何も残さない)
 """
 from __future__ import annotations
 
 import html
-from datetime import date
+from datetime import date, timedelta
 from typing import Dict, List
 
 from scrapers.base import Listing
@@ -25,13 +26,19 @@ def _yen(item: Listing) -> str:
 def _price_html(item: Listing) -> str:
     """価格が数値で出ている品だけ強調し、「お問い合わせください」等は控えめに出す。"""
     y = _yen(item)
-    if not y:
-        return ""
     if item.price_value is not None:
-        return f'<div class="price">{html.escape(y)}</div>'
-    if "問" in y:
-        y = "価格は問合せ"
-    return f'<div class="price ask">{html.escape(y)}</div>'
+        return f'<span class="pr">{html.escape(y)}</span>'
+    if not y or "問" in y:
+        y = "問合せ"
+    return f'<span class="pr ask">{html.escape(y)}</span>'
+
+
+def _md(d: str) -> str:
+    """"2026-10-21" -> "10/21"。"""
+    if not d:
+        return ""
+    _, m, dd = d.split("-")
+    return f"{int(m)}/{int(dd)}"
 
 
 # ---- 共通スタイル / ヘッダ / フッタ ----------------------------------------
@@ -40,137 +47,212 @@ def page_css() -> str:
     return """
 <style>
 :root{
-  --bg:#f4f6f9; --card:#ffffff; --ink:#1a2230; --sub:#6b7684; --line:#e3e8ef;
-  --accent:#2b6cb0; --accent-weak:#eaf1fb; --price:#c05621; --chip:#eef2f7;
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
 }
 @media (prefers-color-scheme:dark){
-  :root{ --bg:#11151b; --card:#1a2029; --ink:#e6eaf0; --sub:#9aa5b3; --line:#2a323d;
-    --accent:#6ba7e6; --accent-weak:#1e2a3a; --price:#f0a878; --chip:#232b36; }
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:FONTSTACK;line-height:1.6;
-  -webkit-font-smoothing:antialiased;}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
-.top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
-  margin:0 0 20px;padding:14px 16px;z-index:5}
-.top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
-.brand:hover{text-decoration:none}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
-.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
-.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
-.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
-.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
-.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
-.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
-.brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
-.nav{margin-left:auto;display:flex;gap:6px}
-.nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
-.nav a.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
-@media (max-width:600px){
-  .top{position:static;padding:10px 16px 8px}
-  .top-in{gap:6px}
-  .nav{margin-left:-12px;max-width:calc(100% + 12px);overflow-x:auto;white-space:nowrap}
-  .nav a{padding:6px 10px;flex:0 0 auto}
-}
-.hero{padding:8px 0 4px}
-.hero h1{margin:0;font-size:22px}
-.hero .meta{color:var(--sub);font-size:13px;margin-top:4px}
-.pill{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;
-  padding:2px 12px;font-size:13px;font-weight:700}
-.empty{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:28px;text-align:center;color:var(--sub)}
-.sec{margin:26px 0 10px;display:flex;align-items:center;gap:10px}
-.sec h2{margin:0;font-size:16px}
-.sec .cnt{background:var(--accent-weak);color:var(--accent);border-radius:999px;
-  padding:1px 10px;font-size:12px;font-weight:700}
-.sec .rule{flex:1;height:1px;background:var(--line)}
-.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 12px)}
-.jump{display:flex;flex-wrap:wrap;gap:6px;margin:14px -16px 4px;padding:8px 16px;
-  position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);border-bottom:1px solid var(--line)}
-@media (max-width:600px){
-  .jump{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap}
-  .jump a{flex:0 0 auto}
-}
-.jump a{background:var(--card);border:1px solid var(--line);border-radius:999px;
-  padding:3px 10px;font-size:12.5px;color:var(--ink)}
-.jump a:hover{border-color:var(--accent);text-decoration:none}
-.jump .n{color:var(--accent);font-weight:700;margin-left:4px}
-.jump .z{color:var(--sub)}
-.jump .nw{color:var(--price);font-weight:700;margin-left:4px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.card{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);
-  border-radius:12px;padding:10px;transition:box-shadow .15s,transform .15s}
-.card:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px)}
-.thumb{width:96px;height:96px;flex:0 0 96px;border-radius:8px;overflow:hidden;
-  background:var(--chip);display:flex;align-items:center;justify-content:center}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.thumb.ph{color:var(--sub);font-size:11px}
-.body{min-width:0;flex:1}
-.maker{color:var(--sub);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.model{font-weight:700;font-size:15px;margin:1px 0 2px;word-break:break-word}
-.nm{font-size:12.5px;color:var(--ink);opacity:.85;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.price{color:var(--price);font-weight:700;font-size:16px;margin-top:4px}
-.price.ask{color:var(--sub);font-weight:400;font-size:12px}
-.chip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:1px 7px;font-size:11px;margin-top:5px}
-.pdf .thumb{background:var(--accent-weak);color:var(--accent);font-size:28px}
-.sitechip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:0 6px;font-size:10px;margin-right:4px;vertical-align:middle}
-.newbadge{display:inline-block;background:var(--price);color:#fff;border-radius:6px;
-  padding:0 6px;font-size:10px;font-weight:700;margin-right:4px;vertical-align:middle}
-.card.isnew{border-color:var(--price);box-shadow:0 0 0 1px var(--price) inset}
-table.tb{border-collapse:collapse;width:100%;background:var(--card);
-  border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
-table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
-table.tb th{background:var(--accent-weak);color:var(--ink);font-weight:700}
-table.tb tr:last-child td{border-bottom:none}
-.hot{background:var(--accent-weak);font-weight:700}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 FONTSTACK;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px -28px 0;padding:8px 28px;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
 .muted{color:var(--sub)}
-.foot{margin-top:34px;color:var(--sub);font-size:11px;text-align:center}
 .scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{margin:8px -14px 0;padding:8px 14px;flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
 </style>
 """.replace("FONTSTACK", FONT)
 
 
 def page_head(title: str, subtitle: str = "", active: str = "") -> str:
     def nav(href, label, key):
-        on = " on" if key == active else ""
-        return f'<a class="nav-a{on}" href="{href}">{label}</a>'
+        on = ' class="on"' if key == active else ""
+        return f'<a{on} href="{href}">{label}</a>'
     e = html.escape
     return f"""<!doctype html><html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title>{page_css()}</head><body>
 <div class="top"><div class="top-in">
-<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
-<span class="nav">
+<a class="brand" href="index.html">中古計測器トラッカー</a>
+<nav class="nav">
 {nav("index.html","ホーム","home")}
-{nav("latest.html","新着","latest")}
 {nav("watch.html","フォロー","watch")}
+{nav("latest.html","新着","latest")}
 {nav("catalog.html","全在庫","catalog")}
 {nav("trends.html","傾向","trends")}
-</span></div></div>
+</nav></div></div>
 <div class="wrap">
-""".replace('class="nav-a', 'class="')
+"""
+
+
+# 前回の閲覧日(ブラウザに保存)と各カードの data-seen(見つけた日)を比べ、未読に印を付ける。
+# 同じタブで再読み込みしても未読表示が消えないよう、セッション中は最初に読んだ「前回」を使う。
+_UNREAD_JS = r"""
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+"""
+
+_LAYOUT_JS = (
+    "(function(){function f(){var r=document.documentElement.style,"
+    "t=document.querySelector('.top'),j=document.querySelector('.jump');"
+    "r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');"
+    "r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}"
+    "f();addEventListener('resize',f)})();"
+)
 
 
 def page_foot() -> str:
-    # 固定表示するヘッダ/ジャンプリンクの高さを測り、見出しへのジャンプ位置に使う
-    script = ("<script>(function(){function f(){var r=document.documentElement.style,"
-              "t=document.querySelector('.top'),j=document.querySelector('.jump');"
-              "r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');"
-              "r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}"
-              "f();addEventListener('resize',f)})()</script>")
     return ('<div class="foot">used-listing-tracker — 自動生成</div>\n'
-            f"</div>{script}</body></html>")
+            f"</div><script>{_LAYOUT_JS}{_UNREAD_JS}</script></body></html>")
+
+
+# ---- 写真カード(全ページ共通) ----------------------------------------------
+
+def _photo_card(it: Listing, *, site_label: str = "", seen: str = "",
+                recent: bool = False, tag: str = "") -> str:
+    """写真を主役にしたカード。
+
+    seen: フォローに初めて載った日(YYYY-MM-DD)。指定すると未読判定の対象になる。
+    recent: 前回の閲覧日が無い(初めて開いた)ときに未読扱いにするか。
+    tag: 写真の右下に出す札(フォロー名など)。
+    """
+    e = html.escape
+    title = it.model or it.name
+    if it.image_url:
+        img = f'<img src="{e(it.image_url)}" alt="" loading="lazy">'
+    else:
+        kind = "PDF掲載" if it.site == "orix" else "写真なし"
+        img = f'<span class="noimg"><b>{e(title)}</b>{kind}</span>'
+    attrs = ""
+    if seen:
+        attrs = f' data-seen="{e(seen)}"' + (' data-recent="1"' if recent else "")
+    new = f'<span class="new">{_md(seen)} 新着</span>' if seen else ""
+    if tag:
+        tg = f'<span class="tag">{e(tag)}</span>'
+    elif seen:
+        tg = f'<span class="tag dt">{_md(seen)} 発見</span>'
+    else:
+        tg = ""
+    desc = " ".join(x for x in (it.maker, it.name if it.name != title else "") if x)
+    right = site_label
+    return (f'<a class="pc" href="{e(it.url)}" target="_blank" rel="noopener"{attrs}>'
+            f'<span class="ph">{img}{new}{tg}</span><div class="cap">'
+            f'<div class="mdl">{e(title)}</div><div class="sub">{e(desc)}</div>'
+            f'<div class="row">{_price_html(it)}<span class="sub">{e(right)}</span></div>'
+            "</div></a>")
+
+
+def _card(it: Listing) -> str:
+    """新着・全在庫ページ用(サイト別に並べるのでサイト名は出さない)。"""
+    return _photo_card(it)
 
 
 # ---- 件名 / テキスト --------------------------------------------------------
@@ -204,31 +286,9 @@ def build_text(new_by_site, site_names, day: date) -> str:
     return "\n".join(lines)
 
 
-# ---- 新着まとめ HTML(最新/アーカイブ共通) --------------------------------
 
-def _card(it: Listing) -> str:
-    e = html.escape
-    is_pdf = it.site == "orix"
-    if it.image_url:
-        thumb = (f'<a class="thumb" href="{e(it.url)}">'
-                 f'<img src="{e(it.image_url)}" alt="" loading="lazy"></a>')
-    elif is_pdf:
-        thumb = f'<a class="thumb" href="{e(it.url)}">📄</a>'
-    else:
-        thumb = '<span class="thumb ph">No Image</span>'
 
-    parts = [f'<div class="card{" pdf" if is_pdf else ""}">', thumb, '<div class="body">']
-    if it.maker:
-        parts.append(f'<div class="maker">{e(it.maker)}</div>')
-    parts.append(f'<div class="model"><a href="{e(it.url)}">{e(it.model or it.name)}</a></div>')
-    if it.name and it.name != it.model:
-        parts.append(f'<div class="nm">{e(it.name)}</div>')
-    parts.append(_price_html(it))
-    if it.condition:
-        parts.append(f'<div class="chip">{e(it.condition[:60])}</div>')
-    parts.append("</div></div>")
-    return "".join(parts)
-
+# ---- 新着まとめ / 全在庫 HTML ------------------------------------------------
 
 def build_html(new_by_site, site_names, day: date, *, kind: str = "new",
                extra_html: str = "") -> str:
@@ -239,20 +299,17 @@ def build_html(new_by_site, site_names, day: date, *, kind: str = "new",
     e = html.escape
     if kind == "all":
         title = "全在庫 — 中古計測器トラッカー"
-        active, hero = "catalog", "全在庫"
+        active, hero = "catalog", f"全在庫 {total:,}件"
         meta = f"{day:%Y年%m月%d日} 時点 ・ {n_sites}サイト"
         empty_msg = "在庫を取得できませんでした。"
     else:
         title = "最新の新着 — 中古計測器トラッカー"
-        active, hero = "latest", "最新の新着"
+        active, hero = "latest", f"新着 {total}件"
         meta = f"{day:%Y年%m月%d日} ・ {n_sites}サイトで新着"
         empty_msg = "本日の新着はありませんでした。"
 
     out = [page_head(title, active=active)]
-    out.append('<div class="hero">')
-    out.append(f'<h1>{hero} <span class="pill">{total}件</span></h1>')
-    out.append(f'<div class="meta">{meta}</div>')
-    out.append("</div>")
+    out.append(f'<div class="hero"><div><h1>{hero}</h1><div class="meta">{meta}</div></div></div>')
 
     if total == 0:
         out.append(f'<div class="empty">{empty_msg}</div>')
@@ -260,10 +317,9 @@ def build_html(new_by_site, site_names, day: date, *, kind: str = "new",
         for site, items in new_by_site.items():
             if not items:
                 continue
-            out.append('<div class="sec">'
-                       f'<h2>{e(site_names.get(site, site))}</h2>'
-                       f'<span class="cnt">{len(items)}</span><span class="rule"></span></div>')
-            out.append('<div class="grid">')
+            out.append(f'<div class="sec"><h2>{e(site_names.get(site, site))}</h2>'
+                       f'<span class="cnt">{len(items):,}件</span></div>')
+            out.append('<div class="g5">')
             out.extend(_card(it) for it in items)
             out.append("</div>")
 
@@ -274,14 +330,11 @@ def build_html(new_by_site, site_names, day: date, *, kind: str = "new",
     return "\n".join(out)
 
 
-# ---- フォロー中(監視対象)ページ -------------------------------------------
+# ---- フォロー(監視対象) ------------------------------------------------------
 
 def _seen_label(d: str) -> str:
     """"2026-10-21" -> "10/21 発見"。空(記録開始前から在庫)なら空文字。"""
-    if not d:
-        return ""
-    y, m, dd = d.split("-")
-    return f"{int(m)}/{int(dd)} 発見"
+    return f"{_md(d)} 発見" if d else ""
 
 
 def _by_first_seen(items, first_seen, new_keys):
@@ -296,173 +349,134 @@ def _neg(d: str) -> str:
     return "".join(chr(ord("9") - ord(c) + ord("0")) if c.isdigit() else c for c in d)
 
 
-def _watch_card(it: Listing, site_names, is_new: bool, seen: str = "") -> str:
-    e = html.escape
-    is_pdf = it.site == "orix"
-    if it.image_url:
-        thumb = (f'<a class="thumb" href="{e(it.url)}">'
-                 f'<img src="{e(it.image_url)}" alt="" loading="lazy"></a>')
-    elif is_pdf:
-        thumb = f'<a class="thumb" href="{e(it.url)}">📄</a>'
-    else:
-        thumb = '<span class="thumb ph">No Image</span>'
+def _short_label(label: str) -> str:
+    # 写真の札用に短くする: "クライオスタット・温度コントローラ(Lakeshore系)" -> "クライオスタット"
+    return label.split("(")[0].split("・")[0].split("/")[0]
 
-    cls = "card" + (" pdf" if is_pdf else "") + (" isnew" if is_new else "")
-    parts = [f'<div class="{cls}">', thumb, '<div class="body">']
-    site_label = site_names.get(it.site, it.site)
-    badge = '<span class="newbadge">NEW</span>' if is_new else ''
-    parts.append(f'<div class="maker"><span class="sitechip">{e(site_label)}</span>{badge}'
-                 f'{(" " + e(it.maker)) if it.maker else ""}</div>')
-    parts.append(f'<div class="model"><a href="{e(it.url)}">{e(it.model or it.name)}</a></div>')
-    if it.name and it.name != it.model:
-        parts.append(f'<div class="nm">{e(it.name)}</div>')
-    parts.append(_price_html(it))
-    chips = [x for x in (it.condition[:60], _seen_label(seen)) if x]
-    if chips:
-        parts.append("".join(f'<span class="chip">{e(x)}</span> ' for x in chips))
-    parts.append("</div></div>")
-    return "".join(parts)
+
+def _flatten_watch(watch_groups):
+    """複数フォローに該当する品を1回にまとめる。戻り値: (items, first_seen, new_keys, label_of)"""
+    items, first_seen, new_keys, label_of = [], {}, set(), {}
+    for g in watch_groups:
+        new_keys |= g.get("new_keys", set())
+        first_seen.update(g.get("first_seen", {}))
+        for it in g["items"]:
+            if it.key() not in label_of:
+                label_of[it.key()] = g["label"]
+                items.append(it)
+    return items, first_seen, new_keys, label_of
+
+
+# 「前回から N件」枠に載せる候補: 見つけた日が新しい品(最大件数・遡る日数)
+FRESH_MAX = 24
+FRESH_DAYS = 60
+RECENT_DAYS = 7     # 初めて開いたときに未読扱いにする日数
+
+
+def _fresh_block(watch_groups, site_names, day: date, meta: str) -> str:
+    """フォロー該当のうち最近見つかった品を写真で並べる枠。
+
+    どれを「新着」として出すかはブラウザ側(_UNREAD_JS)が前回の閲覧日と比べて決める。
+    JavaScript が使えない環境では、最近見つかった品がそのまま全部見える。
+    """
+    e = html.escape
+    items, first_seen, new_keys, label_of = _flatten_watch(watch_groups)
+    since = (day - timedelta(days=FRESH_DAYS)).isoformat()
+    recent_since = (day - timedelta(days=RECENT_DAYS)).isoformat()
+    picks = [it for it in _by_first_seen(items, first_seen, new_keys)
+             if first_seen.get(it.key(), "") >= since][:FRESH_MAX]
+    out = [f'<section id="fresh" data-today="{day.isoformat()}">',
+           '<div class="hero"><div><h1 id="fresh-h">最近見つかったフォロー該当</h1>'
+           f'<div class="meta">{meta}</div></div>'
+           '<button class="btn" id="markread" type="button">すべて既読にする</button></div>']
+    if picks:
+        out.append('<div id="fresh-sub" class="meta" style="margin:-6px 0 10px">最近見つかった品</div>')
+        out.append('<div class="g4">')
+        for it in picks:
+            seen = first_seen.get(it.key(), "")
+            out.append(_photo_card(it, site_label=site_names.get(it.site, it.site), seen=seen,
+                                   recent=seen >= recent_since,
+                                   tag=_short_label(label_of[it.key()])))
+        out.append("</div>")
+    else:
+        out.append('<div class="empty">最近見つかったフォロー該当はありません。</div>')
+    out.append("</section>")
+    return "\n".join(out)
 
 
 def build_watch(groups, site_names, day: date) -> str:
-    """groups: [{"label": str, "items": [Listing], "new_keys": set(...)}] """
+    """groups: [{"label", "items": [Listing], "new_keys": set, "first_seen": {key: date}}]"""
     e = html.escape
-    total = sum(len(g["items"]) for g in groups)
-    new_total = sum(sum(1 for it in g["items"] if it.key() in g["new_keys"]) for g in groups)
-    out = [page_head("フォロー中 — 中古計測器トラッカー", active="watch")]
-    out.append('<div class="hero">')
-    out.append(f'<h1>★ フォロー中 <span class="pill">{total}件</span></h1>')
-    subtitle = f"{day:%Y年%m月%d日} 時点 ・ {len(site_names)}サイト横断"
-    if new_total:
-        subtitle += f" ・ <span style=\"color:var(--price);font-weight:700;\">本日 新着{new_total}件</span>"
-    out.append(f'<div class="meta">{subtitle}</div>')
-    out.append("</div>")
+    items, _, _, _ = _flatten_watch(groups)
+    meta = (f"フォロー中 {len(items)}件 ・ {day:%Y年%m月%d日} 時点 ・ "
+            f"{len(site_names)}サイト横断")
+    out = [page_head("フォロー — 中古計測器トラッカー", active="watch")]
+    out.append(_fresh_block(groups, site_names, day, meta))
 
     if not groups:
         out.append('<div class="empty">フォロー登録がありません。</div>')
     else:
-        # 各フォローへのジャンプリンク(件数つき)
         links = []
         for i, g in enumerate(groups):
             n = len(g["items"])
-            n_new = sum(1 for it in g["items"] if it.key() in g["new_keys"])
-            nw = f'<span class="nw">NEW {n_new}</span>' if n_new else ''
             cls = '' if n else ' class="z"'
-            links.append(f'<a href="#w{i}"{cls}>{e(g["label"])}'
-                         f'<span class="n">{n}件</span>{nw}</a>')
+            links.append(f'<a href="#w{i}"{cls}>{e(g["label"])}<span class="n">{n}</span></a>')
         out.append('<nav class="jump">' + "".join(links) + '</nav>')
     for i, g in enumerate(groups):
-        items = g["items"]
-        new_keys = g["new_keys"]
         first_seen = g.get("first_seen", {})
-        items = _by_first_seen(items, first_seen, new_keys)
-        n_new = sum(1 for it in items if it.key() in new_keys)
-        cnt = f'{len(items)}' + (f' / NEW {n_new}' if n_new else '')
-        out.append(f'<div class="sec" id="w{i}">'
-                   f'<h2>★ {e(g["label"])}</h2>'
-                   f'<span class="cnt">{cnt}</span><span class="rule"></span></div>')
-        if not items:
+        its = _by_first_seen(g["items"], first_seen, g["new_keys"])
+        out.append(f'<div class="sec" id="w{i}"><h2>{e(g["label"])}</h2>'
+                   f'<span class="cnt">{len(its)}件</span></div>')
+        if not its:
             out.append('<div class="empty">まだ一致する在庫はありません。'
                        '見つかり次第ここに表示されます。</div>')
             continue
-        out.append('<div class="grid">')
-        out.extend(_watch_card(it, site_names, it.key() in new_keys,
-                               first_seen.get(it.key(), "")) for it in items)
+        out.append('<div class="g5">')
+        out.extend(_photo_card(it, site_label=site_names.get(it.site, it.site),
+                               seen=first_seen.get(it.key(), "")) for it in its)
         out.append("</div>")
 
     out.append(page_foot())
     return "\n".join(out)
 
 
-# ---- ホーム(ダッシュボード) ------------------------------------------------
+# ---- ホーム ------------------------------------------------------------------
 
 def build_home(day: date, *, new_by_site=None, watch_groups=None,
                site_names=None, inventory_total=0, n_sites=0,
                archive_rows_html="", last_updated="", new_total=None) -> str:
-    """トップのダッシュボード。主要数値・各ページ導線・プレビューを1枚に。
+    """トップページ。フォローの新着を最上段に写真で出し、その下に全サイトの新着と記録。
     new_total を渡すと在庫データ無しでも件数表示だけは正確にできる。"""
     site_names = site_names or {}
     new_by_site = new_by_site or {}
     watch_groups = watch_groups or []
     if new_total is None:
         new_total = sum(len(v) for v in new_by_site.values())
-    watch_total = sum(len(g["items"]) for g in watch_groups)
-    watch_new = sum(sum(1 for it in g["items"] if it.key() in g.get("new_keys", set()))
-                    for g in watch_groups)
+    items, _, _, _ = _flatten_watch(watch_groups)
 
-    out = [page_head("中古計測器トラッカー — ホーム", active="home")]
-    out.append('<div class="hero"><h1>中古計測器トラッカー</h1>'
-               '<div class="meta">複数の中古計測器・研究機器サイトの新着を毎日まとめています。'
-               f'{("　最終更新 " + last_updated) if last_updated else ""}</div></div>')
+    out = [page_head("中古計測器トラッカー", active="home")]
+    meta = (f"フォロー中 {len(items)}件 ・ 今日の新着 {new_total}件 ・ 全在庫 {inventory_total:,}件"
+            f" ・ {n_sites}サイト{(' ・ 最終更新 ' + last_updated) if last_updated else ''}")
+    if watch_groups:
+        out.append(_fresh_block(watch_groups, site_names, day, meta))
+        out.append('<a class="more" href="watch.html">フォロー一覧へ →</a>')
+    else:
+        out.append(f'<div class="hero"><div><h1>中古計測器トラッカー</h1>'
+                   f'<div class="meta">{meta}</div></div></div>')
 
-    # KPI
-    out.append('<div class="kpis">')
-    out.append(f'<div class="kpi warm"><div class="num">{new_total}</div>'
-               '<div class="lbl">今日の新着</div></div>')
-    out.append(f'<div class="kpi accent"><div class="num">{watch_total}</div>'
-               '<div class="lbl">フォロー該当</div></div>')
-    out.append(f'<div class="kpi"><div class="num">{inventory_total:,}</div>'
-               '<div class="lbl">全在庫</div></div>')
-    out.append(f'<div class="kpi"><div class="num">{n_sites}</div>'
-               '<div class="lbl">巡回サイト</div></div>')
-    out.append('</div>')
-
-    # 各ページ導線
-    out.append('<div class="tiles">')
-    tiles = [
-        ("latest.html", "🆕", "新着", f"今日 {new_total}件・過去の記録も"),
-        ("watch.html", "★", "フォロー", f"監視キーワードの在庫 {watch_total}件"),
-        ("catalog.html", "📦", "全在庫", f"現在の在庫 {inventory_total:,}件"),
-        ("trends.html", "📊", "傾向", "サイト別・曜日別の更新傾向"),
-    ]
-    for href, ico, tt, ds in tiles:
-        out.append(f'<a class="tile" href="{href}"><div class="ico">{ico}</div>'
-                   f'<div class="tt">{tt}</div><div class="ds">{ds}</div></a>')
-    out.append('</div>')
-
-    # 今日の新着プレビュー
-    flat_new = [it for items in new_by_site.values() for it in items]
+    flat_new = [it for its in new_by_site.values() for it in its]
     if flat_new:
-        out.append('<div class="sec"><h2>今日の新着</h2>'
-                   f'<span class="cnt">{new_total}</span><span class="rule"></span></div>')
-        out.append('<div class="grid">')
-        out.extend(_card(it) for it in flat_new[:6])
+        out.append('<div class="sec"><h2>今日の新着(全サイト)</h2>'
+                   f'<span class="cnt">{new_total}件</span></div>')
+        out.append('<div class="g5">')
+        out.extend(_photo_card(it, site_label=site_names.get(it.site, it.site))
+                   for it in flat_new[:10])
         out.append('</div>')
-        if new_total > 6:
+        if new_total > 10:
             out.append('<a class="more" href="latest.html">すべての新着を見る →</a>')
 
-    # フォロー中プレビュー
-    if watch_groups:
-        badge = (f'<span class="cnt">{watch_total}'
-                 + (f' / NEW {watch_new}' if watch_new else '') + '</span>')
-        out.append(f'<div class="sec"><h2>★ フォロー中(最近見つけた順)</h2>{badge}'
-                   '<span class="rule"></span></div>')
-        new_keys = set()
-        first_seen = {}
-        picks, seen_keys = [], set()
-        for g in watch_groups:
-            new_keys |= g.get("new_keys", set())
-            first_seen.update(g.get("first_seen", {}))
-            for it in g["items"]:
-                if it.key() not in seen_keys:   # 複数フォローに該当する品は1回だけ
-                    seen_keys.add(it.key())
-                    picks.append(it)
-        picks = _by_first_seen(picks, first_seen, new_keys)
-        if picks:
-            out.append('<div class="grid">')
-            out.extend(_watch_card(it, site_names, it.key() in new_keys,
-                                   first_seen.get(it.key(), "")) for it in picks[:6])
-            out.append('</div>')
-            out.append('<a class="more" href="watch.html">フォロー一覧へ →</a>')
-        else:
-            labels = "・".join(g["label"] for g in watch_groups)
-            out.append(f'<div class="empty">監視中: {html.escape(labels)}'
-                       '<br>一致する在庫が出たらここに表示されます。'
-                       ' <a href="watch.html">フォロー設定へ</a></div>')
-
-    # 最近の記録(アーカイブ)
     if archive_rows_html:
-        out.append('<div class="sec"><h2>最近の記録</h2><span class="rule"></span></div>')
+        out.append('<div class="sec"><h2>最近の記録</h2></div>')
         out.append('<table class="tb"><tr><th>日付</th>'
                    '<th style="text-align:right;">新着</th></tr>')
         out.append(archive_rows_html)
