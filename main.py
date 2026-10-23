@@ -180,6 +180,7 @@ def run(send: bool = False, force_all: bool = False) -> int:
     write_trends()
 
     # ホーム(ダッシュボード)は履歴確定後に生成
+    save_new_today(new_by_site, names, day)
     write_home(new_by_site=new_by_site, watch_groups=watch_groups, names=names,
                inventory_total=inventory_total, n_sites=len(all_by_site),
                last_updated=f"{day:%Y-%m-%d}")
@@ -507,6 +508,32 @@ def _inventory_total() -> int:
         return 0
 
 
+NEW_TODAY_PATH = "data/new_today.json"
+
+
+def save_new_today(new_by_site, names, day) -> None:
+    """当日の新着を保存しておき、フォローだけ作り直すとき(--watch-only)もホームに出せるようにする。"""
+    import dataclasses
+    import json
+    data = {"date": day.isoformat(), "names": names,
+            "sites": {s: [dataclasses.asdict(it) for it in its] for s, its in new_by_site.items()}}
+    with open(NEW_TODAY_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False)
+
+
+def load_new_today():
+    """save_new_today の逆。無ければ (None, {})。"""
+    import json
+    if not os.path.exists(NEW_TODAY_PATH):
+        return None, {}
+    try:
+        data = json.load(open(NEW_TODAY_PATH, encoding="utf-8"))
+        sites = {s: [Listing(**d) for d in its] for s, its in data["sites"].items()}
+        return sites, data.get("names", {})
+    except Exception:
+        return None, {}
+
+
 def write_home(new_by_site=None, watch_groups=None, names=None,
                inventory_total=None, n_sites=None, last_updated="") -> None:
     """data/index.html をダッシュボードとして生成。
@@ -530,6 +557,11 @@ def write_home(new_by_site=None, watch_groups=None, names=None,
             pass
     if inventory_total is None:
         inventory_total = _inventory_total()
+    if new_by_site is None:
+        new_by_site, saved_names = load_new_today()
+        if new_by_site is not None:
+            names = {**saved_names, **(names or {})}
+            new_total = sum(len(v) for v in new_by_site.values())
     if watch_groups is None:
         # 在庫データ無しの単体生成: ラベルだけ(該当0)でフォロー枠を出す
         watch_groups = [{"label": w.get("label", ""), "items": [], "new_keys": set()}
