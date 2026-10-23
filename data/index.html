@@ -1,155 +1,176 @@
 <!doctype html><html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>中古計測器トラッカー — ホーム</title>
+<title>中古計測器トラッカー</title>
 <style>
 :root{
-  --bg:#f4f6f9; --card:#ffffff; --ink:#1a2230; --sub:#6b7684; --line:#e3e8ef;
-  --accent:#2b6cb0; --accent-weak:#eaf1fb; --price:#c05621; --chip:#eef2f7;
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
 }
 @media (prefers-color-scheme:dark){
-  :root{ --bg:#11151b; --card:#1a2029; --ink:#e6eaf0; --sub:#9aa5b3; --line:#2a323d;
-    --accent:#6ba7e6; --accent-weak:#1e2a3a; --price:#f0a878; --chip:#232b36; }
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;line-height:1.6;
-  -webkit-font-smoothing:antialiased;}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:900px;margin:0 auto;padding:0 16px 48px}
-.top{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);
-  margin:0 0 20px;padding:14px 16px;z-index:5}
-.top-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-weight:700;font-size:16px;letter-spacing:.02em;color:var(--ink);text-decoration:none}
-.brand:hover{text-decoration:none}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.kpi .num{font-size:28px;font-weight:800;line-height:1.1}
-.kpi .lbl{color:var(--sub);font-size:12px;margin-top:4px}
-.kpi.accent .num{color:var(--accent)} .kpi.warm .num{color:var(--price)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:16px;text-decoration:none;color:var(--ink);transition:box-shadow .15s,transform .15s}
-.tile:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px);text-decoration:none}
-.tile .ico{font-size:22px} .tile .tt{font-weight:700;margin-top:6px}
-.tile .ds{color:var(--sub);font-size:12px;margin-top:2px}
-.more{display:inline-block;margin:10px 0 0;font-size:13px;font-weight:600}
-.brand small{color:var(--sub);font-weight:400;margin-left:8px;font-size:12px}
-.nav{margin-left:auto;display:flex;gap:6px}
-.nav a{padding:6px 12px;border-radius:999px;font-size:13px;color:var(--sub)}
-.nav a.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
-@media (max-width:600px){
-  .top{position:static;padding:10px 16px 8px}
-  .top-in{gap:6px}
-  .nav{margin-left:-12px;max-width:calc(100% + 12px);overflow-x:auto;white-space:nowrap}
-  .nav a{padding:6px 10px;flex:0 0 auto}
-}
-.hero{padding:8px 0 4px}
-.hero h1{margin:0;font-size:22px}
-.hero .meta{color:var(--sub);font-size:13px;margin-top:4px}
-.pill{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;
-  padding:2px 12px;font-size:13px;font-weight:700}
-.empty{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:28px;text-align:center;color:var(--sub)}
-.sec{margin:26px 0 10px;display:flex;align-items:center;gap:10px}
-.sec h2{margin:0;font-size:16px}
-.sec .cnt{background:var(--accent-weak);color:var(--accent);border-radius:999px;
-  padding:1px 10px;font-size:12px;font-weight:700}
-.sec .rule{flex:1;height:1px;background:var(--line)}
-.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 12px)}
-.jump{display:flex;flex-wrap:wrap;gap:6px;margin:14px -16px 4px;padding:8px 16px;
-  position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);border-bottom:1px solid var(--line)}
-@media (max-width:600px){
-  .jump{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap}
-  .jump a{flex:0 0 auto}
-}
-.jump a{background:var(--card);border:1px solid var(--line);border-radius:999px;
-  padding:3px 10px;font-size:12.5px;color:var(--ink)}
-.jump a:hover{border-color:var(--accent);text-decoration:none}
-.jump .n{color:var(--accent);font-weight:700;margin-left:4px}
-.jump .z{color:var(--sub)}
-.jump .nw{color:var(--price);font-weight:700;margin-left:4px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.card{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);
-  border-radius:12px;padding:10px;transition:box-shadow .15s,transform .15s}
-.card:hover{box-shadow:0 6px 18px rgba(20,40,80,.10);transform:translateY(-1px)}
-.thumb{width:96px;height:96px;flex:0 0 96px;border-radius:8px;overflow:hidden;
-  background:var(--chip);display:flex;align-items:center;justify-content:center}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.thumb.ph{color:var(--sub);font-size:11px}
-.body{min-width:0;flex:1}
-.maker{color:var(--sub);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.model{font-weight:700;font-size:15px;margin:1px 0 2px;word-break:break-word}
-.nm{font-size:12.5px;color:var(--ink);opacity:.85;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.price{color:var(--price);font-weight:700;font-size:16px;margin-top:4px}
-.price.ask{color:var(--sub);font-weight:400;font-size:12px}
-.chip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:1px 7px;font-size:11px;margin-top:5px}
-.pdf .thumb{background:var(--accent-weak);color:var(--accent);font-size:28px}
-.sitechip{display:inline-block;background:var(--chip);color:var(--sub);border-radius:6px;
-  padding:0 6px;font-size:10px;margin-right:4px;vertical-align:middle}
-.newbadge{display:inline-block;background:var(--price);color:#fff;border-radius:6px;
-  padding:0 6px;font-size:10px;font-weight:700;margin-right:4px;vertical-align:middle}
-.card.isnew{border-color:var(--price);box-shadow:0 0 0 1px var(--price) inset}
-table.tb{border-collapse:collapse;width:100%;background:var(--card);
-  border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
-table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
-table.tb th{background:var(--accent-weak);color:var(--ink);font-weight:700}
-table.tb tr:last-child td{border-bottom:none}
-.hot{background:var(--accent-weak);font-weight:700}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px -28px 0;padding:8px 28px;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
 .muted{color:var(--sub)}
-.foot{margin-top:34px;color:var(--sub);font-size:11px;text-align:center}
 .scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{margin:8px -14px 0;padding:8px 14px;flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
 </style>
 </head><body>
 <div class="top"><div class="top-in">
-<a class="brand" href="index.html">🔎 中古計測器トラッカー</a>
-<span class="nav">
-<a class=" on" href="index.html">ホーム</a>
-<a class="" href="latest.html">新着</a>
-<a class="" href="watch.html">フォロー</a>
-<a class="" href="catalog.html">全在庫</a>
-<a class="" href="trends.html">傾向</a>
-</span></div></div>
+<a class="brand" href="index.html">中古計測器トラッカー</a>
+<nav class="nav">
+<a class="on" href="index.html">ホーム</a>
+<a href="watch.html">フォロー</a>
+<a href="latest.html">新着</a>
+<a href="catalog.html">全在庫</a>
+<a href="trends.html">傾向</a>
+</nav></div></div>
 <div class="wrap">
 
-<div class="hero"><h1>中古計測器トラッカー</h1><div class="meta">複数の中古計測器・研究機器サイトの新着を毎日まとめています。　最終更新 2026-10-23</div></div>
-<div class="kpis">
-<div class="kpi warm"><div class="num">16</div><div class="lbl">今日の新着</div></div>
-<div class="kpi accent"><div class="num">150</div><div class="lbl">フォロー該当</div></div>
-<div class="kpi"><div class="num">7,959</div><div class="lbl">全在庫</div></div>
-<div class="kpi"><div class="num">13</div><div class="lbl">巡回サイト</div></div>
+<section id="fresh" data-today="2026-10-23">
+<div class="hero"><div><h1 id="fresh-h">最近見つかったフォロー該当</h1><div class="meta">フォロー中 145件 ・ 今日の新着 16件 ・ 全在庫 7,958件 ・ 13サイト ・ 最終更新 2026-10-23</div></div><button class="btn" id="markread" type="button">すべて既読にする</button></div>
+<div id="fresh-sub" class="meta" style="margin:-6px 0 10px">最近見つかった品</div>
+<div class="g4">
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011296.html" target="_blank" rel="noopener" data-seen="2026-10-21" data-recent="1"><span class="ph"><span class="noimg"><b>R6245</b>写真なし</span><span class="new">10/21 新着</span><span class="tag">SMU</span></span><div class="cap"><div class="mdl">R6245</div><div class="sub">アドバンテスト 直流電圧電流発生器</div><div class="row"><span class="pr">¥198,000</span><span class="sub">測定器市場</span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/bop200-1m%e3%80%80%e3%83%90%e3%82%a4%e3%83%9d%e3%83%bc%e3%83%a9%e7%9b%b4%e6%b5%81%e9%9b%bb%e6%ba%90%e3%80%80kepco%ef%bc%8f%e3%82%b1%e3%83%97%e3%82%b3%e3%80%80e131953/" target="_blank" rel="noopener" data-seen="2026-10-20" data-recent="1"><span class="ph"><span class="noimg"><b>BOP200-1M</b>写真なし</span><span class="new">10/20 新着</span><span class="tag">バイポーラ電源</span></span><div class="cap"><div class="mdl">BOP200-1M</div><div class="sub">バイポーラ直流電源 BOP200-1M　バイポーラ直流電源　KEPCO／ケプコ　E131953</div><div class="row"><span class="pr ask">問合せ</span><span class="sub">中古研究機器.com</span></div></div></a>
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12321" target="_blank" rel="noopener" data-seen="2026-10-16" data-recent="1"><span class="ph"><img src="https://startechnology.jp/img/pic/10198-01w_s.jpg" alt="" loading="lazy"><span class="new">10/16 新着</span><span class="tag">ベクトルネットワークアナライザ</span></span><div class="cap"><div class="mdl">8720B/001,010</div><div class="sub">Keysight (HP) Vector Network Analyzer, 130MHz-20GHz</div><div class="row"><span class="pr">¥890,000</span><span class="sub">スターテクノロジー</span></div></div></a>
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12320" target="_blank" rel="noopener" data-seen="2026-10-09"><span class="ph"><img src="https://startechnology.jp/img/pic/10197-01w_s.jpg" alt="" loading="lazy"><span class="new">10/9 新着</span><span class="tag">ベクトルネットワークアナライザ</span></span><div class="cap"><div class="mdl">8703B</div><div class="sub">Keysight (HP) Vector network analyzer, 50MHz-20GHz</div><div class="row"><span class="pr">¥990,000</span><span class="sub">スターテクノロジー</span></div></div></a>
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12319" target="_blank" rel="noopener" data-seen="2026-10-09"><span class="ph"><img src="https://startechnology.jp/img/pic/10200-01w_s.jpg" alt="" loading="lazy"><span class="new">10/9 新着</span><span class="tag">SMU</span></span><div class="cap"><div class="mdl">4155A</div><div class="sub">Keysight (HP) Semiconductor Parameter Analyzer</div><div class="row"><span class="pr">¥600,000</span><span class="sub">スターテクノロジー</span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011269.html" target="_blank" rel="noopener" data-seen="2026-10-07"><span class="ph"><span class="noimg"><b>6541</b>写真なし</span><span class="new">10/7 新着</span><span class="tag">SMU</span></span><div class="cap"><div class="mdl">6541</div><div class="sub">ＡＤＣ ４ＣＨ 直流電圧・電流源／モニタ</div><div class="row"><span class="pr">¥352,000</span><span class="sub">測定器市場</span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011270.html" target="_blank" rel="noopener" data-seen="2026-10-07"><span class="ph"><span class="noimg"><b>6541</b>写真なし</span><span class="new">10/7 新着</span><span class="tag">SMU</span></span><div class="cap"><div class="mdl">6541</div><div class="sub">ＡＤＣ ４ＣＨ直流電圧・電流源／モニタ</div><div class="row"><span class="pr">¥352,000</span><span class="sub">測定器市場</span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/10718" target="_blank" rel="noopener" data-seen="2026-10-06"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023727s1.jpg" alt="" loading="lazy"><span class="new">10/6 新着</span><span class="tag">SMU</span></span><div class="cap"><div class="mdl">6541</div><div class="sub">アドバンテスト/ADC Advantest NEW 4CH直流電圧・電流源/モニタ</div><div class="row"><span class="pr">¥320,000</span><span class="sub">中古市場(チューコイチ)</span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/10717" target="_blank" rel="noopener" data-seen="2026-10-06"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023728s1.jpg" alt="" loading="lazy"><span class="new">10/6 新着</span><span class="tag">SMU</span></span><div class="cap"><div class="mdl">6243</div><div class="sub">アドバンテスト/ADC Advantest NEW 直流電流電圧発生器</div><div class="row"><span class="pr">¥140,000</span><span class="sub">中古市場(チューコイチ)</span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/10699" target="_blank" rel="noopener" data-seen="2026-09-26"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-954s1.jpg" alt="" loading="lazy"><span class="new">9/26 新着</span><span class="tag">クライオスタット</span></span><div class="cap"><div class="mdl">DC-20</div><div class="sub">クライオワン CRYO ONE INC. 液体窒素貯蔵・運搬容器 液体窒素デュワー瓶</div><div class="row"><span class="pr">¥80,000</span><span class="sub">中古市場(チューコイチ)</span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/10698" target="_blank" rel="noopener" data-seen="2026-09-26"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-953s1.jpg" alt="" loading="lazy"><span class="new">9/26 新着</span><span class="tag">クライオスタット</span></span><div class="cap"><div class="mdl">DC-20</div><div class="sub">クライオワン CRYO ONE INC. 液体窒素貯蔵・運搬容器 液体窒素デュワー瓶</div><div class="row"><span class="pr">¥80,000</span><span class="sub">中古市場(チューコイチ)</span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/10691" target="_blank" rel="noopener" data-seen="2026-09-26"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-030782s1.jpg" alt="" loading="lazy"><span class="new">9/26 新着</span><span class="tag">SMU</span></span><div class="cap"><div class="mdl">PXIe-4139×2</div><div class="sub">NI PXIe-1071 PXIe-8880 2CH SMUシステム</div><div class="row"><span class="pr">¥520,000</span><span class="sub">中古市場(チューコイチ)</span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/10664" target="_blank" rel="noopener" data-seen="2026-09-19"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/06c2678db35a2bc7.jpg" alt="" loading="lazy"><span class="new">9/19 新着</span><span class="tag">段差計</span></span><div class="cap"><div class="mdl">テイラーホブソン</div><div class="sub">粗さ計</div><div class="row"><span class="pr ask">問合せ</span><span class="sub">中古市場(チューコイチ)</span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011246.html" target="_blank" rel="noopener" data-seen="2026-09-16"><span class="ph"><span class="noimg"><b>PXIe-1071 PXIe-8880 PXIe-4139×</b>写真なし</span><span class="new">9/16 新着</span><span class="tag">SMU</span></span><div class="cap"><div class="mdl">PXIe-1071 PXIe-8880 PXIe-4139×</div><div class="sub">ＮＩ ２ＣＨ ＳＭＵシステム</div><div class="row"><span class="pr">¥572,000</span><span class="sub">測定器市場</span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/95502-2/" target="_blank" rel="noopener" data-seen="2026-09-11"><span class="ph"><span class="noimg"><b>2401</b>写真なし</span><span class="new">9/11 新着</span><span class="tag">SMU</span></span><div class="cap"><div class="mdl">2401</div><div class="sub">低電圧ソースメータ 2401　低電圧ソースメータ　ケースレー　4522729</div><div class="row"><span class="pr ask">問合せ</span><span class="sub">中古研究機器.com</span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000009773.html" target="_blank" rel="noopener" data-seen="2026-09-08"><span class="ph"><span class="noimg"><b>AS-161-120/30</b>写真なし</span><span class="new">9/8 新着</span><span class="tag">バイポーラ電源</span></span><div class="cap"><div class="mdl">AS-161-120/30</div><div class="sub">ＮＦ回路設計ブロック バイポーラ電源</div><div class="row"><span class="pr">¥550,000</span><span class="sub">測定器市場</span></div></div></a>
+<a class="pc" href="https://www.keisokuki-land.com/SHOP/UKK-13090.html" target="_blank" rel="noopener" data-seen="2026-09-07"><span class="ph"><img src="https://image1.shopserve.jp/keisokuki-land.com/pic-labo/llimg/UKK13093-01.jpg" alt="" loading="lazy"><span class="new">9/7 新着</span><span class="tag">バイポーラ電源</span></span><div class="cap"><div class="mdl">PBZ20-20A</div><div class="sub">菊水電子工業 バイポーラ電源</div><div class="row"><span class="pr">¥660,000</span><span class="sub">計測器ランド リセール</span></div></div></a>
+<a class="pc" href="https://www.keisokuki-land.com/SHOP/UKK-12951.html" target="_blank" rel="noopener" data-seen="2026-09-07"><span class="ph"><img src="https://image1.shopserve.jp/keisokuki-land.com/pic-labo/llimg/UKK12951-01.jpg" alt="" loading="lazy"><span class="new">9/7 新着</span><span class="tag">SMU</span></span><div class="cap"><div class="mdl">6240B</div><div class="sub">エーディーシー 直流電圧/電流発生器</div><div class="row"><span class="pr">¥220,000</span><span class="sub">計測器ランド リセール</span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11117.html" target="_blank" rel="noopener" data-seen="2026-09-05"><span class="ph"><img src="https://img.3915.jp/img/13638-1.JPG" alt="" loading="lazy"><span class="new">9/5 新着</span><span class="tag">レーザー顕微鏡</span></span><div class="cap"><div class="mdl">HYBRID+L7</div><div class="sub">レーザーテック ハイブリッドレーザーマイクロスコープ OPTELICS</div><div class="row"><span class="pr ask">問合せ</span><span class="sub">タナカ・トレーディング</span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11110.html" target="_blank" rel="noopener" data-seen="2026-09-02"><span class="ph"><img src="https://img.3915.jp/img/10621-1.JPG" alt="" loading="lazy"><span class="new">9/2 新着</span><span class="tag">プローブステーション</span></span><div class="cap"><div class="mdl">SE-6003A</div><div class="sub">オムニフィジックス マニュアルプローバ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub">タナカ・トレーディング</span></div></div></a>
 </div>
-<div class="tiles">
-<a class="tile" href="latest.html"><div class="ico">🆕</div><div class="tt">新着</div><div class="ds">今日 16件・過去の記録も</div></a>
-<a class="tile" href="watch.html"><div class="ico">★</div><div class="tt">フォロー</div><div class="ds">監視キーワードの在庫 150件</div></a>
-<a class="tile" href="catalog.html"><div class="ico">📦</div><div class="tt">全在庫</div><div class="ds">現在の在庫 7,959件</div></a>
-<a class="tile" href="trends.html"><div class="ico">📊</div><div class="tt">傾向</div><div class="ds">サイト別・曜日別の更新傾向</div></a>
-</div>
-<div class="sec"><h2>今日の新着</h2><span class="cnt">16</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card"><a class="thumb" href="https://orutika.com/product/0080023/"><img src="https://orutika.com/wp/wp-content/uploads/product/080023/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">計測技術研究所</div><div class="model"><a href="https://orutika.com/product/0080023/">34320C/13300F812</a></div><div class="nm">大容量直流電子負荷</div><div class="price">¥3,896,200</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:BNCケーブル センス端子(赤) センス端子</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0080024/"><img src="https://orutika.com/wp/wp-content/uploads/product/080024/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">横河計測</div><div class="model"><a href="https://orutika.com/product/0080024/">760203-M/C7,EX3,G5,DT,FQ(WT500)</a></div><div class="nm">パワーアナライザ</div><div class="price">¥1,271,710</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:電流入力保護カバー L型電源コード 3-2極</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0080025/"><img src="https://orutika.com/wp/wp-content/uploads/product/080025/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">横河計測</div><div class="model"><a href="https://orutika.com/product/0080025/">765602-D (GS820)</a></div><div class="nm">マルチチャネルソースメジャーユニット</div><div class="price">¥629,200</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:測定リード(758933,黒)×2 測定リー</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0080026/"><img src="https://orutika.com/wp/wp-content/uploads/product/080026/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">エヌエフ回路設計ブロック</div><div class="model"><a href="https://orutika.com/product/0080026/">AS-161-60/60</a></div><div class="nm">バイポーラ電源</div><div class="price">¥1,556,060</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:SUPP@RT CD(QL Series E</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0080027/"><img src="https://orutika.com/wp/wp-content/uploads/product/080027/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">ノイズ研究所</div><div class="model"><a href="https://orutika.com/product/0080027/">ESS-S3011A/GT-30R3302KA,09-00006A</a></div><div class="nm">静電気試験器</div><div class="price">¥1,766,600</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:放電ガン(GT-30RA) 2kΩ試験用放電</div></div></div>
-<div class="card"><a class="thumb" href="https://orutika.com/product/0080028/"><img src="https://orutika.com/wp/wp-content/uploads/product/080028/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker">フクダ</div><div class="model"><a href="https://orutika.com/product/0080028/">FL-611MC-02-01-02-02-NN-NN/APU-90WP-(+700)-X005-C-1.5</a></div><div class="nm">エアリークテスタ</div><div class="price">¥784,080</div><div class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:リモートコネクタ(50P(ケース付)) 外部</div></div></div>
-</div>
-<a class="more" href="latest.html">すべての新着を見る →</a>
-<div class="sec"><h2>★ フォロー中(最近見つけた順)</h2><span class="cnt">150 / NEW 2</span><span class="rule"></span></div>
-<div class="grid">
-<div class="card isnew"><a class="thumb" href="https://orutika.com/product/0080026/"><img src="https://orutika.com/wp/wp-content/uploads/product/080026/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker"><span class="sitechip">オルティカ (OrutiKA)</span><span class="newbadge">NEW</span> エヌエフ回路設計ブロック</div><div class="model"><a href="https://orutika.com/product/0080026/">AS-161-60/60</a></div><div class="nm">バイポーラ電源</div><div class="price">¥1,556,060</div><span class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:SUPP@RT CD(QL Series E</span> </div></div>
-<div class="card isnew"><a class="thumb" href="https://orutika.com/product/0080030/"><img src="https://orutika.com/wp/wp-content/uploads/product/080030/1-1-300x225.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker"><span class="sitechip">オルティカ (OrutiKA)</span><span class="newbadge">NEW</span> Mini Circuits</div><div class="model"><a href="https://orutika.com/product/0080030/">HPA-272+</a></div><div class="nm">ハイパワーアンプ</div><div class="price">¥1,340,680</div><span class="chip">外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:電源コード 3-2極アダプタ</span> </div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker"><span class="sitechip">測定器市場</span> アドバンテスト</div><div class="model"><a href="http://sokuteiki-market.com/shop/category/item0000011296.html">R6245</a></div><div class="nm">直流電圧電流発生器</div><div class="price">¥198,000</div><span class="chip">中古</span> <span class="chip">10/21 発見</span> </div></div>
-<div class="card"><span class="thumb ph">No Image</span><div class="body"><div class="maker"><span class="sitechip">中古研究機器.com</span> バイポーラ直流電源</div><div class="model"><a href="https://used-lab.com/news/bop200-1m%e3%80%80%e3%83%90%e3%82%a4%e3%83%9d%e3%83%bc%e3%83%a9%e7%9b%b4%e6%b5%81%e9%9b%bb%e6%ba%90%e3%80%80kepco%ef%bc%8f%e3%82%b1%e3%83%97%e3%82%b3%e3%80%80e131953/">BOP200-1M</a></div><div class="nm">BOP200-1M　バイポーラ直流電源　KEPCO／ケプコ　E131953</div><span class="chip">新着製品</span> <span class="chip">10/20 発見</span> </div></div>
-<div class="card"><a class="thumb" href="https://startechnology.jp/products/detail.php?product_id=12321"><img src="https://startechnology.jp/img/pic/10198-01w_s.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker"><span class="sitechip">スターテクノロジー</span> Keysight (HP)</div><div class="model"><a href="https://startechnology.jp/products/detail.php?product_id=12321">8720B/001,010</a></div><div class="nm">Vector Network Analyzer, 130MHz-20GHz</div><div class="price">¥890,000</div><span class="chip">中古</span> <span class="chip">10/16 発見</span> </div></div>
-<div class="card"><a class="thumb" href="https://startechnology.jp/products/detail.php?product_id=12320"><img src="https://startechnology.jp/img/pic/10197-01w_s.jpg" alt="" loading="lazy"></a><div class="body"><div class="maker"><span class="sitechip">スターテクノロジー</span> Keysight (HP)</div><div class="model"><a href="https://startechnology.jp/products/detail.php?product_id=12320">8703B</a></div><div class="nm">Vector network analyzer, 50MHz-20GHz</div><div class="price">¥990,000</div><span class="chip">推奨 中古</span> <span class="chip">10/9 発見</span> </div></div>
-</div>
+</section>
 <a class="more" href="watch.html">フォロー一覧へ →</a>
-<div class="sec"><h2>最近の記録</h2><span class="rule"></span></div>
+<div class="sec"><h2>最近の記録</h2></div>
 <table class="tb"><tr><th>日付</th><th style="text-align:right;">新着</th></tr>
 <tr><td><a href="archive/2026-10-23.html">2026-10-23</a><span class="muted" style="margin-left:6px;font-size:12px;">(金)</span></td><td style="text-align:right;"><span class="cnt">16</span></td></tr><tr><td><a href="archive/2026-10-22.html">2026-10-22</a><span class="muted" style="margin-left:6px;font-size:12px;">(木)</span></td><td style="text-align:right;"><span class="cnt">24</span></td></tr><tr><td><a href="archive/2026-10-21.html">2026-10-21</a><span class="muted" style="margin-left:6px;font-size:12px;">(水)</span></td><td style="text-align:right;"><span class="cnt">39</span></td></tr><tr><td><a href="archive/2026-10-20.html">2026-10-20</a><span class="muted" style="margin-left:6px;font-size:12px;">(火)</span></td><td style="text-align:right;"><span class="cnt">32</span></td></tr><tr><td><a href="archive/2026-10-19.html">2026-10-19</a><span class="muted" style="margin-left:6px;font-size:12px;">(月)</span></td><td style="text-align:right;"><span class="cnt">10</span></td></tr><tr><td><a href="archive/2026-10-18.html">2026-10-18</a><span class="muted" style="margin-left:6px;font-size:12px;">(日)</span></td><td style="text-align:right;"><span class="cnt">3</span></td></tr><tr><td><a href="archive/2026-10-17.html">2026-10-17</a><span class="muted" style="margin-left:6px;font-size:12px;">(土)</span></td><td style="text-align:right;"><span class="cnt">17</span></td></tr><tr><td><a href="archive/2026-10-16.html">2026-10-16</a><span class="muted" style="margin-left:6px;font-size:12px;">(金)</span></td><td style="text-align:right;"><span class="cnt">9</span></td></tr><tr><td><a href="archive/2026-10-15.html">2026-10-15</a><span class="muted" style="margin-left:6px;font-size:12px;">(木)</span></td><td style="text-align:right;"><span class="cnt">13</span></td></tr><tr><td><a href="archive/2026-10-14.html">2026-10-14</a><span class="muted" style="margin-left:6px;font-size:12px;">(水)</span></td><td style="text-align:right;"><span class="cnt">48</span></td></tr>
 </table>
 <a class="more" href="latest.html">過去の新着をすべて見る →</a>
 <div class="foot">used-listing-tracker — 自動生成</div>
-</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})()</script></body></html>
+</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})();
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+</script></body></html>
