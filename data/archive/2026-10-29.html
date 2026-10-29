@@ -1,0 +1,199 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>最新の新着 — 中古計測器トラッカー</title>
+<style>
+:root{
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero{flex-wrap:wrap}.hero > .meta{flex-basis:100%;margin-top:-10px}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.hero + .sec{margin-top:18px}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;padding:8px 0;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump + .sec{border-top:0;margin-top:22px}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.opened{display:none;position:absolute;right:0;top:0;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;padding:2px 8px}
+.pc.seen .opened{display:block}
+.pc.seen .ph img,.pc.seen .noimg{opacity:.55}
+.pc.seen .mdl{color:var(--sub)}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
+.muted{color:var(--sub)}
+.scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
+</style>
+</head><body>
+<div class="top"><div class="top-in">
+<a class="brand" href="../index.html">中古計測器トラッカー</a>
+<nav class="nav">
+<a href="../index.html">ホーム</a>
+<a class="on" href="../latest.html">新着</a>
+<a href="../watch.html">フォロー</a>
+<a href="../catalog.html">全在庫</a>
+<a href="../trends.html">傾向</a>
+</nav></div></div>
+<div class="wrap">
+
+<div class="hero"><div><h1>新着 20件</h1><div class="meta">2026年10月29日 ・ 3サイトで新着</div></div></div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">6件</span></div>
+<div class="g5">
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0246" target="_blank" rel="noopener" title="A01"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0246/IMG_0030.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">A01</div><div class="sub">BIONPAK 滅菌バッグ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0247" target="_blank" rel="noopener" title="アイボーイ250ｍL"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0247/IMG_0036.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">アイボーイ250ｍL</div><div class="sub">アズワン PPボトル広口びん</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0249" target="_blank" rel="noopener" title="SSS-3"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0249/IMG_0046.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">SSS-3</div><div class="sub">三商 取っ手付試薬瓶収納庫</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0250" target="_blank" rel="noopener" title="取っ手付試薬瓶収納庫"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0250/IMG_0052.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">取っ手付試薬瓶収納庫</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0251" target="_blank" rel="noopener" title="取っ手付試薬瓶収納庫"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0251/IMG_0058.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">取っ手付試薬瓶収納庫</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q41624" target="_blank" rel="noopener" title="PU-4KT"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q4/Q41624/IMG_1727.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PU-4KT</div><div class="sub">エスペック 低温恒温器</div><div class="row"><span class="pr">¥1,100,000</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">5件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.3915.jp/hp01/11172.html" target="_blank" rel="noopener" title="UV-1280"><span class="ph"><img src="https://img.3915.jp/img/13594-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">UV-1280</div><div class="sub">島津製作所 紫外可視分光光度計</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11169.html" target="_blank" rel="noopener" title="G-B3C"><span class="ph"><img src="https://img.3915.jp/img/13716-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">G-B3C</div><div class="sub">東洋精機製作所 ガーレー式透気度試験機 DensoMeter</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11170.html" target="_blank" rel="noopener" title="2.5×"><span class="ph"><img src="https://img.3915.jp/img/13751-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">2.5×</div><div class="sub">ニコン 干渉用対物レンズ CF IC EPI Plan TI</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11171.html" target="_blank" rel="noopener" title="5×"><span class="ph"><img src="https://img.3915.jp/img/13750-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">5×</div><div class="sub">ニコン 干渉用対物レンズ CF IC EPI Plan TI</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.3915.jp/hp01/11173.html" target="_blank" rel="noopener" title="10、20、50、100×セット"><span class="ph"><img src="https://img.3915.jp/img/13749-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">10、20、50、100×セット</div><div class="sub">ニコン 二光束干渉用対物レンズ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">9件</span></div>
+<div class="g5">
+<a class="pc" href="https://used-lab.com/news/mso6054a%e3%80%80%e3%83%9f%e3%83%83%e3%82%af%e3%82%b9%e3%83%89%e3%83%bb%e3%82%b7%e3%82%b0%e3%83%8a%e3%83%ab%e3%83%bb%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%80%80%e3%82%ad/" target="_blank" rel="noopener" title="MSO6054A / 新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>MSO6054A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">MSO6054A</div><div class="sub">ミックスド・シグナル・オシロスコープ MSO6054A　ミックスド・シグナル・オシロスコープ　キーサイト(AT)　MY44002139</div><div class="row"><span class="pr">¥330,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/tos5030-%e8%80%90%e9%9b%bb%e5%9c%a7%e8%a9%a6%e9%a8%93%e5%99%a8-%e8%8f%8a%e6%b0%b4%e9%9b%bb%e5%ad%90%e5%b7%a5%e6%a5%ad%e3%80%80jd000892/" target="_blank" rel="noopener" title="TOS5030 / 新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>TOS5030</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TOS5030</div><div class="sub">JD000892 TOS5030 耐電圧試験器 菊水電子工業　JD000892</div><div class="row"><span class="pr">¥48,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/mso4054%e3%80%80%e3%83%9f%e3%83%83%e3%82%af%e3%82%b9%e3%83%89%e3%82%b7%e3%82%b0%e3%83%8a%e3%83%ab%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%80%80%e3%83%86%e3%82%af%e3%83%88/" target="_blank" rel="noopener" title="MSO4054 / 新着製品 / 保証:納品後 2週間 (消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>MSO4054</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">MSO4054</div><div class="sub">ミックスドシグナルオシロスコープ MSO4054　ミックスドシグナルオシロスコープ　テクトロニクス　C000908</div><div class="row"><span class="pr">¥385,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/7352a%e3%80%80%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%83%9e%e3%83%ab%e3%83%81%e3%83%a1%e3%83%bc%e3%82%bf%e3%80%80%e3%82%a8%e3%83%bc%e3%83%87%e3%82%a3%e3%83%bc%e3%82%b7%e3%83%bc%e3%80%80156320253/" target="_blank" rel="noopener" title="7352A / 新着製品 / 保証:納品後 1か月間(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>7352A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">7352A</div><div class="sub">デジタルマルチメータ 7352A　デジタルマルチメータ　エーディーシー　156320253</div><div class="row"><span class="pr">¥132,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/mg3633a%e3%80%80%e6%a8%99%e6%ba%96%e4%bf%a1%e5%8f%b7%e7%99%ba%e7%94%9f%e5%99%a8%e3%80%80%e3%82%a2%e3%83%b3%e3%83%aa%e3%83%84%e3%80%80mt95171/" target="_blank" rel="noopener" title="MG3633A / 新着製品 / 保証:納品後 1か月間(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>MG3633A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">MG3633A</div><div class="sub">標準信号発生器 MG3633A　標準信号発生器　アンリツ　MT95171</div><div class="row"><span class="pr">¥220,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/hsa4052%e3%80%80%e9%ab%98%e9%80%9f%e3%83%90%e3%82%a4%e3%83%9d%e3%83%bc%e3%83%a9%e9%9b%bb%e6%ba%90%e3%80%80%e3%82%a8%e3%83%8c%e3%82%a8%e3%83%95%e5%9b%9e%e8%b7%af%e8%a8%ad%e8%a8%88%e3%83%96%e3%83%ad/" target="_blank" rel="noopener" title="HSA4052 / 新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>HSA4052</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">HSA4052</div><div class="sub">高速バイポーラ電源 HSA4052　高速バイポーラ電源　エヌエフ回路設計ブロック　430409</div><div class="row"><span class="pr">¥450,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/e5100a%e3%80%80%e9%ab%98%e9%80%9f%e3%83%8d%e3%83%83%e3%83%88%e3%83%af%e3%83%bc%e3%82%af%c2%b7%e3%82%a2%e3%83%8a%e3%83%a9%e3%82%a4%e3%82%b6-10khz-300mhz%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4/" target="_blank" rel="noopener" title="E5100A / 新着製品 / 保証:納品後 2週間 (消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>E5100A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E5100A</div><div class="sub">高速ネットワーク·アナライザ 10kHz-300MHz E5100A　高速ネットワーク·アナライザ 10kHz-300MHz　キーサイト(AT)　20260918</div><div class="row"><span class="pr">¥220,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/370ac%e3%80%80%e3%83%ac%e3%82%b8%e3%82%b9%e3%82%bf%e3%83%b3%e3%82%b9%e3%83%96%e3%83%aa%e3%83%83%e3%82%b8ac%e6%8a%b5%e6%8a%97%e3%83%96%e3%83%aa%e3%83%83%e3%82%b8-3708-%e3%83%97%e3%83%aa%e3%82%a2/" target="_blank" rel="noopener" title="370AC / 新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>370AC</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">370AC</div><div class="sub">レジスタンスブリッジ 3708 プリアンプ/スキャナ 370AC　レジスタンスブリッジ(AC抵抗ブリッジ) 3708 プリアンプ/スキャナ　レイクショア　370860</div><div class="row"><span class="pr">¥803,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/370ac%e3%80%80%e3%83%ac%e3%82%b8%e3%82%b9%e3%82%bf%e3%83%b3%e3%82%b9%e3%83%96%e3%83%aa%e3%83%83%e3%82%b8ac%e6%8a%b5%e6%8a%97%e3%83%96%e3%83%aa%e3%83%83%e3%82%b8-3726-%e3%82%b9%e3%82%ad%e3%83%a3/" target="_blank" rel="noopener" title="370AC / 新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>370AC</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">370AC</div><div class="sub">レジスタンスブリッジ 3726 スキャナ 370AC　レジスタンスブリッジ(AC抵抗ブリッジ) 3726 スキャナ　レイクショア　370638</div><div class="row"><span class="pr">¥803,000</span><span class="sub"></span></div></div></a>
+</div>
+<div class="foot">used-listing-tracker — 自動生成</div>
+</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})();
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+
+(function(){
+  var K='ult-opened', set={};
+  try{ (JSON.parse(localStorage.getItem(K)||'[]')).forEach(function(u){ set[u]=1; }); }catch(e){}
+  function mark(){ document.querySelectorAll('a.pc').forEach(function(a){
+    a.classList.toggle('seen', !!set[a.getAttribute('href')]); }); }
+  document.addEventListener('click', function(ev){
+    var a=ev.target.closest && ev.target.closest('a.pc'); if(!a) return;
+    var u=a.getAttribute('href'); set[u]=1;
+    try{ var l=Object.keys(set); if(l.length>3000) l=l.slice(-3000);
+         localStorage.setItem(K, JSON.stringify(l)); }catch(e){}
+    setTimeout(mark, 0);
+  }, true);
+  window.addEventListener('pageshow', mark);
+  mark();
+})();
+</script></body></html>
