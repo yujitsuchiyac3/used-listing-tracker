@@ -15,8 +15,10 @@ from __future__ import annotations
 import argparse
 import datetime
 import os
+import re
 import sys
 import traceback
+import unicodedata
 from typing import Callable, List
 
 from scrapers.base import Listing
@@ -398,6 +400,23 @@ def load_watchlist():
         return []
 
 
+# カタカナの間に挟まる長音・ハイフン類(ー - ‐ ‑ ‒ – — ― − ｰ)を「ー」に揃える。
+# 前後のどちらかがカタカナでなければ触らないので、型番のハイフン(PBZ40-10, VK-X)は残る。
+_KANA_DASH_RE = re.compile(
+    r"(?<=[\u30A1-\u30FA\u30FC])[\u30FC\-\u2010-\u2015\u2212\uFF70]+(?=[\u30A1-\u30FA])")
+
+
+def normalize_for_match(s: str) -> str:
+    """フォロー判定用の正規化。対象文字列とキーワード・除外語の両方にかける。
+
+    NFKC(全角英数・半角カナ・全角ハイフン等を揃える) → カタカナ間の長音/ハイフン類を「ー」に
+    → 小文字化。例: "バイポ-ラ電源" と "バイポーラ" が一致し、"ＰＢＺ４０－１０" は "pbz40-10" になる。
+    """
+    s = unicodedata.normalize("NFKC", s or "")
+    s = _KANA_DASH_RE.sub("ー", s)
+    return s.lower()
+
+
 def build_watch_groups(all_by_site, new_by_site):
     """フォローのキーワードに一致する在庫を全サイト横断で集める。
 
@@ -413,8 +432,8 @@ def build_watch_groups(all_by_site, new_by_site):
     groups = []
     for w in watches:
         label = w.get("label", "")
-        kws = [k.lower() for k in w.get("keywords", []) if k]
-        excludes = [k.lower() for k in w.get("exclude", []) if k]
+        kws = [normalize_for_match(k) for k in w.get("keywords", []) if k]
+        excludes = [normalize_for_match(k) for k in w.get("exclude", []) if k]
         # sites: 指定があればそのサイトだけ / exclude_sites: 指定サイトを除く。
         # (CAE Online のような「機種カタログ」型サイトは1メーカーで数百件出るため)
         only_sites = set(w.get("sites", []))
@@ -427,7 +446,7 @@ def build_watch_groups(all_by_site, new_by_site):
             if site in skip_sites:
                 continue
             for it in items:
-                hay = " ".join([it.maker, it.model, it.name, it.spec]).lower()
+                hay = normalize_for_match(" ".join([it.maker, it.model, it.name, it.spec]))
                 if any(k in hay for k in kws) and not any(x in hay for x in excludes):
                     if it.key() not in seen:
                         seen.add(it.key())

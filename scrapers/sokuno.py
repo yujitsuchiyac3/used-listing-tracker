@@ -4,11 +4,13 @@ MakeShop製(文字コード EUC-JP)。中古在庫は ct-CHU_ALL に全件集約
 /shopbrand/ct-CHU_ALL/pageN/ で新しい順に並ぶ。1商品は div.section:
 p.name(【中古】メーカー 型番 名称)/p.price(税抜・税込)/div.else(メーカー 管理番号)。
 新着判定は shopdetail の商品コードのスナップショット差分。
+売り切れ品も一覧に残る(p.quantity の span.M_category-soldout「売り切れ」、画面上は JS で
+「入荷待ち」に置換)。ページ送りの終了判定には売り切れ品も使い、返す在庫からは外す。
 """
 from __future__ import annotations
 
 import re
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from bs4 import BeautifulSoup
 
@@ -32,6 +34,7 @@ class SokunoScraper(Scraper):
 
     def fetch_listings(self) -> List[Listing]:
         by_uid = {}
+        sold_out = set()
         self.new_window_uids = set()
         page = 1
         while self.max_pages is None or page <= self.max_pages:
@@ -41,7 +44,9 @@ class SokunoScraper(Scraper):
             if not items:
                 break
             added = 0
-            for it in items:
+            for it, sold in items:
+                if sold:
+                    sold_out.add(it.uid)
                 if it.uid not in by_uid:
                     by_uid[it.uid] = it
                     added += 1
@@ -50,10 +55,12 @@ class SokunoScraper(Scraper):
             if added == 0:
                 break
             page += 1
-        return list(by_uid.values())
+        self.sold_out_uids = sold_out
+        return [it for uid, it in by_uid.items() if uid not in sold_out]
 
-    def _parse_list_page(self, soup: BeautifulSoup) -> List[Listing]:
-        items: List[Listing] = []
+    def _parse_list_page(self, soup: BeautifulSoup) -> List[Tuple[Listing, bool]]:
+        """[(Listing, 売り切れか)]。"""
+        items: List[Tuple[Listing, bool]] = []
         for name_el in soup.select("p.name"):
             sec = name_el.find_parent("li") or name_el.parent
             link = sec.find("a", href=re.compile(r"/shopdetail/"))
@@ -85,12 +92,14 @@ class SokunoScraper(Scraper):
                 src = img.get("src") or img.get("data-src")
                 image_url = src if src.startswith("http") else self._abs(src)
 
-            items.append(Listing(
+            sold = sec.select_one(".M_category-soldout, .M_item-stock-soldout") is not None
+
+            items.append((Listing(
                 site=self.site, uid=uid, url=url,
                 maker=maker, model=model, name=disp_name, spec="",
                 price=price, price_value=price_value,
                 condition=condition, image_url=image_url, is_new_badge=True,
-            ))
+            ), sold))
         return items
 
     @staticmethod
