@@ -1,0 +1,233 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>最新の新着 — 中古計測器トラッカー</title>
+<style>
+:root{
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero{flex-wrap:wrap}.hero > .meta{flex-basis:100%;margin-top:-10px}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.hero + .sec{margin-top:18px}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;padding:8px 0;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump + .sec{border-top:0;margin-top:22px}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.opened{display:none;position:absolute;right:0;top:0;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;padding:2px 8px}
+.pc.seen .opened{display:block}
+.pc.seen .ph img,.pc.seen .noimg{opacity:.55}
+.pc.seen .mdl{color:var(--sub)}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
+.muted{color:var(--sub)}
+.scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
+</style>
+</head><body>
+<div class="top"><div class="top-in">
+<a class="brand" href="../index.html">中古計測器トラッカー</a>
+<nav class="nav">
+<a href="../index.html">ホーム</a>
+<a class="on" href="../latest.html">新着</a>
+<a href="../watch.html">フォロー</a>
+<a href="../catalog.html">全在庫</a>
+<a href="../trends.html">傾向</a>
+</nav></div></div>
+<div class="wrap">
+
+<div class="hero"><div><h1>新着 45件</h1><div class="meta">2026年11月11日 ・ 6サイトで新着</div></div></div>
+<div class="sec"><h2>オルティカ (OrutiKA)</h2><span class="cnt">16件</span></div>
+<div class="g5">
+<a class="pc" href="https://orutika.com/product/0023805/" target="_blank" rel="noopener" title="11713A / 外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:3P　AC電源コード アッテネーターケーブル2本(バイキングコネクターバイキングコネクタ 8120-2073) / アッテネータケーブル(8120-2073)は849XH 849XGの丸型コネクタと接続出来ます。"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023805/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">11713A</div><div class="sub">キーサイトテクノロジー (アジレント) プログラマブルアッテネータ / スイッチドライバ</div><div class="row"><span class="pr">¥66,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023806/" target="_blank" rel="noopener" title="11713B / 外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:3P AC電源コード"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023806/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">11713B</div><div class="sub">キーサイトテクノロジー (アジレント) アッテネータ/スイッチドライバー</div><div class="row"><span class="pr">¥132,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023803/" target="_blank" rel="noopener" title="355C 355D / 外観[3] (1.美品 2.良好 3.目立つ傷なし 5.傷あり) / 付属:BNCオス-BNCオス アダプター(355C 355D接続用)"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023803/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">355C 355D</div><div class="sub">キーサイトテクノロジー (HP) アッテネータセット (1000MHz)</div><div class="row"><span class="pr">¥72,600</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023813/" target="_blank" rel="noopener" title="7060-12 (FG120) / 外観[3] (1.美品 2.良好 3.目立つ傷なし 5.傷あり) / 付属:3P AC電源コード"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023813/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">7060-12 (FG120)</div><div class="sub">横河計測 FG120 ファンクションジェネレータ</div><div class="row"><span class="pr">¥66,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023824/" target="_blank" rel="noopener" title="8487A / 外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:CAL用2.4mmメス-N型オスアダプタ"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023824/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8487A</div><div class="sub">キーサイトテクノロジー (アジレント) アベレージパワーセンサ</div><div class="row"><span class="pr ask">商談中</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023818/" target="_blank" rel="noopener" title="8498A / 外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり)"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023818/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8498A</div><div class="sub">キーサイトテクノロジー (HP) ハイパワーアッテネータ</div><div class="row"><span class="pr">¥41,800</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023817/" target="_blank" rel="noopener" title="E4418B / 外観[3] (1.美品 2.良好 3.目立つ傷なし 5.傷あり) / 付属:3P AC電源コード パワーセンサーケーブル11730A(1.5m)"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023817/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E4418B</div><div class="sub">キーサイトテクノロジー (HP) パワーメータ</div><div class="row"><span class="pr">¥121,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023822/" target="_blank" rel="noopener" title="E8485A / 外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:CAL用3.5mmメス-N型オスアダプタ"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023822/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E8485A</div><div class="sub">キーサイトテクノロジー (アジレント) アベレージパワーセンサ</div><div class="row"><span class="pr">¥143,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023823/" target="_blank" rel="noopener" title="E8485A / 外観[2] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:CAL用3.5mmメス-N型オスアダプタ"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023823/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E8485A</div><div class="sub">キーサイトテクノロジー (アジレント) アベレージパワーセンサ</div><div class="row"><span class="pr">¥143,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023807/" target="_blank" rel="noopener" title="ML2437A / 外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:3P AC電源コード センサーケーブル(D41346-2)1.5m / マニュアルはメーカーHPにてダウンロードできます。"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023807/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ML2437A</div><div class="sub">アンリツ パワーメータ</div><div class="row"><span class="pr">¥121,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023814/" target="_blank" rel="noopener" title="PAS20-18 / 外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:3P AC電源コード TP-BUSコネクタ(実装) 出力端子ボルト・ナット・スプリングワッシャー各2(実装) 出力端子ネジ3個 リア出力端子カバー / ・フロントパネル多少変色あります。 ・マニュアルはメーカーHPにてダウンロードできます。"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023814/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PAS20-18</div><div class="sub">菊水電子工業 直流安定化電源</div><div class="row"><span class="pr">¥38,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023815/" target="_blank" rel="noopener" title="PAS20-18 / 外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:3P AC電源コード TP-BUSコネクタ(実装) 出力端子ボルト・ナット・スプリングワッシャー各2(実装) 出力端子ネジ3個 リア出力端子カバー / ・フロントパネル多少変色あります。 ・マニュアルはメーカーHPにてダウンロードできます。"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023815/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PAS20-18</div><div class="sub">菊水電子工業 直流安定化電源</div><div class="row"><span class="pr">¥38,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023816/" target="_blank" rel="noopener" title="PAS20-18 / 外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:3P AC電源コード TP-BUSコネクタ(実装) 出力端子ボルト・ナット・スプリングワッシャー各2(実装) 出力端子ネジ3個 リア出力端子カバー / ・フロントパネル多少変色あります。 ・マニュアルはメーカーHPにてダウンロードできます。"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023816/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PAS20-18</div><div class="sub">菊水電子工業 直流安定化電源</div><div class="row"><span class="pr">¥38,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023830/" target="_blank" rel="noopener" title="PAX35-30 / 外観[4] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:出力端子ボルト・ワッシャー・ナット各2個(実装) 動作モード端子ジャンパー3個 端子カバー / ・背面フットに欠けがあります。 ・重量:40Kg送料は別途見積になります。 ・マニュアルはメーカーHPにてダウンロードできます。"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023830/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PAX35-30</div><div class="sub">菊水電子工業 プログラマブル直流電源</div><div class="row"><span class="pr">¥176,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023829/" target="_blank" rel="noopener" title="PMC18-5A / 外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:3P AC電源コード ショートバー(実装) / マニュアルはメーカーHPにてダウンロード出来ます。"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023829/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PMC18-5A</div><div class="sub">菊水電子工業 直流安定化電源</div><div class="row"><span class="pr">¥22,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://orutika.com/product/0023804/" target="_blank" rel="noopener" title="TCP0030 / 外観[3] (1.美品 2.良好 3.目立つ傷なし 4.傷あり) / 付属:プローブグランドリード ソフトキャリングケース"><span class="ph"><img src="https://orutika.com/wp/wp-content/uploads/product/023804/1-300x225.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TCP0030</div><div class="sub">テクトロニクス AC/DC 電流プローブ</div><div class="row"><span class="pr">¥242,000</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">18件</span></div>
+<div class="g5">
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0004" target="_blank" rel="noopener" title="L2E"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0004/PA270046.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">L2E</div><div class="sub">ソーラーフォース LEDフラッシュライト</div><div class="row"><span class="pr">¥3,300</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0005" target="_blank" rel="noopener" title="L2E"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0005/PA270054.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">L2E</div><div class="sub">ソーラーフォース LEDフラッシュライト</div><div class="row"><span class="pr">¥3,300</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0074" target="_blank" rel="noopener" title="CA-DC100"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0074/IMG_0001.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">CA-DC100</div><div class="sub">キーエンス LED照明用電源</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0076" target="_blank" rel="noopener" title="LFV3-35RDA"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0076/IMG_0012.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">LFV3-35RDA</div><div class="sub">シーシーエス LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0077" target="_blank" rel="noopener" title="LFXV-75RD-12V"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0077/IMG_0017.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">LFXV-75RD-12V</div><div class="sub">シーシーエス LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0078" target="_blank" rel="noopener" title="ｐｄ-1012"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0078/IMG_0023.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ｐｄ-1012</div><div class="sub">シーシーエス LED照明用電源</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0079" target="_blank" rel="noopener" title="GLN10012-2/2"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0079/IMG_0028.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GLN10012-2/2</div><div class="sub">ダイナテック LED照明用電源</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0080" target="_blank" rel="noopener" title="OPF-S77X77R-DF"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0080/IMG_0033.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">OPF-S77X77R-DF</div><div class="sub">オプテックス・エフエー LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0081" target="_blank" rel="noopener" title="OPR-S85-58R"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0081/IMG_0041.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">OPR-S85-58R</div><div class="sub">オプテックス・エフエー LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0082" target="_blank" rel="noopener" title="IMAR-80W"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0082/IMG_0046.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">IMAR-80W</div><div class="sub">レイマック LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0083" target="_blank" rel="noopener" title="IMAR-55W"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0083/IMG_0051.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">IMAR-55W</div><div class="sub">レイマック LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0084" target="_blank" rel="noopener" title="IMAR-55W"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0084/IMG_0051.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">IMAR-55W</div><div class="sub">レイマック LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0085" target="_blank" rel="noopener" title="LFVH-70B"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0085/IMG_0058.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">LFVH-70B</div><div class="sub">ダイナテック LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0092" target="_blank" rel="noopener" title="OPS-C20B-U"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0092/IMG_0096.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">OPS-C20B-U</div><div class="sub">オプテックス・エフエー LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0093" target="_blank" rel="noopener" title="OPS-C20B-U"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0093/IMG_0096.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">OPS-C20B-U</div><div class="sub">オプテックス・エフエー LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0094" target="_blank" rel="noopener" title="OPS-C20B-U"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0094/IMG_0096.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">OPS-C20B-U</div><div class="sub">オプテックス・エフエー LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0095" target="_blank" rel="noopener" title="OPPD-15"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0095/IMG_0106.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">OPPD-15</div><div class="sub">オプテックス・エフエー LED照明コントローラ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0096" target="_blank" rel="noopener" title="LDL2-80X16RD2"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0096/IMG_0111.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">LDL2-80X16RD2</div><div class="sub">シーシーエス LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">3件</span></div>
+<div class="g5">
+<a class="pc" href="https://used-lab.com/news/6220-dc%e9%9b%bb%e6%b5%81%e6%ba%90%e3%80%80%e3%82%b1%e3%83%bc%e3%82%b9%e3%83%ac%e3%83%bc/" target="_blank" rel="noopener" title="6220 / 新着製品 / 保証:納品後 1か月間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>6220</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">6220</div><div class="sub">DC電流源 6220　DC電流源　ケースレー　1219296</div><div class="row"><span class="pr">¥654,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/tds3gv%e3%80%80gpib-vga-rs-232-%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%95%e3%82%a7%e3%83%bc%e3%82%b9%e3%80%80%e3%83%86%e3%82%af%e3%83%88%e3%83%ad%e3%83%8b%e3%82%af%e3%82%b9%e3%80%80010203/" target="_blank" rel="noopener" title="TDS3GV / 新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>TDS3GV</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TDS3GV</div><div class="sub">GPIB/VGA/RS-232 インタフェース TDS3GV　GPIB/VGA/RS-232 インタフェース　テクトロニクス　TDS3GV_02</div><div class="row"><span class="pr">¥64,900</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/90644-2/" target="_blank" rel="noopener" title="U3751 / 新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>U3751</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">U3751</div><div class="sub">スペクトラムアナライザ U3751　スペクトラムアナライザ　アドバンテスト　171000193</div><div class="row"><span class="pr">¥495,000</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>スターテクノロジー</h2><span class="cnt">3件</span></div>
+<div class="g5">
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12327" target="_blank" rel="noopener" title="8763B/024 / 推奨 中古"><span class="ph"><img src="https://startechnology.jp/img/pic/10221-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8763B/024</div><div class="sub">Keysight (Agilent) Switch, Coaxial, 4-Port, DC-18GHz</div><div class="row"><span class="pr">¥15,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12326" target="_blank" rel="noopener" title="8495G/002 / 推奨 中古"><span class="ph"><img src="https://startechnology.jp/img/pic/10220-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8495G/002</div><div class="sub">Keysight (HP) Programmable Attenuator, 4GHz, 70dB, 10dB Steps</div><div class="row"><span class="pr">¥40,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12325" target="_blank" rel="noopener" title="8494G/002 / 推奨 中古"><span class="ph"><img src="https://startechnology.jp/img/pic/10219-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8494G/002</div><div class="sub">Keysight (HP) Programmable Attenuator, 4GHz, 11dB, 1dB Steps</div><div class="row"><span class="pr">¥40,000</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>ZAI(理化学リユース)</h2><span class="cnt">3件</span></div>
+<div class="g5">
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8729" target="_blank" rel="noopener" title="【運送費込み】冷蔵冷凍庫 / 販売中"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/12c388d1-b37c-4222-b1bb-dea63e7b8147/64f3a5b9-bb5e-491d-9e00-fea9564055b1.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">【運送費込み】冷蔵冷凍庫</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8547" target="_blank" rel="noopener" title="【運送費込み】超低温フリーザー / 販売中"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/388adaaa-b2a8-43e1-8f5e-4a601d263933/3d91b0a9-6a6f-4570-93d0-d5f030e1b392.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">【運送費込み】超低温フリーザー</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://zai.zaico.co.jp/inventories/8696" target="_blank" rel="noopener" title="送風低温恒温器 / 販売中"><span class="ph"><img src="https://s3-ap-northeast-1.amazonaws.com/zai.production/inventory/item_image/da55b48e-ba47-460e-9db0-606ea640ce7c/45adc8ef-6b5a-420f-bfff-0bb21f859869.png" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">送風低温恒温器</div><div class="sub"></div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>測定器市場</h2><span class="cnt">2件</span></div>
+<div class="g5">
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011310.html" target="_blank" rel="noopener" title="11713B / 中古"><span class="ph"><span class="noimg"><b>11713B</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">11713B</div><div class="sub">キーサイトテクノロジー (アジレント・HP) アッテネータ／スイッチドライバー</div><div class="row"><span class="pr">¥132,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011311.html" target="_blank" rel="noopener" title="E4418B / 中古"><span class="ph"><span class="noimg"><b>E4418B</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E4418B</div><div class="sub">キーサイトテクノロジー (アジレント・HP) パワーメータ</div><div class="row"><span class="pr">¥121,000</span><span class="sub"></span></div></div></a>
+</div>
+<div class="foot">used-listing-tracker — 自動生成</div>
+</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})();
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+
+(function(){
+  var K='ult-opened', set={};
+  try{ (JSON.parse(localStorage.getItem(K)||'[]')).forEach(function(u){ set[u]=1; }); }catch(e){}
+  function mark(){ document.querySelectorAll('a.pc').forEach(function(a){
+    a.classList.toggle('seen', !!set[a.getAttribute('href')]); }); }
+  document.addEventListener('click', function(ev){
+    var a=ev.target.closest && ev.target.closest('a.pc'); if(!a) return;
+    var u=a.getAttribute('href'); set[u]=1;
+    try{ var l=Object.keys(set); if(l.length>3000) l=l.slice(-3000);
+         localStorage.setItem(K, JSON.stringify(l)); }catch(e){}
+    setTimeout(mark, 0);
+  }, true);
+  window.addEventListener('pageshow', mark);
+  mark();
+})();
+</script></body></html>
