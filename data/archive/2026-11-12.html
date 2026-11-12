@@ -1,0 +1,244 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>最新の新着 — 中古計測器トラッカー</title>
+<style>
+:root{
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero{flex-wrap:wrap}.hero > .meta{flex-basis:100%;margin-top:-10px}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.hero + .sec{margin-top:18px}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;padding:8px 0;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump + .sec{border-top:0;margin-top:22px}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.opened{display:none;position:absolute;right:0;top:0;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;padding:2px 8px}
+.pc.seen .opened{display:block}
+.pc.seen .ph img,.pc.seen .noimg{opacity:.55}
+.pc.seen .mdl{color:var(--sub)}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
+.muted{color:var(--sub)}
+.scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
+</style>
+</head><body>
+<div class="top"><div class="top-in">
+<a class="brand" href="../index.html">中古計測器トラッカー</a>
+<nav class="nav">
+<a href="../index.html">ホーム</a>
+<a class="on" href="../latest.html">新着</a>
+<a href="../watch.html">フォロー</a>
+<a href="../catalog.html">全在庫</a>
+<a href="../trends.html">傾向</a>
+</nav></div></div>
+<div class="wrap">
+
+<div class="hero"><div><h1>新着 62件</h1><div class="meta">2026年11月12日 ・ 4サイトで新着</div></div></div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">11件</span></div>
+<div class="g5">
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70228" target="_blank" rel="noopener" title="CA-DXW3"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70228/IMG_0020.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">CA-DXW3</div><div class="sub">キーエンス LED照明</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70236" target="_blank" rel="noopener" title="VLH-18S"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70236/IMG_0059.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">VLH-18S</div><div class="sub">パルステック工業 半導体レーザー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0159" target="_blank" rel="noopener" title="LDL2-80X16SW"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0159/IMG_0087.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">LDL2-80X16SW</div><div class="sub">シーシーエス LED照明</div><div class="row"><span class="pr">¥16,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0160" target="_blank" rel="noopener" title="FCB-3"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0160/IMG_0092.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">FCB-3</div><div class="sub">シーシーエス LED照明用コード</div><div class="row"><span class="pr">¥1,100</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0161" target="_blank" rel="noopener" title="PD2-1024(A)"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0161/IMG_0099.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PD2-1024(A)</div><div class="sub">シーシーエス LED照明用電源</div><div class="row"><span class="pr">¥15,400</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70222" target="_blank" rel="noopener" title="A2MP2220T"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70222/IMG_0001.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">A2MP2220T</div><div class="sub">Entegris フィルターマニホールド</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70223" target="_blank" rel="noopener" title="A2MP2220T"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70223/IMG_0001.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">A2MP2220T</div><div class="sub">Entegris フィルターマニホールド</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70224" target="_blank" rel="noopener" title="A2AV200K1T"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70224/IMG_0009.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">A2AV200K1T</div><div class="sub">Entegris 液体用フィルター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70225" target="_blank" rel="noopener" title="A2AV200K1T"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70225/IMG_0009.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">A2AV200K1T</div><div class="sub">Entegris 液体用フィルター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70226" target="_blank" rel="noopener" title="A2AV200K1T"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70226/IMG_0009.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">A2AV200K1T</div><div class="sub">Entegris 液体用フィルター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=Q70227" target="_blank" rel="noopener" title="A2AV200K1T"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/Q7/Q70227/IMG_0009.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">A2AV200K1T</div><div class="sub">Entegris 液体用フィルター</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>中古市場(チューコイチ)</h2><span class="cnt">37件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.chukoichi.com/item/11484" target="_blank" rel="noopener" title="CS-LR / 管理番号 RL-1025"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1025s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">CS-LR</div><div class="sub">タイテック　Taitec 高湿度対応振とう機 セルシェイカー 振とう台無</div><div class="row"><span class="pr">¥70,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11483" target="_blank" rel="noopener" title="Bio-Mixer 384/96 / 管理番号 RL-1024"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1024s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">Bio-Mixer 384/96</div><div class="sub">バイオテック BioTec ウェルプレート用ミキサー 但しエアホースエア漏れあり</div><div class="row"><span class="pr">¥70,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11482" target="_blank" rel="noopener" title="SC20/20 / 管理番号 RL-1023"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1023s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">SC20/20</div><div class="sub">MVE 液体窒素保存容器 キャニスター 6本 キャスター台座付き</div><div class="row"><span class="pr">¥120,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11481" target="_blank" rel="noopener" title="BC-700 / 管理番号 RL-1022"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1022s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">BC-700</div><div class="sub">バイオクラフト　Biocraft シーソーシェーカー</div><div class="row"><span class="pr">¥54,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11480" target="_blank" rel="noopener" title="US-1R / 管理番号 RL-1021"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1021s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">US-1R</div><div class="sub">アズワン　As one 超音波洗浄器 ステンレススノコ・フタ付き 洗浄OK</div><div class="row"><span class="pr">¥15,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11479" target="_blank" rel="noopener" title="F-52 / 管理番号 RL-1020"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1020s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">F-52</div><div class="sub">堀場製作所 pHメーター ガラス電極式水素イオン濃度指示計</div><div class="row"><span class="pr">¥40,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11478" target="_blank" rel="noopener" title="DTU-Mini / 管理番号 RL-1019"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1019s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">DTU-Mini</div><div class="sub">タイテック　Taitec アルミブロック恒温槽 ドライサーモユニット アルミブロック付属</div><div class="row"><span class="pr">¥31,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11477" target="_blank" rel="noopener" title="CTU-Mini / 管理番号 RL-1018"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1018s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">CTU-Mini</div><div class="sub">タイテック　Taitec アルミブロック恒温槽 クールサーモユニット アルミブロック付属</div><div class="row"><span class="pr">¥37,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11476" target="_blank" rel="noopener" title="POWER PAC200 / 管理番号 RL-1017"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1017s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">POWER PAC200</div><div class="sub">バイオ・ラッド ラボラトリーズ 電気泳動電源</div><div class="row"><span class="pr">¥27,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11475" target="_blank" rel="noopener" title="POWER PAC300 / 管理番号 RL-1016"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1016s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">POWER PAC300</div><div class="sub">バイオ・ラッド ラボラトリーズ 電気泳動電源</div><div class="row"><span class="pr">¥30,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11474" target="_blank" rel="noopener" title="NR-1 / 管理番号 RL-1015"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1015s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NR-1</div><div class="sub">タイテック　Taitec レシプロシェーカー 往復振とう</div><div class="row"><span class="pr">¥54,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11473" target="_blank" rel="noopener" title="NR-1 / 管理番号 RL-1014"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1014s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NR-1</div><div class="sub">タイテック　Taitec レシプロシェーカー 往復振とう</div><div class="row"><span class="pr">¥54,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11472" target="_blank" rel="noopener" title="32ND6/32ND12/45-ND6/45-ND25 / 管理番号 RL-1013"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1013s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">32ND6/32ND12/45-ND6/45-ND25</div><div class="sub">オリンパス　Olympus OLYMPUS 顕微鏡用NDフィルター</div><div class="row"><span class="pr">¥20,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11471" target="_blank" rel="noopener" title="CKX41 / 管理番号 RL-1011"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1011s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">CKX41</div><div class="sub">オリンパス　Olympus 倒立型培養観察用顕微鏡 レンズ4本・位相差スライダー付 観察OK</div><div class="row"><span class="pr">¥300,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11470" target="_blank" rel="noopener" title="ND-1000 / 管理番号 RL-1007"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-1007s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ND-1000</div><div class="sub">サーモフィッシャーサイエンティフィックThermo Fisher NanoDrop 超微量紫外可視分光光度計</div><div class="row"><span class="pr">¥180,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11469" target="_blank" rel="noopener" title="QUANTOS QB1 +QS30 / 管理番号 RL-938"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/RL-938s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">QUANTOS QB1 +QS30</div><div class="sub">メトラートレド 自動分注システム ＋オートサンプラー QS30</div><div class="row"><span class="pr">¥700,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11468" target="_blank" rel="noopener" title="i-14022A-R / 管理番号 YF-3855"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/YF-3855s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">i-14022A-R</div><div class="sub">三井精機 スクリューコンプレッサー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11467" target="_blank" rel="noopener" title="ST-230C / 管理番号 YF-3854"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/YF-3854s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ST-230C</div><div class="sub">日立工機 エアータンク</div><div class="row"><span class="pr">¥130,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11466" target="_blank" rel="noopener" title="OSP-11M6ARN / 管理番号 YF-3853"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/YF-3853s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">OSP-11M6ARN</div><div class="sub">日立 Hitachi スクリューコンプレッサー</div><div class="row"><span class="pr">¥600,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11465" target="_blank" rel="noopener" title="PB-1.5X5 / 管理番号 YF-3852"><span class="ph"><span class="noimg"><b>PB-1.5X5</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PB-1.5X5</div><div class="sub">日立 Hitachi コンプレッサー</div><div class="row"><span class="pr">¥150,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11464" target="_blank" rel="noopener" title="HFA300 / 管理番号 YF-3459"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/YF-3459s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">HFA300</div><div class="sub">アマダ　AMADA バンドソー</div><div class="row"><span class="pr">¥500,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11463" target="_blank" rel="noopener" title="NEW TCP0030 / 管理番号 OR-023804"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023804s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW TCP0030</div><div class="sub">テクトロニクス　Tektronix AC/DC 電流プローブ</div><div class="row"><span class="pr">¥220,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11462" target="_blank" rel="noopener" title="NEW PMC18-5A / 管理番号 OR-023829"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023829s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW PMC18-5A</div><div class="sub">菊水電子工業　Kikusui 直流安定化電源</div><div class="row"><span class="pr">¥20,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11461" target="_blank" rel="noopener" title="NEW PAX35-30 / 管理番号 OR-023830"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023830s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW PAX35-30</div><div class="sub">菊水電子工業　Kikusui プログラマブル直流電源</div><div class="row"><span class="pr">¥160,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11460" target="_blank" rel="noopener" title="NEW PAS20-18 / 管理番号 OR-023816"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023816s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW PAS20-18</div><div class="sub">菊水電子工業　Kikusui 直流安定化電源</div><div class="row"><span class="pr">¥35,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11459" target="_blank" rel="noopener" title="NEW PAS20-18 / 管理番号 OR-023815"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023815s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW PAS20-18</div><div class="sub">菊水電子工業　Kikusui 直流安定化電源</div><div class="row"><span class="pr">¥35,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11458" target="_blank" rel="noopener" title="NEW PAS20-18 / 管理番号 OR-023814"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023814s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW PAS20-18</div><div class="sub">菊水電子工業　Kikusui 直流安定化電源</div><div class="row"><span class="pr">¥35,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11457" target="_blank" rel="noopener" title="NEW ML2437A / 管理番号 OR-023807"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023807s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW ML2437A</div><div class="sub">アンリツ パワーメータ</div><div class="row"><span class="pr">¥110,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11456" target="_blank" rel="noopener" title="NEW E8485A / 管理番号 OR-023823"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023823s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW E8485A</div><div class="sub">キーサイト(HP/アジレント) Keysight アベレージパワーセンサ</div><div class="row"><span class="pr">¥130,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11455" target="_blank" rel="noopener" title="NEW E8485A / 管理番号 OR-023822"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023822s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW E8485A</div><div class="sub">キーサイト(HP/アジレント) Keysight アベレージパワーセンサ</div><div class="row"><span class="pr">¥130,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11454" target="_blank" rel="noopener" title="NEW E4418B / 管理番号 OR-023817"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023817s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW E4418B</div><div class="sub">キーサイト(HP/アジレント) Keysight パワーメータ</div><div class="row"><span class="pr">¥110,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11453" target="_blank" rel="noopener" title="NEW 8498A / 管理番号 OR-023818"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023818s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW 8498A</div><div class="sub">キーサイト(HP/アジレント) Keysight ハイパワーアッテネータ</div><div class="row"><span class="pr">¥38,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11451" target="_blank" rel="noopener" title="NEW 7060-12 (FG120) / 管理番号 OR-023813"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023813s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW 7060-12 (FG120)</div><div class="sub">横河電機/横河計測 Yokogawa FG120 ファンクションジェネレータ</div><div class="row"><span class="pr">¥60,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11450" target="_blank" rel="noopener" title="NEW 355C 355D / 管理番号 OR-023803"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023803s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW 355C 355D</div><div class="sub">キーサイト(HP/アジレント) Keysight アッテネータセット (1000MHz)</div><div class="row"><span class="pr">¥66,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11449" target="_blank" rel="noopener" title="NEW 11713B / 管理番号 OR-023806"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023806s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW 11713B</div><div class="sub">キーサイト(HP/アジレント) Keysight アッテネータ/スイッチドライバー</div><div class="row"><span class="pr">¥120,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11448" target="_blank" rel="noopener" title="NEW 11713A / 管理番号 OR-023805"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023805s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW 11713A</div><div class="sub">キーサイト(HP/アジレント) Keysight プログラマブルアッテネータ / スイッチドライバ</div><div class="row"><span class="pr">¥60,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11452" target="_blank" rel="noopener" title="NEW 8487A / 管理番号 OR-023824"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023824s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW 8487A</div><div class="sub">キーサイト(HP/アジレント) Keysight アベレージパワーセンサ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">9件</span></div>
+<div class="g5">
+<a class="pc" href="https://used-lab.com/news/5610b%e3%80%802%e4%bd%8d%e7%9b%b8-%e3%83%ad%e3%83%83%e3%82%af%e3%82%a4%e3%83%b3%e3%82%a2%e3%83%b3%e3%83%97-0-5-hz%ef%bd%9e200-khz%e3%80%80nf-%e3%82%a8%e3%83%8c%e3%82%a8%e3%83%95%e5%9b%9e%e8%b7%af/" target="_blank" rel="noopener" title="5610B / 新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>5610B</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">5610B</div><div class="sub">2位相 ロックインアンプ 0.5 Hz～200 kHz 5610B　2位相 ロックインアンプ 0.5 Hz～200 kHz　NF エヌエフ回路設計ブロック　114311</div><div class="row"><span class="pr">¥363,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/gpib-usb-hs%e3%80%80%e3%82%b3%e3%83%b3%e3%83%88%e3%83%ad%e3%83%bc%e3%83%a9%e3%80%80%e3%83%8a%e3%82%b7%e3%83%a7%e3%83%8a%e3%83%ab%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%84%e3%83%ab%e3%83%a1%e3%83%b3-6/" target="_blank" rel="noopener" title="GPIB-USB-HS / 新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>GPIB-USB-HS</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GPIB-USB-HS</div><div class="sub">コントローラ GPIB-USB-HS　コントローラ　ナショナルインスツルメンツ　19DF842</div><div class="row"><span class="pr">¥88,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/li-575%e3%80%80%e3%82%b7%e3%83%b3%e3%82%af%e3%83%ad%e3%83%88%e3%83%a9%e3%83%83%e3%82%af-%e3%83%ad%e3%83%83%e3%82%af%e3%82%a4%e3%83%b3%e3%82%a2%e3%83%b3%e3%83%97-2%e4%bd%8d%e7%9b%b8%e3%80%80%e3%82%a8/" target="_blank" rel="noopener" title="LI-575 / 新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>LI-575</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">LI-575</div><div class="sub">シンクロトラック ロックインアンプ 2位相 LI-575　シンクロトラック ロックインアンプ 2位相　エヌエフ回路設計ブロック　100483</div><div class="row"><span class="pr">¥120,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/pk6-130%e3%80%80%e7%9b%b4%e6%b5%81%e5%8f%af%e5%a4%89%e9%9b%bb%e6%ba%90-%e7%9b%b4%e6%b5%81%e5%ae%89%e5%ae%9a%e5%8c%96%e9%9b%bb%e6%ba%90%e3%80%80%e6%9d%be%e5%ae%9a%e3%83%97%e3%83%ac%e3%82%b7%e3%82%b8/" target="_blank" rel="noopener" title="PK6-130 / 新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>PK6-130</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PK6-130</div><div class="sub">直流可変電源 PK6-130　直流可変電源 (直流安定化電源)　松定プレシジョン　134876S</div><div class="row"><span class="pr">¥33,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/pwr400l%e3%80%80%e3%83%af%e3%82%a4%e3%83%89%e3%83%ac%e3%83%b3%e3%82%b8%e7%9b%b4%e6%b5%81%e5%ae%89%e5%ae%9a%e5%8c%96%e9%9b%bb%e6%ba%90%e3%80%80%e8%8f%8a%e6%b0%b4%e9%9b%bb%e5%ad%90%e5%b7%a5%e6%a5%ad-2/" target="_blank" rel="noopener" title="PWR400L / 新着製品 / 保証:納品後 1ヵ月(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>PWR400L</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PWR400L</div><div class="sub">ワイドレンジ直流安定化電源 PWR400L　ワイドレンジ直流安定化電源　菊水電子工業　XK002652</div><div class="row"><span class="pr">¥66,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/tds2014c-%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%83%bb%e3%82%b9%e3%83%88%e3%83%ac%e3%83%bc%e3%82%b8%e3%83%bb%e3%82%aa%e3%82%b7%e3%83%ad%e3%82%b9%e3%82%b3%e3%83%bc%e3%83%97%e3%80%80%e3%83%86%e3%82%af/" target="_blank" rel="noopener" title="TDS2014C / 新着製品 / 保証:納品後 1ヵ月(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>TDS2014C</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TDS2014C</div><div class="sub">テクトロニクス C050850 TDS2014C デジタル・ストレージ・オシロスコープ　テクトロニクス C050850</div><div class="row"><span class="pr">¥148,500</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/n5181a%e3%80%80mxg-rf%e3%82%a2%e3%83%8a%e3%83%ad%e3%82%b0%e4%bf%a1%e5%8f%b7%e7%99%ba%e7%94%9f%e5%99%a8-op-501%e3%80%80%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88at%e3%80%80my48180288/" target="_blank" rel="noopener" title="N5181A / 新着製品 / 保証:納品後 1か月間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>N5181A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">N5181A</div><div class="sub">MXG RFアナログ信号発生器 N5181A　MXG RFアナログ信号発生器 (Op.501)　キーサイト(AT)　MY48180288</div><div class="row"><span class="pr">¥390,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/r6144%e3%80%80%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9e%e3%83%96%e3%83%ab%e7%9b%b4%e6%b5%81%e9%9b%bb%e5%9c%a7%e9%9b%bb%e6%b5%81%e7%99%ba%e7%94%9f%e5%99%a8-%e3%82%a2%e3%83%89%e3%83%90%e3%83%b3/" target="_blank" rel="noopener" title="R6144 / 新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>R6144</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">R6144</div><div class="sub">直流電圧/電流発生器 R6144　直流電圧/電流発生器　アドバンテスト　130300671</div><div class="row"><span class="pr">¥102,300</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/6144-%e3%83%97%e3%83%ad%e3%82%b0%e3%83%a9%e3%83%9e%e3%83%96%e3%83%ab%e7%9b%b4%e6%b5%81%e9%9b%bb%e5%9c%a7%ef%bc%8f%e9%9b%bb%e6%b5%81%e7%99%ba%e7%94%9f%e5%99%a8-32v-160ma-%e3%82%a8%e3%83%bc%e3%83%87/" target="_blank" rel="noopener" title="6144 / 新着製品 / 保証:納品後 2週間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>6144</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">6144</div><div class="sub">直流電圧/電流発生器 6144　直流電圧/電流発生器　エーディーシー　940100172</div><div class="row"><span class="pr">¥96,800</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>測定器市場</h2><span class="cnt">5件</span></div>
+<div class="g5">
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011314.html" target="_blank" rel="noopener" title="ML2437A / 中古"><span class="ph"><span class="noimg"><b>ML2437A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ML2437A</div><div class="sub">アンリツ パワーメータ</div><div class="row"><span class="pr">¥121,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011312.html" target="_blank" rel="noopener" title="E8485A / 中古"><span class="ph"><span class="noimg"><b>E8485A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E8485A</div><div class="sub">キーサイトテクノロジー (アジレント・HP) アベレージパワーセンサ</div><div class="row"><span class="pr">¥143,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011313.html" target="_blank" rel="noopener" title="E8485A / 中古"><span class="ph"><span class="noimg"><b>E8485A</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E8485A</div><div class="sub">キーサイトテクノロジー (アジレント・HP) アベレージパワーセンサ</div><div class="row"><span class="pr">¥143,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011316.html" target="_blank" rel="noopener" title="TCP0030 / 中古"><span class="ph"><span class="noimg"><b>TCP0030</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TCP0030</div><div class="sub">テクトロニクス ＡＣ／ＤＣ 電流プローブ</div><div class="row"><span class="pr">¥242,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="http://sokuteiki-market.com/shop/category/item0000011315.html" target="_blank" rel="noopener" title="PAX35-30 / 中古"><span class="ph"><span class="noimg"><b>PAX35-30</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PAX35-30</div><div class="sub">菊水電子工業 プログラマブル直流電源</div><div class="row"><span class="pr">¥176,000</span><span class="sub"></span></div></div></a>
+</div>
+<div class="foot">used-listing-tracker — 自動生成</div>
+</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})();
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+
+(function(){
+  var K='ult-opened', set={};
+  try{ (JSON.parse(localStorage.getItem(K)||'[]')).forEach(function(u){ set[u]=1; }); }catch(e){}
+  function mark(){ document.querySelectorAll('a.pc').forEach(function(a){
+    a.classList.toggle('seen', !!set[a.getAttribute('href')]); }); }
+  document.addEventListener('click', function(ev){
+    var a=ev.target.closest && ev.target.closest('a.pc'); if(!a) return;
+    var u=a.getAttribute('href'); set[u]=1;
+    try{ var l=Object.keys(set); if(l.length>3000) l=l.slice(-3000);
+         localStorage.setItem(K, JSON.stringify(l)); }catch(e){}
+    setTimeout(mark, 0);
+  }, true);
+  window.addEventListener('pageshow', mark);
+  mark();
+})();
+</script></body></html>
