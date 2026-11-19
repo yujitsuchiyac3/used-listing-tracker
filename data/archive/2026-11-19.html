@@ -1,0 +1,241 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>最新の新着 — 中古計測器トラッカー</title>
+<style>
+:root{
+  --bg:#fff; --ink:#1c1c1c; --sub:#767676; --line:#e6e6e6; --well:#f1f1ef;
+  --hot:#d9480f; --link:#1f4e79; --head:#f6f6f4;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#16171a; --ink:#ececec; --sub:#9b9da3; --line:#2c2e33; --well:#22242a;
+    --hot:#ff7a3d; --link:#8db8e8; --head:#1d1f23; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',Meiryo,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px 48px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 28px}
+.brand{font-weight:700;font-size:16px;letter-spacing:.03em}
+.nav{display:flex;gap:20px;font-size:13px;color:var(--sub);overflow-x:auto;white-space:nowrap}
+.nav a.on{color:var(--ink);font-weight:700}
+.nav a:hover{color:var(--ink)}
+.hero{margin:24px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hero h1{margin:0;font-size:22px;line-height:1.35}
+.hero{flex-wrap:wrap}.hero > .meta{flex-basis:100%;margin-top:-10px}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.meta{color:var(--sub);font-size:12.5px;margin-top:2px}
+.btn{border:1px solid var(--ink);background:none;color:var(--ink);padding:6px 14px;font:inherit;
+  font-size:13px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.sec{margin:40px 0 12px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px}
+.sec h2{margin:0;font-size:15px}
+.sec .cnt{color:var(--sub);font-size:12px}
+.sec .cnt b{color:var(--hot)}
+.sec .rule{display:none}
+.hero + .sec{margin-top:18px}
+.sec[id]{scroll-margin-top:calc(var(--toph,0px) + var(--jumph,0px) + 8px)}
+.jump{position:sticky;top:var(--toph,0px);z-index:4;background:var(--bg);
+  display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;padding:8px 0;
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.jump a{white-space:nowrap}
+.jump + .sec{border-top:0;margin-top:22px}
+.jump a:hover{text-decoration:underline}
+.jump .n{color:var(--sub);margin-left:3px}
+.jump .nw{color:var(--hot);font-weight:700;margin-left:3px}
+.jump a.z{color:var(--sub)}
+.g4,.g5{display:grid;gap:24px 20px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 16px}
+.pc{display:block;min-width:0}
+.ph{position:relative;display:block;aspect-ratio:4/3;background:var(--well);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.pc:hover .ph img{transform:scale(1.03)}
+.noimg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:10px;color:var(--sub);font-size:11px;letter-spacing:.08em}
+.noimg b{font-size:22px;color:var(--ink);letter-spacing:0;margin-bottom:4px;word-break:break-all;line-height:1.15}
+.g5 .noimg b{font-size:17px}
+.new{display:none;position:absolute;left:0;top:0;background:var(--hot);color:#fff;
+  font-size:12px;font-weight:700;padding:3px 9px}
+.pc.unread .new{display:block}
+.opened{display:none;position:absolute;right:0;top:0;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11px;padding:2px 8px}
+.pc.seen .opened{display:block}
+.pc.seen .ph img,.pc.seen .noimg{opacity:.55}
+.pc.seen .mdl{color:var(--sub)}
+.tag{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.62);color:#fff;
+  font-size:11px;padding:2px 8px;max-width:calc(100% - 16px);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag.dt{right:auto;left:8px;background:rgba(0,0,0,.5)}
+.pc.unread .tag.dt{display:none}
+.cap{padding:8px 1px 0}
+.mdl{font-weight:700;font-size:15px;line-height:1.3;word-break:break-word;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.g5 .mdl{font-size:13.5px}
+.pc:hover .mdl{color:var(--link);text-decoration:underline}
+.sub{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:2px}
+.row .sub{flex:0 1 auto;text-align:right}
+.pr{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pr.ask{font-weight:400;color:var(--sub);font-size:12.5px}
+#fresh.has .pc:not(.unread){display:none}
+#fresh:not(.has) .g4 .pc:nth-child(n+9){display:none}
+.empty{border:1px dashed var(--line);padding:24px;text-align:center;color:var(--sub)}
+.more{display:inline-block;margin:12px 0 0;font-size:13px;color:var(--link)}
+.more:hover{text-decoration:underline}
+.summary{color:var(--sub);font-size:12.5px;margin:-6px 0 0}
+.summary b{color:var(--ink);font-weight:600}
+table.tb{border-collapse:collapse;width:100%;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left}
+table.tb th{background:var(--head);font-weight:700}
+table.tb a{color:var(--link)}
+.hot{background:var(--head);font-weight:700}
+.muted{color:var(--sub)}
+.scroll{overflow-x:auto}
+.foot{margin-top:40px;color:var(--sub);font-size:11px;text-align:center}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g5{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:700px){
+  .wrap{padding:0 14px 40px}.top{position:static}.top-in{padding:10px 14px}
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
+  .hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:19px}
+  .jump{flex-wrap:nowrap;overflow-x:auto}
+  .row{flex-direction:column;align-items:flex-start;gap:0}.row .sub{text-align:left;max-width:100%}
+}
+</style>
+</head><body>
+<div class="top"><div class="top-in">
+<a class="brand" href="../index.html">中古計測器トラッカー</a>
+<nav class="nav">
+<a href="../index.html">ホーム</a>
+<a class="on" href="../latest.html">新着</a>
+<a href="../watch.html">フォロー</a>
+<a href="../catalog.html">全在庫</a>
+<a href="../trends.html">傾向</a>
+</nav></div></div>
+<div class="wrap">
+
+<div class="hero"><div><h1>新着 53件</h1><div class="meta">2026年11月19日 ・ 6サイトで新着</div></div></div>
+<div class="sec"><h2>アスカインデックス</h2><span class="cnt">25件</span></div>
+<div class="g5">
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0387" target="_blank" rel="noopener" title="ANUF82001T05"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0387/IMG_6931.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ANUF82001T05</div><div class="sub">パナソニック UV硬化装置</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0389" target="_blank" rel="noopener" title="SSR PSU 6 KW"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0389/IMG_6954.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">SSR PSU 6 KW</div><div class="sub">SSR UVランプ電源</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QB0390" target="_blank" rel="noopener" title="SSR PSU 6 KW"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QB/QB0390/IMG_6954.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">SSR PSU 6 KW</div><div class="sub">SSR UVランプ電源</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0163" target="_blank" rel="noopener" title="TS-152"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0163/IMG_0001.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TS-152</div><div class="sub">日油技研工業 滅菌バッグ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0164" target="_blank" rel="noopener" title="TRUE3　Ⅱ"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0164/IMG_0005.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">TRUE3　Ⅱ</div><div class="sub">アズワン ワイパー(アズピュアワイパー）</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0165" target="_blank" rel="noopener" title="PTA-01"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0165/IMG_0009.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PTA-01</div><div class="sub">ニデックドライブテクノロジー ポットミル</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0166" target="_blank" rel="noopener" title="HP550-S"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0166/IMG_0015.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">HP550-S</div><div class="sub">DLAB ホットプレート</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0167" target="_blank" rel="noopener" title="18900540"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0167/IMG_0001.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">18900540</div><div class="sub">DLAB サポートクランプ 取付M8ネジ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0170" target="_blank" rel="noopener" title="GAA-0069"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0170/IMG_0016.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GAA-0069</div><div class="sub">日立ハイテク Alオープン型試料容器クリンプカバー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0171" target="_blank" rel="noopener" title="ディスポーザブルスパチュラ"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0171/IMG_0021.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ディスポーザブルスパチュラ</div><div class="sub">日本ジェネティクス</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0172" target="_blank" rel="noopener" title="3105"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0172/IMG_0026.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">3105</div><div class="sub">ケーエム化学 プラ軟膏壺</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0173" target="_blank" rel="noopener" title="8862-9530"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0173/IMG_0031.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">8862-9530</div><div class="sub">ARメディコム 滅菌バッグロールバッグ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0174" target="_blank" rel="noopener" title="2ｍL"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0174/IMG_0036.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">2ｍL</div><div class="sub">アズワン ポリスポイト</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0175" target="_blank" rel="noopener" title="GD90-15"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0175/IMG_0041.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GD90-15</div><div class="sub">アズワン 滅菌シャーレ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0176" target="_blank" rel="noopener" title="φ90ｘ20"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0176/IMG_0047.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">φ90ｘ20</div><div class="sub">アズワン 滅菌シャーレ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0177" target="_blank" rel="noopener" title="JST-R/N20"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0177/IMG_0054.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">JST-R/N20</div><div class="sub">ニッコーハンセン PETスクリューバイアル</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0178" target="_blank" rel="noopener" title="No.1"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0178/IMG_0060.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">No.1</div><div class="sub">マルエム ミクロチューブ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0179" target="_blank" rel="noopener" title="2ｍL"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0179/IMG_0065.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">2ｍL</div><div class="sub">アズワン ディスポピペット</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0180" target="_blank" rel="noopener" title="03-448-1"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0180/IMG_0071.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">03-448-1</div><div class="sub">フィッシャーサイエンティフィック スライドボックス</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0181" target="_blank" rel="noopener" title="VTC-F225V"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0181/IMG_0079.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">VTC-F225V</div><div class="sub">アズワン 細胞培養フラスコ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0182" target="_blank" rel="noopener" title="20215"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0182/IMG_0085.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">20215</div><div class="sub">アズワン 定量ろ紙</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0183" target="_blank" rel="noopener" title="D70S-100"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0183/IMG_0090.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">D70S-100</div><div class="sub">イーグルサーモプラスティック アルミフラット皿</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0184" target="_blank" rel="noopener" title="No.1"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0184/IMG_0096.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">No.1</div><div class="sub">アドバンテック 定性ろ紙</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0186" target="_blank" rel="noopener" title="No.02"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0186/IMG_0106.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">No.02</div><div class="sub">マルエム サンプル管</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://stocks.askindex.co.jp/product/?code=QA0187" target="_blank" rel="noopener" title="No.02"><span class="ph"><img src="https://askindex.co.jp/stocks/uploads/QA/QA0187/IMG_0110.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">No.02</div><div class="sub">マルエム サンプル管</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>Hitech &amp; Facility</h2><span class="cnt">1件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.hitechfacility.co.jp/item/E0012284/" target="_blank" rel="noopener" title="M9502A/U20"><span class="ph"><img src="https://www.hitechfacility.co.jp/photo/middle/E0012284_6afe3a8ea77181.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">M9502A/U20</div><div class="sub">Keysight AXIe 2スロットシャーシ</div><div class="row"><span class="pr">¥1,100,000</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>中古市場(チューコイチ)</h2><span class="cnt">19件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.chukoichi.com/item/11571" target="_blank" rel="noopener" title="NEW MSG-2280 / 管理番号 OR-023809"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023809s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW MSG-2280</div><div class="sub">計測技研(目黒電波) FMステレオ/FM-AM 標準信号発生器</div><div class="row"><span class="pr">¥140,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11569" target="_blank" rel="noopener" title="NEW E9301A / 管理番号 OR-023820"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023820s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW E9301A</div><div class="sub">キーサイト(HP/アジレント) Keysight アベレージパワーセンサ</div><div class="row"><span class="pr">¥140,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11568" target="_blank" rel="noopener" title="NEW E9300H / 管理番号 OR-023821"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023821s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW E9300H</div><div class="sub">キーサイト(HP/アジレント) Keysight アベレージパワーセンサ</div><div class="row"><span class="pr">¥140,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11567" target="_blank" rel="noopener" title="NEW 8484A / 管理番号 OR-023826"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023826s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW 8484A</div><div class="sub">キーサイト(HP/アジレント) Keysight ピーク&amp;アベレージパワーセンサ</div><div class="row"><span class="pr">¥55,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11566" target="_blank" rel="noopener" title="NEW 8483A / 管理番号 OR-023825"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023825s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW 8483A</div><div class="sub">キーサイト(HP/アジレント) Keysight 75Ω アベレージパワーセンサ</div><div class="row"><span class="pr">¥55,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11565" target="_blank" rel="noopener" title="NEW 83731B / 管理番号 OR-023831"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023831s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW 83731B</div><div class="sub">キーサイト(HP/アジレント) Keysight シンセサイズドシグナルジェネレータ</div><div class="row"><span class="pr">¥480,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11543" target="_blank" rel="noopener" title="ZV08AS5-R / 管理番号 YF-3857"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/YF-3857s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">ZV08AS5-R</div><div class="sub">三井精機 スクリューコンプレッサー</div><div class="row"><span class="pr">¥500,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11564" target="_blank" rel="noopener" title="M Plan 20D / 管理番号 ZZ261022001"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/20ded470a874912b.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">M Plan 20D</div><div class="sub">ニコン　Nikon 対物レンズ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11563" target="_blank" rel="noopener" title="2.5X-10X / 管理番号 ZZ261022011"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/edf9fb405c333ec3.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">2.5X-10X</div><div class="sub">Melles Gliot ズームビームエキスパンダー</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11562" target="_blank" rel="noopener" title="PI / 管理番号 ZZ261022010"><span class="ph"><span class="noimg"><b>PI</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PI</div><div class="sub">PI 精密位置決装置</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11561" target="_blank" rel="noopener" title="PI / 管理番号 ZZ261022009"><span class="ph"><span class="noimg"><b>PI</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PI</div><div class="sub">PI 精密位置決装置</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11560" target="_blank" rel="noopener" title="PI / 管理番号 ZZ261022008"><span class="ph"><span class="noimg"><b>PI</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">PI</div><div class="sub">PI 精密位置決装置</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11559" target="_blank" rel="noopener" title="M Plan Apo 5× / 管理番号 ZZ261022007"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/a4f139fb16822048.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">M Plan Apo 5×</div><div class="sub">ミツトヨ　Mitutoyo 対物レンズ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11558" target="_blank" rel="noopener" title="E3630A / 管理番号 ZZ261022006"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/c6b0647177fa81d4.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">E3630A</div><div class="sub">キーサイト(HP/アジレント) Keysight 3出力直流安定化電源</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11557" target="_blank" rel="noopener" title="RKS753J-MV-00000 / 管理番号 ZZ261022005"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/e287e871a0e3872e.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">RKS753J-MV-00000</div><div class="sub">オリオン機械　Orion 冷却水循環装置（チラー）</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11556" target="_blank" rel="noopener" title="WF1943 / 管理番号 ZZ261022004"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/cba00e3ba77e61ba.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">WF1943</div><div class="sub">エヌエフ回路設計ブロック　NF MULTIFUNCTION SYNTHESIZER</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11555" target="_blank" rel="noopener" title="M Plan Apo SL20 / 管理番号 ZZ261022003"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/c7d62b3305795241.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">M Plan Apo SL20</div><div class="sub">ミツトヨ　Mitutoyo 対物レンズ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11554" target="_blank" rel="noopener" title="2245A / 管理番号 ZZ261022002"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/2b7bd66a82fd11fc.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">2245A</div><div class="sub">テクトロニクス　Tektronix オシロスコープ 100MHz</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://www.chukoichi.com/item/11570" target="_blank" rel="noopener" title="NEW MN95C / 管理番号 OR-023832"><span class="ph"><img src="https://www.chukoichi.com/thumb/w400/OR-023832s1.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">NEW MN95C</div><div class="sub">アンリツ 光アッテネータ</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>タナカ・トレーディング</h2><span class="cnt">1件</span></div>
+<div class="g5">
+<a class="pc" href="https://www.3915.jp/hp01/11083.html" target="_blank" rel="noopener" title="UV-2600"><span class="ph"><img src="https://img.3915.jp/img/13541-1.JPG" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">UV-2600</div><div class="sub">島津製作所 紫外可視分光光度計</div><div class="row"><span class="pr ask">問合せ</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>中古研究機器.com</h2><span class="cnt">4件</span></div>
+<div class="g5">
+<a class="pc" href="https://used-lab.com/news/98667-2/" target="_blank" rel="noopener" title="GL820 / 新着製品 / 保証:納品後 2週間(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>GL820</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">GL820</div><div class="sub">データロガー midi LOGGER GL820　データロガー midi LOGGER　グラフテック　H31072855</div><div class="row"><span class="pr">¥110,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/u3771%e3%80%80%e3%82%b9%e3%83%9a%e3%82%af%e3%83%88%e3%83%a9%e3%83%a0%e3%82%a2%e3%83%8a%e3%83%a9%e3%82%a4%e3%82%b6-9khz-31-8ghz%e3%80%80%e3%82%a2%e3%83%89%e3%83%90%e3%83%b3%e3%83%86%e3%82%b9%e3%83%88/" target="_blank" rel="noopener" title="U3771 / 新着製品 / 保証:納品後 1か月間（消耗品・劣化は対象外）"><span class="ph"><span class="noimg"><b>U3771</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">U3771</div><div class="sub">スペクトラムアナライザ 9kHz-31.8GHz U3771　スペクトラムアナライザ 9kHz-31.8GHz　アドバンテスト　211200037</div><div class="row"><span class="pr">¥1,067,900</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/98636-2/" target="_blank" rel="noopener" title="85033E / 新着製品 / 保証:納品後 1ヵ月(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>85033E</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">85033E</div><div class="sub">キーサイト 85033E 3.5mm校正キット　キーサイト　MY53402425</div><div class="row"><span class="pr">¥429,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://used-lab.com/news/85033e-3-5mm%e6%a0%a1%e6%ad%a3%e3%82%ad%e3%83%83%e3%83%88-%e3%82%ad%e3%83%bc%e3%82%b5%e3%82%a4%e3%83%88-my39205311/" target="_blank" rel="noopener" title="85033E / 新着製品 / 保証:納品後 １カ月(消耗品・劣化は対象外)"><span class="ph"><span class="noimg"><b>85033E</b>写真なし</span><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">85033E</div><div class="sub">85033E 3.5mm校正キット キーサイト MY39205311</div><div class="row"><span class="pr">¥429,000</span><span class="sub"></span></div></div></a>
+</div>
+<div class="sec"><h2>スターテクノロジー</h2><span class="cnt">3件</span></div>
+<div class="g5">
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12340" target="_blank" rel="noopener" title="N5262AKCBL / 推奨 中古"><span class="ph"><img src="https://startechnology.jp/img/pic/10275-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">N5262AKCBL</div><div class="sub">Keysight 1.2m Cable Set</div><div class="row"><span class="pr">¥120,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12339" target="_blank" rel="noopener" title="83059C / 推奨 中古"><span class="ph"><img src="https://startechnology.jp/img/pic/10264-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">83059C</div><div class="sub">Keysight Coaxial Adapter, 3.5mm (m) to 3.5mm (f)</div><div class="row"><span class="pr">¥20,000</span><span class="sub"></span></div></div></a>
+<a class="pc" href="https://startechnology.jp/products/detail.php?product_id=12338" target="_blank" rel="noopener" title="83059B / 推奨 中古"><span class="ph"><img src="https://startechnology.jp/img/pic/10262-01w_s.jpg" alt="" loading="lazy"><span class="opened">確認済み</span></span><div class="cap"><div class="mdl">83059B</div><div class="sub">Keysight Coaxial Adapter, 3.5mm (f) to 3.5mm (f)</div><div class="row"><span class="pr">¥20,000</span><span class="sub"></span></div></div></a>
+</div>
+<div class="foot">used-listing-tracker — 自動生成</div>
+</div><script>(function(){function f(){var r=document.documentElement.style,t=document.querySelector('.top'),j=document.querySelector('.jump');r.setProperty('--toph',(t&&getComputedStyle(t).position==='sticky'?t.offsetHeight:0)+'px');r.setProperty('--jumph',(j?j.offsetHeight:0)+'px')}f();addEventListener('resize',f)})();
+(function(){
+  var s=document.getElementById('fresh'); if(!s) return;
+  var today=s.getAttribute('data-today'), K='ult-last-visit', prev='';
+  try{ prev=sessionStorage.getItem(K);
+       if(prev===null){ prev=localStorage.getItem(K)||''; sessionStorage.setItem(K,prev); }
+       localStorage.setItem(K,today); }catch(e){ prev=''; }
+  function md(d){ var p=d.split('-'); return (+p[1])+'/'+(+p[2]); }
+  function apply(){
+    var n=0, seenKey={};
+    document.querySelectorAll('.pc[data-seen]').forEach(function(c){
+      var d=c.getAttribute('data-seen');
+      var u=prev ? (d>prev) : (c.getAttribute('data-recent')==='1');
+      c.classList.toggle('unread',u);
+      if(u && s.contains(c)) n++;
+    });
+    var h=document.getElementById('fresh-h');
+    if(prev){
+      h.innerHTML = n ? '前回('+md(prev)+')から <em>'+n+'件</em> 新しく見つかりました'
+                      : '前回('+md(prev)+')以降、フォローの新着はありません';
+    }else{
+      h.innerHTML = n ? '最近7日間に <em>'+n+'件</em> 見つかりました' : '最近7日間の新着はありません';
+    }
+    s.classList.toggle('has', n>0);
+    var b=document.getElementById('markread'); if(b) b.style.display = n ? '' : 'none';
+    var sub=document.getElementById('fresh-sub'); if(sub) sub.style.display = n ? 'none' : '';
+  }
+  var b=document.getElementById('markread');
+  if(b) b.onclick=function(){ prev=today; try{ sessionStorage.setItem(K,prev); }catch(e){} apply(); };
+  apply();
+})();
+
+(function(){
+  var K='ult-opened', set={};
+  try{ (JSON.parse(localStorage.getItem(K)||'[]')).forEach(function(u){ set[u]=1; }); }catch(e){}
+  function mark(){ document.querySelectorAll('a.pc').forEach(function(a){
+    a.classList.toggle('seen', !!set[a.getAttribute('href')]); }); }
+  document.addEventListener('click', function(ev){
+    var a=ev.target.closest && ev.target.closest('a.pc'); if(!a) return;
+    var u=a.getAttribute('href'); set[u]=1;
+    try{ var l=Object.keys(set); if(l.length>3000) l=l.slice(-3000);
+         localStorage.setItem(K, JSON.stringify(l)); }catch(e){}
+    setTimeout(mark, 0);
+  }, true);
+  window.addEventListener('pageshow', mark);
+  mark();
+})();
+</script></body></html>
